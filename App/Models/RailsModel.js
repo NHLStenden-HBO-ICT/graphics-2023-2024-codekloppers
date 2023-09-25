@@ -1,4 +1,4 @@
-class MetroModel extends Model {
+class RailsModel extends Model {
     constructor() {
         super();
 

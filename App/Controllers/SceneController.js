@@ -1,5 +1,10 @@
 class SceneController extends Controller {
 
+    constructor() {
+        super();
+
+    }
+
 
     static loadModels() {
         // loadObject('Models/animation_test4.glb', 7, -1, -7, 0);

@@ -1,4 +1,4 @@
-class MetroModel extends Model {
+class ElevatorModel extends Model {
     constructor() {
         super();
 
