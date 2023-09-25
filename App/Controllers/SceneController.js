@@ -25,7 +25,7 @@ class SceneController extends Controller {
         this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 800);
-        camera.position.set(20, 1, 1);
+        this.camera.position.set(20, 1, 1);
 
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -33,6 +33,8 @@ class SceneController extends Controller {
         this.renderer.setClearColor(this.backgroundColor);
 
         document.body.appendChild(this.renderer.domElement);
+
+        this.#setOrbitControls()
     }
 
     render() {
@@ -42,7 +44,7 @@ class SceneController extends Controller {
         });
     }
 
-    setOrbitControls(domElement) {
+    #setOrbitControls(domElement) {
         let controls = new OrbitControls(this.camera, domElement);
 
         controls.rotateSpeed = 0.3;
@@ -56,6 +58,10 @@ class SceneController extends Controller {
 
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
+
+        this.renderCalls.push(function () {
+            controls.update()
+        });
     }
 
     static loadModels() {

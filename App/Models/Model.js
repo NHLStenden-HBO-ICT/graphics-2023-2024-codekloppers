@@ -1,15 +1,21 @@
 import * as THREE from "three";
 
 class Model {
+    filePath;
+    xCoordinate;
+    yCoordinate;
+    zCoordinate;
+    rotation;
+
     constructor() {
-        /*Ja dit is helaas hoe dat werkt in Javascript*/
+        /*Ja, dit is helaas hoe dat werkt in Javascript*/
         if (this.constructor === Model) {
             throw new Error("Abstract classes can't be instantiated.");
         }
     }
 
     // Functie om het object recht vooruit te laten bewegen
-    moveModel(objectName, x, y, z, duration) {
+    move(objectName, x, y, z, duration) {
 
         var object = objects[objectName];
 
@@ -35,49 +41,6 @@ class Model {
         } else {
             console.error("Object is nog niet geladen."); // Object is nog niet geladen
         }
-    }
-
-    loadObject(filePath, x, y, z, rotation) {
-
-        var loader = new THREE.GLTFLoader();
-        loader.crossOrigin = true;
-
-        loader.load(filePath, function (data) {
-            let object = data.scene; // Wijs de geladen scène toe aan de objectvariabele
-
-            const animations = data.animations;
-            mixer = new THREE.AnimationMixer(object);
-
-            window.addEventListener(
-                "keydown",
-                (event) => {
-
-                    switch (event.key) {
-                        case "e":
-                            // console.log(objects);
-                            // Open deuren aan de rechterkant
-                            openDoors_right(animations);
-                            break;
-                        case "r":
-                            closeDoors_right(animations);
-                            break;
-                        case "l":
-                            moveObject(0, x = 345, y = 0, z = 0, 10);
-                            break;
-                        case "k":
-                            moveObject(0, x = 0, y = 0, z = 0, 10);
-                            break;
-                    }
-                });
-
-            object.rotation.x = rotation;
-            object.position.set(x, y, z);
-            object.position.y = y;
-
-            objects[objectName] = object;
-            objectName++;
-            return scene.add(object);
-        });
     }
 
 }

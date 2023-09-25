@@ -6,6 +6,48 @@ class MetroModel extends Model {
 
     }
 
+    load() {
+
+        var loader = new THREE.GLTFLoader();
+        loader.crossOrigin = true;
+
+        loader.load(this.filePath, function (data) {
+            let object = data.scene; // Wijs de geladen scène toe aan de objectvariabele
+
+            const animations = data.animations;
+            mixer = new THREE.AnimationMixer(object);
+
+            // window.addEventListener(
+            //     "keydown",
+            //     (event) => {
+            //
+            //         switch (event.key) {
+            //             case "e":
+            //                 // console.log(objects);
+            //                 // Open deuren aan de rechterkant
+            //                 openDoors_right(animations);
+            //                 break;
+            //             case "r":
+            //                 closeDoors_right(animations);
+            //                 break;
+            //             case "l":
+            //                 moveObject(0, x = 345, y = 0, z = 0, 10);
+            //                 break;
+            //             case "k":
+            //                 moveObject(0, x = 0, y = 0, z = 0, 10);
+            //                 break;
+            //         }
+            //     });
+
+            object.rotation.x = this.rotation;
+            object.position.set(this.xCoordinate, this.yCoordinate, this.zCoordinate);
+            object.position.y = y;
+
+            objects[objectName] = object;
+            objectName++;
+            return scene.add(object);
+        });
+    }
     openDoors_right(animations) {
 
         for (var i = 0; i < animations.length; i++) {
