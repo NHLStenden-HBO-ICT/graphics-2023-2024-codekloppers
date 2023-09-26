@@ -1,10 +1,8 @@
 import * as THREE from "three";
 
-class Model {
+class Model3D {
     filePath;
-    xCoordinate;
-    yCoordinate;
-    zCoordinate;
+    position;
     rotation;
 
     constructor() {
@@ -14,33 +12,13 @@ class Model {
         }
     }
 
-    // Functie om het object recht vooruit te laten bewegen
-    move(objectName, x, y, z, duration) {
-
-        var object = objects[objectName];
-
-        if (object) { // Controleer of het object is geladen
-            var startPosition = object.position.clone(); // Huidige positie van het object
-            var endPosition = new THREE.Vector3(x, y, z); // Eindpositie waarheen het object moet bewegen
-
-            // TweenMax-animatie om de positie van het object te veranderen
-            var animation = TweenMax.to(object.position, duration, {
-                x: endPosition.x,
-                y: endPosition.y,
-                z: endPosition.z,
-                ease: Power1.easeInOut, // Easing-functie voor de animatie (kan worden aangepast)
-                onUpdate: function () {
-                    // Hier kun je extra acties uitvoeren tijdens de animatie-update, indien nodig
-                },
-                onComplete: function () {
-                    // Hier kun je acties uitvoeren wanneer de animatie is voltooid
-                }
-            });
-
-            //   animation.play();
-        } else {
-            console.error("Object is nog niet geladen."); // Object is nog niet geladen
-        }
+    // function to render object
+    render() {
+        //TODO: heeft nog een body nodig
     }
 
+    // function to check if user is colliding with object
+    isColliding() {
+        //TODO: heeft nog een body nodig
+    }
 }
