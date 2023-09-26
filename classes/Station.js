@@ -1,8 +1,10 @@
 import * as THREE from "three";
+import Model3D from '/classes/Model3D';
 
-class Station extends Model3D {
+export class Station extends Model3D {
     #stationName;
     #metroArrvingTimes;
+    filePath = "/assets/3d/ubahnStation.glb";
 
     // function to get arrving time of metro
     getMetroArrvingTime(Metro) {
