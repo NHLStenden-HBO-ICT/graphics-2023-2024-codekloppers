@@ -12,8 +12,6 @@ loadObject('Models/rail.glb', 0,0,0,0);
 
 
 SceneController.renderCalls.push(SceneController.renderer.render(scene, camera));
-
-
 LightController.addAmbientLight(SceneController.scene, 0x20202A, 10, 10, 10, 10 )
 
 var mixer; // Declareer de mixer-variabele buiten de loader-callback
@@ -140,5 +138,3 @@ function loadObject(filePath, x, y, z,rotation) {
         return scene.add(object);
     });
 }
-
-
