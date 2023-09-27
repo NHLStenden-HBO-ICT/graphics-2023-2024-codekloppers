@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import Model3D from '/classes/Model3D';
+import Model3D from '/classes/3dModels/Model3D';
 
 export class Station extends Model3D {
     #stationName;

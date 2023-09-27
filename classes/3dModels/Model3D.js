@@ -6,7 +6,7 @@ export default class Model3D {
     position;
     rotation;
 
-    constructor(filePath) {
+    constructor(filePath = null) {
         this.filePath = filePath;
 
         /*Ja, dit is helaas hoe dat werkt in Javascript*/
