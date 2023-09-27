@@ -3,7 +3,7 @@ import Model3D from '/classes/3dModels/Model3D';
 
 export class Metro extends Model3D {
     #id;
-    filePath = "/assets/3d/ubahnTrain.glb";
+    filePath = "/assets/3d/ubahn.glb";
 
     // function to open doors
     openDoors() {
