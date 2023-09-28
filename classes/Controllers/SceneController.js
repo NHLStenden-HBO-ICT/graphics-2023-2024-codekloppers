@@ -13,6 +13,9 @@ export class SceneController {
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.setRenderer();
         this.setControls();
+
+        const light = new THREE.AmbientLight(0x404040, 40);
+        this.scene.add( light );
     }
 
     setRenderer() {
