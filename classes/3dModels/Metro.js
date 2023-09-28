@@ -1,9 +1,15 @@
-import * as THREE from "three";
 import Model3D from '/classes/3dModels/Model3D';
+import {v4 as uuid} from 'uuid';
+
 
 export class Metro extends Model3D {
     #id;
     filePath = "/assets/3d/ubahn.glb";
+
+    constructor() {
+        super();
+        this.#id = uuid();
+    }
 
     // function to open doors
     openDoors() {
@@ -29,6 +35,6 @@ export class Metro extends Model3D {
 
     // get metro id
     getID() {
-
+        return this.#id;
     }
 }
