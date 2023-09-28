@@ -35,7 +35,7 @@ export default class Model3D {
                 gltf.scenes; // Array<THREE.Group>
                 gltf.cameras; // Array<THREE.Camera>
                 gltf.asset; // Object
-
+                gltf.scene.position.copy(this.position);
                 scene.add(gltf.scene);
             }
         );

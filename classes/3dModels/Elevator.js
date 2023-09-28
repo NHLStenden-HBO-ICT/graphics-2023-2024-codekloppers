@@ -1,7 +1,9 @@
 import * as THREE from "three";
+import Model3D from '/classes/3dModels/Model3D';
 
-class Elevator extends Model3D {
+export class Elevator extends Model3D {
     currentFloor;
+    filePath = "/assets/3d/ubahn.glb";
 
     // function to open doors
     openDoors() {
