@@ -13,7 +13,6 @@ metro.render(sceneController.scene);
 const station = new Station(new THREE.Vector3(0,0,0));
 station.render(sceneController.scene);
 
-
 /**
  * The function "animateScene" is used to continuously update and render a 3D scene using the
  * requestAnimationFrame method.

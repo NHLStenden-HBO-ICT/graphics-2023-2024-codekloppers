@@ -5,6 +5,11 @@ export class Elevator extends Model3D {
     currentFloor;
     filePath = "/assets/3d/ubahn.glb";
 
+    constructor(position) {
+        super();
+        this.position = position
+    }
+
     // function to open doors
     openDoors() {
         //TODO: heeft nog een body nodig
