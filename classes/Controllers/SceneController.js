@@ -13,9 +13,7 @@ export class SceneController {
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.setRenderer();
         this.setControls();
-
-        const light = new THREE.AmbientLight(0x404040, 40);
-        this.scene.add( light );
+        this.setAmbientLight();
     }
 
     setRenderer() {
@@ -28,6 +26,11 @@ export class SceneController {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.camera.position.set(0, 20, 100);
         this.controls.update();
+    }
+
+    setAmbientLight() {
+        const light = new THREE.AmbientLight(0x404040, 40);
+        this.scene.add( light );
     }
 
 }
