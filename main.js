@@ -7,16 +7,11 @@ import { SceneController} from "./classes/Controllers/SceneController";
 let sceneController = new SceneController();
 
 // create new metro object and add to scene with render function
-const metro = new Metro();
+const metro = new Metro(new THREE.Vector3(-5,-1,0));
 metro.render(sceneController.scene);
-metro.position = new THREE.Vector3(-5,-1,0);
 
-const station = new Station();
+const station = new Station(new THREE.Vector3(0,0,0));
 station.render(sceneController.scene);
-station.position = new THREE.Vector3(0,0,0);
-
-
-
 
 
 /**

@@ -6,6 +6,11 @@ export class Station extends Model3D {
     #metroArrvingTimes;
     filePath = "/assets/3d/station.glb";
 
+    constructor(position) {
+        super();
+        this.position = position
+    }
+
     // function to get arrving time of metro
     getMetroArrvingTime(Metro) {
         //TODO: heeft nog een body nodig

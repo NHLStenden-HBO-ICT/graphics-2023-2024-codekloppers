@@ -6,9 +6,10 @@ export class Metro extends Model3D {
     #id;
     filePath = "/assets/3d/ubahn.glb";
 
-    constructor() {
+    constructor(position) {
         super();
         this.#id = uuid();
+        this.position = position
     }
 
     // function to open doors
