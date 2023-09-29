@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { Station } from './3dModels/Station';
 import { Metro } from './3dModels/Metro';
+import { Tunnel } from './3dModels/Tunnel';
 import { SceneController } from "./Controllers/SceneController";
 
 export class Scene {
@@ -15,17 +16,25 @@ export class Scene {
      * The render function creates the 3d objects in the scene.
      */
     render() {
-        // Build the first station
+        // Build the metro stations
         const station = new Station(new THREE.Vector3(0,0,0), "Alexanderplatz");
-        station.render(this.sceneController.scene);
+        station.render(this.sceneController.scene).then(() => {
+            station.clone(this.sceneController.scene, new THREE.Vector3(-700,0,0));
+        }).then(() => {
+            station.clone(this.sceneController.scene, new THREE.Vector3(-1200,0,0));
+        });
 
-        // create new metro object and add to scene with render function
-        const metro1 = new Metro(new THREE.Vector3(-5,-1,0));
-        metro1.render(this.sceneController.scene);
+        // Build the metro cars
+        const metro = new Metro(new THREE.Vector3(-5,-1,0));
+        metro.renderFull(this.sceneController.scene).then(() => {
+            metro.cloneFull(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8));
+        });
 
-        // create second object and add to scene with render function
-        const metro2 = new Metro(new THREE.Vector3(-5,-1,-6.8));
-        metro2.render(this.sceneController.scene);
+        // Build the metro tunnels
+        const tunnel = new Tunnel(new THREE.Vector3(0,0,0));
+        tunnel.render(this.sceneController.scene).then(() => {
+            tunnel.clone(this.sceneController.scene, new THREE.Vector3(100,0,0));
+        });
     }
 
     /**
