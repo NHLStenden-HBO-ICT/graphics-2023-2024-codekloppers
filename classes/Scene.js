@@ -11,7 +11,9 @@ export class Scene {
         this.animate();
     }
 
-    // Builds the scene
+    /**
+     * The render function creates the 3d objects in the scene.
+     */
     render() {
         // Build the first station
         const station = new Station(new THREE.Vector3(0,0,0), "Alexanderplatz");
@@ -34,7 +36,7 @@ export class Scene {
         const method = this.animate.bind(this);
         requestAnimationFrame(method);
         
-        // Updates for models of scene
+        // Updates for objects of scene
         this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);
     }
 }
