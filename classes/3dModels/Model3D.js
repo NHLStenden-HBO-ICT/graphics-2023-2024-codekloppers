@@ -5,8 +5,7 @@ export default class Model3D {
     filePath;
     position;
     rotation;
-    object;
-    #objectScene;
+    #object;
 
     constructor(filePath = null) {
         this.filePath = filePath;
@@ -27,14 +26,13 @@ export default class Model3D {
         const loader = new GLTFLoader();
 
         await loader.loadAsync(this.filePath).then((gltf) => { // Gebruik een arrow-functie om de juiste 'this' context te behouden
-            this.object = gltf; // Array<THREE.AnimationClip>
             gltf.scene; // THREE.Group
             gltf.scenes; // Array<THREE.Group>
             gltf.cameras; // Array<THREE.Camera>
             gltf.asset; // Object
             gltf.scene.position.copy(this.position);
             scene.add(gltf.scene);
-            this.#objectScene = gltf.scene;
+            this.#object = gltf;
         });
     }
 
@@ -60,7 +58,7 @@ export default class Model3D {
      */
     clone(scene, position, rotationX, rotationY, rotationZ) {
 
-        let model = this.#objectScene.clone();
+        let model = this.#object.scene.clone();
 
         if (position !== undefined) {
             model.position.copy(position);
@@ -76,5 +74,7 @@ export default class Model3D {
         }
 
         scene.add(model);
+
+        return model;
     }
 }
