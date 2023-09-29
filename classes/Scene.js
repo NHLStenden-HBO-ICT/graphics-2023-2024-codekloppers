@@ -6,6 +6,7 @@ import { SceneController } from "./Controllers/SceneController";
 
 export class Scene {
     sceneController = new SceneController();
+    metro;
 
     constructor() {
         this.render();
@@ -25,8 +26,9 @@ export class Scene {
         });
 
         // Build the metro cars
-        const metro = new Metro(new THREE.Vector3(-5,-1,0));
-        metro.renderFull(this.sceneController.scene).then(() => {
+        this.metro = new Metro(new THREE.Vector3(-5,-1,0));
+        this.metro.renderFull(this.sceneController.scene).then(() => {
+            this.metro.openDoors();
             metro.cloneFull(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8));
         });
 
@@ -44,7 +46,11 @@ export class Scene {
     animate() {
         const method = this.animate.bind(this);
         requestAnimationFrame(method);
-        
+
+        if(this.metro.mixer) {
+            this.metro.mixer.update(0.003);
+        }
+
         // Updates for objects of scene
         this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);
     }

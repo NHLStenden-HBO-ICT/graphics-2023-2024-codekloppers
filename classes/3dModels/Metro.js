@@ -18,13 +18,17 @@ export class Metro extends Model3D {
     // function to open doors
     openDoors() {
         //TODO: heeft nog een body nodig
-        console.log('openDoors');
-        // console.log(this.filePath);
+        const animations = this.object.animations;
+        this.mixer = new THREE.AnimationMixer(this.object.scene);
+        this.playAnimation(animations, 1);
     }
 
     // function to close doors
     closeDoors() {
-        console.log('closeDoors');
+        //TODO: heeft nog een body nodig
+        const animations = this.object.animations;
+        this.mixer = new THREE.AnimationMixer(this.object.scene);
+        this.playAnimation(animations, -1);
     }
 
     // function to accelerate metro
@@ -41,8 +45,6 @@ export class Metro extends Model3D {
     getID() {
         return this.#id;
     }
-
-
 
     /**
      * The `renderFull` function asynchronously renders a scene and then clones it, because the a metro contains 2 metro models (2 metro cars)
@@ -68,21 +70,15 @@ export class Metro extends Model3D {
         });
     }
 
-    handleAnimations(model3D) {
-            const animations = model3D.animations;
-            this.mixer = new THREE.AnimationMixer(model3D.scene);
-            this.playAnimation(animations);
-    }
-
-    playAnimation(animations) {
-        console.log(animations);
+    playAnimation(animations, direction) {
+        // console.log(animations);
         for (var i = 0; i < animations.length; i++) {
             var action = this.mixer.clipAction(animations[i]);
             action.paused = false; // Hervat de animatie
             // console.log(animations[i])
 
             // Zorg ervoor dat de animatie in de juiste richting wordt afgespeeld (voorwaarts)
-            action.timeScale = 1;
+            action.timeScale = direction;
             action.setLoop(THREE.LoopOnce); // Bijvoorbeeld: speel de animatie slechts één keer
             action.clampWhenFinished = true; // Houd de animatie op het laatste frame wanneer deze is voltooid
 
@@ -94,6 +90,4 @@ export class Metro extends Model3D {
             action.play();
         }
     }
-
-
 }

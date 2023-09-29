@@ -5,6 +5,7 @@ export default class Model3D {
     filePath;
     position;
     rotation;
+    object;
     #objectScene;
 
     constructor(filePath = null) {
@@ -26,7 +27,7 @@ export default class Model3D {
         const loader = new GLTFLoader();
 
         await loader.loadAsync(this.filePath).then((gltf) => { // Gebruik een arrow-functie om de juiste 'this' context te behouden
-            gltf.animations; // Array<THREE.AnimationClip>
+            this.object = gltf; // Array<THREE.AnimationClip>
             gltf.scene; // THREE.Group
             gltf.scenes; // Array<THREE.Group>
             gltf.cameras; // Array<THREE.Camera>
@@ -36,6 +37,7 @@ export default class Model3D {
             this.#objectScene = gltf.scene;
         });
     }
+
 
     // function to check if user is colliding with object
     isColliding() {
@@ -57,6 +59,7 @@ export default class Model3D {
      * that you want to apply to the cloned object.
      */
     clone(scene, position, rotationX, rotationY, rotationZ) {
+
         let model = this.#objectScene.clone();
 
         if (position !== undefined) {
