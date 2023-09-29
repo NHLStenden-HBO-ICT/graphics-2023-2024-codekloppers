@@ -2,13 +2,14 @@ import * as THREE from "three";
 import Model3D from '/classes/3dModels/Model3D';
 
 export class Station extends Model3D {
-    #stationName;
+    #name;
     #metroArrvingTimes;
     filePath = "/assets/3d/station.glb";
 
-    constructor(position) {
+    constructor(position, name) {
         super();
-        this.position = position
+        this.position = position;
+        this.name = name;
     }
 
     // function to get arrving time of metro
