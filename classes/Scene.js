@@ -27,26 +27,26 @@ export class Scene {
      */
     async render() {
         // Build the metro stations
-        const station = new Station(new THREE.Vector3(0,0,0), "Alexanderplatz");
+        const station = new Station(new THREE.Vector3(0,0,0));
         await station.render(this.sceneController.scene);
-        await station.clone(this.sceneController.scene, new THREE.Vector3(-700,0,0));
-        await station.clone(this.sceneController.scene, new THREE.Vector3(-1200,0,0));
+        await station.clone(this.sceneController.scene, new Station(new THREE.Vector3(-700,0,0)));
+        await station.clone(this.sceneController.scene, new Station(new THREE.Vector3(-1200,0,0)));
 
         // Build the metro cars
         this.metro1 = new Metro(new THREE.Vector3(-5,-1,0));
         await this.metro1.render(this.sceneController.scene);
-        this.metro12 = await this.metro1.clone(this.sceneController.scene, undefined, undefined, 3.1415926536);
-        this.metro2 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8));
-        this.metro21 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-10,-1,-6.8, undefined, 3.1415926536));
+        this.metro12 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,0)), undefined, 3.1415926536);
+        this.metro2 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8)));
+        this.metro21 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8)), undefined, 3.1415926536);
         this.metro1.openDoors();
-        // this.metro12.openDoors();
-        // this.metro2.openDoors();
-        // this.metro21.openDoors();
+        this.metro12.openDoors();
+        this.metro2.openDoors();
+        this.metro21.openDoors();
 
         // Build the metro tunnels
         const tunnel = new Tunnel(new THREE.Vector3(0,0,0));
         await tunnel.render(this.sceneController.scene);
-        await tunnel.clone(this.sceneController.scene, new THREE.Vector3(100,0,0));
+        await tunnel.clone(this.sceneController.scene, new Tunnel(new THREE.Vector3(100,0,0)));
     }
 
     /**

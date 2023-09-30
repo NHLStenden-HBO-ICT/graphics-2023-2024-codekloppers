@@ -11,7 +11,8 @@ export class Metro extends Model3D {
     constructor(position) {
         super();
         this.#id = uuid();
-        this.position = position
+        this.position = position;
+        // this._object = object;
         this.mixer = new THREE.AnimationMixer();
     }
 

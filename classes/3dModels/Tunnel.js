@@ -5,8 +5,9 @@ export class Tunnel extends Model3D {
     length;
     filePath = "/assets/3d/tunnel.glb";
 
-    constructor(position) {
+    constructor(position, object) {
         super();
-        this.position = position
+        this.position = position;
+        this._object = object;
     }
 }

@@ -17,6 +17,15 @@ export default class Model3D {
     }
 
     /**
+     * The function "setObject" sets the value of the "_object" property.
+     * @param object - The "object" parameter is the object that you want to set as the value of the
+     * "_object" property.
+     */
+    setObject(object) {
+        this._object = object;
+    }
+
+    /**
      * The function loads a GLTF file using the GLTFLoader and adds the loaded scene to the provided scene
      * object.
      * @param scene - The scene parameter is the THREE.Scene object where you want to add the loaded GLTF
@@ -56,12 +65,12 @@ export default class Model3D {
      * @param rotationZ - The `rotationZ` parameter represents the rotation around the z-axis (in radians)
      * that you want to apply to the cloned object.
      */
-    clone(scene, position, rotationX, rotationY, rotationZ) {
+    clone(scene, model3d, rotationX, rotationY, rotationZ) {
 
         let model = this._object.scene.clone();
 
-        if (position !== undefined) {
-            model.position.copy(position);
+        if (model3d.position !== undefined) {
+            model.position.copy(model3d.position);
         }
         if (rotationX !== undefined) {
             model.rotation.x = rotationX;
@@ -74,7 +83,8 @@ export default class Model3D {
         }
 
         scene.add(model);
+        model3d.setObject(model); 
 
-        return model;
+        return model3d;
     }
 }
