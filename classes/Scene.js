@@ -9,7 +9,7 @@ export class Scene {
     metro1;
     metro12;
     metro2;
-    metro21;
+    metro22;
 
     constructor() {
         this.startScene();
@@ -37,11 +37,12 @@ export class Scene {
         await this.metro1.render(this.sceneController.scene);
         this.metro12 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,0), [0, 3.1415926536, 0]));
         this.metro2 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8)));
-        this.metro21 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8), [0, 3.1415926536, 0]));
+        this.metro22 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8), [0, 3.1415926536, 0]));
+
         this.metro1.openDoors();
         this.metro12.openDoors();
         this.metro2.openDoors();
-        this.metro21.openDoors();
+        this.metro22.openDoors();
 
         // Build the metro tunnels
         const tunnel = new Tunnel(new THREE.Vector3(0,0,0));
@@ -69,8 +70,8 @@ export class Scene {
             this.metro2.mixer.update(0.003);
         }
 
-        if(this.metro21.mixer) {
-            this.metro21.mixer.update(0.003);
+        if(this.metro22.mixer) {
+            this.metro22.mixer.update(0.003);
         }
 
         // Updates for objects of scene
