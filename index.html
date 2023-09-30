@@ -11,16 +11,22 @@
         }
 
         #loader {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             position: absolute;
-            left: 50%;
-            top: 50%;
-            z-index: 1;
-            width: 120px;
-            height: 120px;
-            margin: -76px 0 0 -76px;
-            border: 16px solid #4f4f4f;
+        }
+
+        #indicator {
+            width: 60px;
+            height: 60px;
+            border: 8px solid #4f4f4f;
+            margin-top: 40px;
             border-radius: 50%;
-            border-top: 16px solid #ffbf00;
+            border-top: 8px solid #ffbf00;
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
         }
@@ -55,10 +61,19 @@
             from{ bottom:-100px; opacity:0 } 
             to{ bottom:0; opacity:1 }
         }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
-    <div id="loader"></div>
+    <div id="loader">
+        <img class="logo" src="./assets/img/ue.png">
+        <div id="indicator"></div>
+    </div>
     <div id="sceneCanvas"></div>
 	<script type="module" src="/main.js"></script>
 </body>

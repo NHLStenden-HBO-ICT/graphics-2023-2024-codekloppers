@@ -37,7 +37,7 @@ export class Scene {
         await this.metro1.render(this.sceneController.scene);
         this.metro12 = await this.metro1.clone(this.sceneController.scene, undefined, undefined, 3.1415926536);
         this.metro2 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8));
-        this.metro21 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8, undefined, 3.1415926536));
+        this.metro21 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-10,-1,-6.8, undefined, 3.1415926536));
         this.metro1.openDoors();
         // this.metro12.openDoors();
         // this.metro2.openDoors();
