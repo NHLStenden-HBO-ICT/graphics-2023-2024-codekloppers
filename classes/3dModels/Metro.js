@@ -8,27 +8,27 @@ export class Metro extends Model3D {
     animations;
     mixer;
 
-    constructor(position) {
+    constructor(position, rotation) {
         super();
         this.#id = uuid();
-        this.position = position;
-        // this._object = object;
+        this._position = position;
+        this._rotation = rotation;
         this.mixer = new THREE.AnimationMixer();
     }
 
     // function to open doors
     openDoors() {
         //TODO: heeft nog een body nodig
-        const animations = this._object.animations;
-        this.mixer = new THREE.AnimationMixer(this._object.scene);
+        const animations = this._objectAnimations;
+        this.mixer = new THREE.AnimationMixer(this._objectScene);
         this.playAnimation(animations, 1);
     }
 
     // function to close doors
     closeDoors() {
         //TODO: heeft nog een body nodig
-        const animations = this._object.animations;
-        this.mixer = new THREE.AnimationMixer(this._object.scene);
+        const animations = this._objectAnimations;
+        this.mixer = new THREE.AnimationMixer(this._objectScene);
         this.playAnimation(animations, -1);
     }
 

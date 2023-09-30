@@ -35,9 +35,9 @@ export class Scene {
         // Build the metro cars
         this.metro1 = new Metro(new THREE.Vector3(-5,-1,0));
         await this.metro1.render(this.sceneController.scene);
-        this.metro12 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,0)), undefined, 3.1415926536);
+        this.metro12 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,0), [0, 3.1415926536, 0]));
         this.metro2 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8)));
-        this.metro21 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8)), undefined, 3.1415926536);
+        this.metro21 = await this.metro1.clone(this.sceneController.scene, new Metro(new THREE.Vector3(-5,-1,-6.8), [0, 3.1415926536, 0]));
         this.metro1.openDoors();
         this.metro12.openDoors();
         this.metro2.openDoors();

@@ -5,10 +5,10 @@ export class Elevator extends Model3D {
     currentFloor;
     filePath = "/assets/3d/ubahn.glb";
 
-    constructor(position, object) {
+    constructor(position, rotation) {
         super();
-        this.position = position;
-        this._object = object;
+        this._position = position;
+        this._rotation = rotation;
     }
 
     // function to open doors

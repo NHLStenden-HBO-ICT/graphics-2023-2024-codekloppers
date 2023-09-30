@@ -6,10 +6,10 @@ export class Station extends Model3D {
     #metroArrvingTimes;
     filePath = "/assets/3d/station.glb";
 
-    constructor(position, object) {
+    constructor(position, rotation) {
         super();
-        this.position = position;
-        this._object = object;
+        this._position = position;
+        this._rotation = rotation;
         // this.name = name;
     }
 

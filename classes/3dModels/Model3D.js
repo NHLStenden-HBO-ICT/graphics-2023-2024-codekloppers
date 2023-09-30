@@ -5,7 +5,8 @@ export default class Model3D {
     _filePath;
     _position;
     _rotation;
-    _object;
+    _objectScene;
+    _objectAnimations;
 
     constructor(filePath = null) {
         this.filePath = filePath;
@@ -16,13 +17,24 @@ export default class Model3D {
         }
     }
 
+
     /**
-     * The function "setObject" sets the value of the "_object" property.
-     * @param object - The "object" parameter is the object that you want to set as the value of the
-     * "_object" property.
+     * The function `setObjectScene` sets the object scene for a JavaScript object.
+     * @param scene - The `scene` parameter is an object that represents a scene in a game or a 3D
+     * environment. It could contain information such as the objects, lighting, camera settings, and other
+     * properties related to the scene.
      */
-    setObject(object) {
-        this._object = object;
+    setObjectScene(scene) {
+        this._objectScene = scene;
+    }
+
+    /**
+     * The function sets the object animations for a JavaScript object.
+     * @param animations - The `animations` parameter is an object that contains the animations for an
+     * object. It could be a collection of different animations, each with its own properties and settings.
+     */
+    setObjectAnimations(animations) {
+        this._objectAnimations = animations;
     }
 
     /**
@@ -39,9 +51,10 @@ export default class Model3D {
             gltf.scenes; // Array<THREE.Group>
             gltf.cameras; // Array<THREE.Camera>
             gltf.asset; // Object
-            gltf.scene.position.copy(this.position);
+            gltf.scene.position.copy(this._position);
             scene.add(gltf.scene);
-            this._object = gltf;
+            this._objectScene = gltf.scene;
+            this._objectAnimations = gltf.animations;
         });
     }
 
@@ -52,39 +65,39 @@ export default class Model3D {
         throw new Error("Method 'isColliding()' must be implemented.");
     }
 
+
+
     /**
-     * The `clone` function clones a 3D model and adds it to a scene
-     * @param scene - The `scene` parameter is the three.js scene object where you want to add the cloned
+     * The `clone` function clones a 3D model and adds it to the scene
+     * @param scene - The scene parameter is the three.js scene object where you want to add the cloned
      * model.
-     * @param position - The position parameter is an optional parameter that represents the position at
-     * which the cloned object should be placed in the scene. It is a three-dimensional vector that
-     * specifies the x, y, and z coordinates of the position.
-     * @param rotationX - The rotation around the x-axis in radians.
-     * @param rotationY - The `rotationY` parameter represents the rotation around the Y-axis (vertical
-     * axis) of the cloned object.
-     * @param rotationZ - The `rotationZ` parameter represents the rotation around the z-axis (in radians)
-     * that you want to apply to the cloned object.
+     * @param newModel3d - The newModel3d parameter is an instance of a 3D model object that you want
+     * to clone and add to the scene.
+     * @returns the newModel3d object.
      */
-    clone(scene, model3d, rotationX, rotationY, rotationZ) {
+    clone(scene, newModel3d) {
 
-        let model = this._object.scene.clone();
+        let object = this._objectScene.clone();
 
-        if (model3d.position !== undefined) {
-            model.position.copy(model3d.position);
+        if (newModel3d._position !== undefined) {
+            object.position.copy(newModel3d._position);
         }
-        if (rotationX !== undefined) {
-            model.rotation.x = rotationX;
-        }
-        if (rotationY !== undefined) {
-            model.rotation.y = rotationY;
-        }
-        if (rotationZ !== undefined) {
-            model.rotation.z = rotationZ;
+        if (newModel3d._rotation !== undefined) {
+            if (newModel3d._rotation[0] != null) {
+                object.rotation.x = newModel3d._rotation[0];
+            }
+            if (newModel3d._rotation[1] != null) {
+                object.rotation.y = newModel3d._rotation[1];
+            }
+            if (newModel3d._rotation[2] != null) {
+                object.rotation.z = newModel3d._rotation[2];
+            }
         }
 
-        scene.add(model);
-        model3d.setObject(model); 
+        scene.add(object);
+        newModel3d.setObjectScene(object);
+        newModel3d.setObjectAnimations(this._objectAnimations);
 
-        return model3d;
+        return newModel3d;
     }
 }
