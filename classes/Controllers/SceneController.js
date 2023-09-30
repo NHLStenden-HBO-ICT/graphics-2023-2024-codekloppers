@@ -19,7 +19,8 @@ export class SceneController {
     setRenderer() {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(this.renderer.domElement);
+        const canvas = document.getElementById('sceneCanvas');
+        canvas.appendChild(this.renderer.domElement);
     }
 
     setControls() {
@@ -33,4 +34,8 @@ export class SceneController {
         this.scene.add( light );
     }
 
+    hideLoader() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("sceneCanvas").style.display = "block";
+    }
 }

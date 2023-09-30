@@ -12,41 +12,41 @@ export class Scene {
     metro21;
 
     constructor() {
-        this.render();
+        this.startScene();
+    }
+
+    async startScene() {
+        await this.render();
         this.animate();
+
+        this.sceneController.hideLoader();
     }
 
     /**
      * The render function creates the 3d objects in the scene.
      */
-    render() {
+    async render() {
         // Build the metro stations
         const station = new Station(new THREE.Vector3(0,0,0), "Alexanderplatz");
-        station.render(this.sceneController.scene).then(() => {
-            station.clone(this.sceneController.scene, new THREE.Vector3(-700,0,0));
-        }).then(() => {
-            station.clone(this.sceneController.scene, new THREE.Vector3(-1200,0,0));
-        });
+        await station.render(this.sceneController.scene);
+        await station.clone(this.sceneController.scene, new THREE.Vector3(-700,0,0));
+        await station.clone(this.sceneController.scene, new THREE.Vector3(-1200,0,0));
 
         // Build the metro cars
         this.metro1 = new Metro(new THREE.Vector3(-5,-1,0));
-        this.metro1.render(this.sceneController.scene).then(() => {
-            this.metro12 = this.metro1.clone(this.sceneController.scene, undefined, undefined, 3.1415926536);
-        }).then(() => {
-            this.metro2 = this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8));
-        }).then(() => {
-            this.metro21 = this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8, undefined, 3.1415926536));
-            this.metro1.openDoors();
-            this.metro12.openDoors();
-            this.metro2.openDoors();
-            this.metro21.openDoors();
-        });
+        await this.metro1.render(this.sceneController.scene);
+        this.metro12 = await this.metro1.clone(this.sceneController.scene, undefined, undefined, 3.1415926536);
+        this.metro2 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8));
+        this.metro21 = await this.metro1.clone(this.sceneController.scene, new THREE.Vector3(-5,-1,-6.8, undefined, 3.1415926536));
+        this.metro1.openDoors();
+        // this.metro12.openDoors();
+        // this.metro2.openDoors();
+        // this.metro21.openDoors();
 
         // Build the metro tunnels
         const tunnel = new Tunnel(new THREE.Vector3(0,0,0));
-        tunnel.render(this.sceneController.scene).then(() => {
-            tunnel.clone(this.sceneController.scene, new THREE.Vector3(100,0,0));
-        });
+        await tunnel.render(this.sceneController.scene);
+        await tunnel.clone(this.sceneController.scene, new THREE.Vector3(100,0,0));
     }
 
     /**

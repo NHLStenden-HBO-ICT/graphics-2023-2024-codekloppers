@@ -2,10 +2,10 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export default class Model3D {
-    filePath;
-    position;
-    rotation;
-    #object;
+    _filePath;
+    _position;
+    _rotation;
+    _object;
 
     constructor(filePath = null) {
         this.filePath = filePath;
@@ -32,7 +32,7 @@ export default class Model3D {
             gltf.asset; // Object
             gltf.scene.position.copy(this.position);
             scene.add(gltf.scene);
-            this.#object = gltf;
+            this._object = gltf;
         });
     }
 
@@ -58,7 +58,7 @@ export default class Model3D {
      */
     clone(scene, position, rotationX, rotationY, rotationZ) {
 
-        let model = this.#object.scene.clone();
+        let model = this._object.scene.clone();
 
         if (position !== undefined) {
             model.position.copy(position);

@@ -18,16 +18,16 @@ export class Metro extends Model3D {
     // function to open doors
     openDoors() {
         //TODO: heeft nog een body nodig
-        const animations = this.object.animations;
-        this.mixer = new THREE.AnimationMixer(this.object.scene);
+        const animations = this._object.animations;
+        this.mixer = new THREE.AnimationMixer(this._object.scene);
         this.playAnimation(animations, 1);
     }
 
     // function to close doors
     closeDoors() {
         //TODO: heeft nog een body nodig
-        const animations = this.object.animations;
-        this.mixer = new THREE.AnimationMixer(this.object.scene);
+        const animations = this._object.animations;
+        this.mixer = new THREE.AnimationMixer(this._object.scene);
         this.playAnimation(animations, -1);
     }
 
