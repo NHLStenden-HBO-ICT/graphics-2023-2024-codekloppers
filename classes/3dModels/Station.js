@@ -3,7 +3,7 @@ import Model3D from '/classes/3dModels/Model3D';
 
 export class Station extends Model3D {
     #name;
-    #metroArrvingTimes;
+    #metroArrivingTimes;
     filePath = "/assets/3d/station.glb";
 
     constructor(position, rotation) {
@@ -14,7 +14,7 @@ export class Station extends Model3D {
     }
 
     // function to get arrving time of metro
-    getMetroArrvingTime(Metro) {
+    getMetroArrivingTime(Metro) {
         //TODO: heeft nog een body nodig
     }
 }
