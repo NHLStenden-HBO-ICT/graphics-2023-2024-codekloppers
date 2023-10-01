@@ -87,29 +87,32 @@ export class Route {
     }
 
     async #renderTunnels() {
-        let x;
+        let amountOfTunnels;
         let direction;
         let startingValue;
+        let endValue;
+
         for (let i = 0; i < this.stations.length; i++) {
             if (i === this.stations.length - 1) {
                 return;
             }
 
             if (this.stations[i]['vector']['x'] > this.stations[i + 1]['vector']['x']) {
-                startingValue = 64
-                x = (this.stations[i]['vector']['x'] - this.stations[i + 1]['vector']['x'] + startingValue) / 10
+                startingValue = 64 + this.stations[i]['vector']['x'];
+                endValue = 34;
+                amountOfTunnels = 1 + (this.stations[i]['vector']['x'] - this.stations[i + 1]['vector']['x'] - startingValue - endValue) / 10
                 direction = -1
             }
 
-            // if (this.stations[i]['vector']['x'] < this.stations[i + 1]['vector']['x']) {
-            //     startingValue = 34;
-            //     x = (this.stations[i + 1]['vector']['x'] - this.stations[i]['vector']['x'] + startingValue) / 10
-            //     direction = 1
-            // }
+            if (this.stations[i]['vector']['x'] < this.stations[i + 1]['vector']['x']) {
+                startingValue = 34 + this.stations[i]['vector']['x'];
+                endValue = 64
+                amountOfTunnels = (this.stations[i + 1]['vector']['x'] - this.stations[i]['vector']['x'] - startingValue - endValue) / 10
+                direction = 1
+            }
+
             const tunnel = new Tunnel(new THREE.Vector3(startingValue * direction, 0, -3.4));
-            console.log(this.stations[i]['vector']['x'] - this.stations[i + 1]['vector']['x'])
-            for (let y = 0; y < x; y++) {
-                console.log((34 + (y*10)) * direction)
+            for (let y = 0; y < amountOfTunnels; y++) {
                 if (y === 0) {
                     await tunnel.render(this.sceneController.scene);
                     continue;

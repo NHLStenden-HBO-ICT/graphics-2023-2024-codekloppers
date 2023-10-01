@@ -1,5 +1,8 @@
 import { SceneController } from "./Controllers/SceneController";
 import {Route} from "./Route";
+import {Tunnel} from "./3dModels/Tunnel";
+import * as THREE from "three";
+
 
 export class Scene {
     sceneController = new SceneController();
