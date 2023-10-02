@@ -6,7 +6,8 @@ import * as THREE from "three";
 
 export class Scene {
     sceneController = new SceneController();
-    route;
+    routeU5;
+    routeU6;
 
     constructor() {
         this.startScene();
@@ -23,10 +24,12 @@ export class Scene {
      */
     async render() {
         /*Define routes*/
-        this.route = new Route(this.sceneController, 'U5');
+        this.routeU5 = new Route(this.sceneController, 'U5');
+        // this.routeU6 = new Route(this.sceneController, 'U6');
 
         /*Render routes*/
-        await this.route.render()
+        await this.routeU5.render()
+        // await this.routeU6.render()
     }
 
     /**
@@ -36,7 +39,8 @@ export class Scene {
     animate() {
         const method = this.animate.bind(this);
         requestAnimationFrame(method);
-        this.route.animateMetros()
+        this.routeU5.animateMetros()
+        // this.routeU6.animateMetros()
 
         // Updates for objects of scene
         this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);

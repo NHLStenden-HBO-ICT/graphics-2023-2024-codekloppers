@@ -114,7 +114,11 @@ export class Route {
                 direction = 1
             }
 
-            const tunnel = new Tunnel(new THREE.Vector3(startingValue * direction, 0, -3.4));
+            const tunnel = new Tunnel(new THREE.Vector3(
+                startingValue * direction,
+                this.stations[i]['vector']['y'],
+                this.stations[i]['vector']['z'] - 3.4
+            ));
 
             for (let y = 0; y < amountOfTunnels; y++) {
                 if (y === 0) {
@@ -122,7 +126,7 @@ export class Route {
                     continue;
                 }
                 await tunnel.clone(this.sceneController.scene,
-                    new Tunnel(new THREE.Vector3((startingValue + (y * lengthOfTunnel)) * direction, 0, -3.4)));
+                    new Tunnel(new THREE.Vector3((startingValue + (y * lengthOfTunnel)) * direction, this.stations[i]['vector']['y'], this.stations[i]['vector']['z']-3.4)));
             }
 
 
