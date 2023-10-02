@@ -10,15 +10,20 @@ export class SceneController {
 
     constructor() {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.001, 1000);
         this.setRenderer();
         this.setControls();
         this.setAmbientLight();
     }
 
     setRenderer() {
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true, premultipliedAlpha: false });
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.needsUpdate=true;
+
+        // this.renderer.outputColorSpace = THREE.sRGBEncoding;
+        this.renderer.shadowMapType = THREE.PCFSoftShadowMap;
         const canvas = document.getElementById('sceneCanvas');
         canvas.appendChild(this.renderer.domElement);
     }
@@ -30,7 +35,9 @@ export class SceneController {
     }
 
     setAmbientLight() {
-        const light = new THREE.AmbientLight(0x404040, 40);
+        const light = new THREE.AmbientLight(0x404040, 100);
+        light.shadowMapWidth = 1024; // default is 512
+        light.shadowMapHeight = 1024; // default is 512
         this.scene.add( light );
     }
 
