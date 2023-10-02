@@ -22,15 +22,11 @@ export class Scene {
      * The render function creates the 3d objects in the scene.
      */
     async render() {
+        /*Define routes*/
         this.route = new Route(this.sceneController);
-        await this.route.render()
 
-        // Build the metro tunnels
-        // const tunnel = new Tunnel(new THREE.Vector3(34,0,-3.4));
-        // await tunnel.render(this.sceneController.scene);
-        // await tunnel.clone(this.sceneController.scene, new Tunnel(new THREE.Vector3(44,0,-3.4)));
-        // await tunnel.clone(this.sceneController.scene, new Tunnel(new THREE.Vector3(-64,0,-3.4)));
-        // await tunnel.clone(this.sceneController.scene, new Tunnel(new THREE.Vector3(-74,0,-3.4)));
+        /*Render routes*/
+        await this.route.render()
     }
 
     /**
