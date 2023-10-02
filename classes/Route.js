@@ -2,34 +2,35 @@ import * as THREE from "three";
 import {Station} from "./3dModels/Station";
 import {Metro} from "./3dModels/Metro";
 import {Tunnel} from "./3dModels/Tunnel";
+import {Routes} from "/config/routes"
 
 export class Route {
-
-    stations = [
-        {'vector': new THREE.Vector3(0, 0, 0), 'rotation': [0, 0, 0]},
-        {'vector': new THREE.Vector3(-700, 0, 0), 'rotation': [0, 0, 0]},
-        {'vector': new THREE.Vector3(-1200, 0, 0), 'rotation': [0, 0, 0]},
-    ];
-
-    #leftTrainVector = new THREE.Vector3(
-        this.stations[0]['vector']['x'] - 5,
-        this.stations[0]['vector']['y'] - 1,
-        this.stations[0]['vector']['z'] - 6.8,
-    );
-
-    #rightTrainVector = new THREE.Vector3(
-        this.stations[0]['vector']['x'] - 5,
-        this.stations[0]['vector']['y'] - 1,
-        this.stations[0]['vector']['z'],
-    );
-
+    stations;
+    #leftTrainVector;
+    #rightTrainVector;
     metro1;
     metro12;
     metro2;
     metro22;
 
-    constructor(sceneController) {
+    constructor(sceneController, routeName) {
         this.sceneController = sceneController;
+        this.stations = Routes.routes[routeName];
+        this.setVectors();
+    }
+
+    setVectors() {
+        this.#leftTrainVector = new THREE.Vector3(
+            this.stations[0]['vector']['x'] - 5,
+            this.stations[0]['vector']['y'] - 1,
+            this.stations[0]['vector']['z'] - 6.8,
+        );
+
+        this.#rightTrainVector = new THREE.Vector3(
+            this.stations[0]['vector']['x'] - 5,
+            this.stations[0]['vector']['y'] - 1,
+            this.stations[0]['vector']['z'],
+        );
     }
 
     async render() {
@@ -127,6 +128,5 @@ export class Route {
 
         }
     }
-
 
 }

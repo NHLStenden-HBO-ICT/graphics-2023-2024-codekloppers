@@ -23,7 +23,7 @@ export class Scene {
      */
     async render() {
         /*Define routes*/
-        this.route = new Route(this.sceneController);
+        this.route = new Route(this.sceneController, 'U5');
 
         /*Render routes*/
         await this.route.render()
