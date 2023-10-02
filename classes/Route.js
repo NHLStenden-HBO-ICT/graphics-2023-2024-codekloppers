@@ -90,34 +90,38 @@ export class Route {
         let amountOfTunnels;
         let direction;
         let startingValue;
-        let endValue;
+        let stationA
+        let stationB
+        let lengthOfTunnel = 10;
 
         for (let i = 0; i < this.stations.length; i++) {
             if (i === this.stations.length - 1) {
                 return;
             }
+            stationA = this.stations[i]['vector']['x'];
+            stationB = this.stations[i + 1]['vector']['x'];
 
-            if (this.stations[i]['vector']['x'] > this.stations[i + 1]['vector']['x']) {
-                startingValue = 64 + this.stations[i]['vector']['x'];
-                endValue = 34;
-                amountOfTunnels = 1 + (this.stations[i]['vector']['x'] - this.stations[i + 1]['vector']['x'] - startingValue - endValue) / 10
-                direction = -1
+            amountOfTunnels = ((Math.abs(stationA - stationB) - 64 - 34) / 10) + 1;
+
+            if (stationA > stationB) {
+                startingValue = 64 - stationA;
+                direction = -1;
             }
 
-            if (this.stations[i]['vector']['x'] < this.stations[i + 1]['vector']['x']) {
-                startingValue = 34 + this.stations[i]['vector']['x'];
-                endValue = 64
-                amountOfTunnels = (this.stations[i + 1]['vector']['x'] - this.stations[i]['vector']['x'] - startingValue - endValue) / 10
+            if (stationA < stationB) {
+                startingValue = 34 + stationA;
                 direction = 1
             }
 
             const tunnel = new Tunnel(new THREE.Vector3(startingValue * direction, 0, -3.4));
+
             for (let y = 0; y < amountOfTunnels; y++) {
                 if (y === 0) {
                     await tunnel.render(this.sceneController.scene);
                     continue;
                 }
-                await tunnel.clone(this.sceneController.scene, new Tunnel(new THREE.Vector3((startingValue + (y*10)) * direction,0,-3.4)));
+                await tunnel.clone(this.sceneController.scene,
+                    new Tunnel(new THREE.Vector3((startingValue + (y * lengthOfTunnel)) * direction, 0, -3.4)));
             }
 
 
