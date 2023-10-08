@@ -17,6 +17,7 @@ export class Scene {
         await this.render();
         this.animate();
         this.sceneController.hideLoader();
+        this.sceneController.user.walk(this.sceneController.camera);
     }
 
     /**
@@ -41,6 +42,10 @@ export class Scene {
         requestAnimationFrame(method);
         this.routeU5.animateMetros()
         // this.routeU6.animateMetros()
+
+            // Beweeg de camera op basis van toetsenbordinvoer
+            this.sceneController.camera.position.x += (this.sceneController.user.cameraPosition.x - this.sceneController.camera.position.x) * 0.1;
+            this.sceneController.camera.position.z += (this.sceneController.user.cameraPosition.z - this.sceneController.camera.position.z) * 0.1;
 
         // Updates for objects of scene
         this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);
