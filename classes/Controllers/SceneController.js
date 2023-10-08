@@ -35,10 +35,10 @@ export class SceneController {
     }
 
     setAmbientLight() {
-        const light = new THREE.AmbientLight(0x404040, 100);
-        light.shadowMapWidth = 1024; // default is 512
-        light.shadowMapHeight = 1024; // default is 512
-        this.scene.add( light );
+        // const light = new THREE.AmbientLight(0x404040, 100);
+        // light.shadowMapWidth = 1024; // default is 512
+        // light.shadowMapHeight = 1024; // default is 512
+        // this.scene.add( light );
     }
 
     hideLoader() {
