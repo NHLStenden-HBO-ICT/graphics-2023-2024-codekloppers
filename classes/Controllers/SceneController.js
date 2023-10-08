@@ -13,7 +13,7 @@ export class SceneController {
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.001, 1000);
         this.setRenderer();
         this.setControls();
-        this.setAmbientLight();
+        // this.setAmbientLight();
     }
 
     setRenderer() {
@@ -35,10 +35,10 @@ export class SceneController {
     }
 
     setAmbientLight() {
-        // const light = new THREE.AmbientLight(0x404040, 100);
-        // light.shadowMapWidth = 1024; // default is 512
-        // light.shadowMapHeight = 1024; // default is 512
-        // this.scene.add( light );
+        const light = new THREE.AmbientLight(0x404040, 100);
+        light.shadowMapWidth = 1024; // default is 512
+        light.shadowMapHeight = 1024; // default is 512
+        this.scene.add( light );
     }
 
     hideLoader() {
