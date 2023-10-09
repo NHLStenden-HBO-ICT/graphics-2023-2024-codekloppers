@@ -35,8 +35,8 @@ export class Route {
 
     async render() {
         await this.#renderStations();
-        await this.#renderMetros();
-        await this.#renderTunnels();
+        // await this.#renderMetros();
+        // await this.#renderTunnels();
     }
 
     async #renderStations() {
@@ -45,6 +45,7 @@ export class Route {
         for (let i = 0; i < this.stations.length; i++) {
             if (i === 0) {
                 await station.render(this.sceneController.scene);
+                // station.setBoundingBox(this.sceneController.scene);
                 continue;
             }
 
