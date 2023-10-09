@@ -19,7 +19,7 @@ export class SceneController {
         this.user = new User();
         this.setRenderer();
         // this.setControls();
-        this.setAmbientLight();
+        // this.setAmbientLight();
     }
 
     setRenderer() {
