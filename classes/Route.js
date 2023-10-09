@@ -40,7 +40,7 @@ export class Route {
     }
 
     async #renderStations() {
-        const station = new Station(this.stations[0]['vector']);
+        const station = new Station(this.sceneController, this.stations[0]['vector']);
 
         for (let i = 0; i < this.stations.length; i++) {
             if (i === 0) {
@@ -50,7 +50,8 @@ export class Route {
             }
 
             await station.clone(this.sceneController.scene, new Station(
-                this.stations[i]['vector']
+                this.sceneController,
+                this.stations[i]['vector'],
                 // this.stations[i]['rotation']
             ));
         }
