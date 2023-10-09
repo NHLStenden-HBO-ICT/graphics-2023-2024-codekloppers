@@ -94,11 +94,6 @@ export default class Model3D {
             }
         }
 
- /* The code `object.traverse(function (child) { if (child.isMesh) { child.material.side =
- THREE.DoubleSide; } });` is traversing through all the children of the `object` and checking if
- each child is a mesh. If a child is a mesh, it sets the `side` property of its material to
- `THREE.DoubleSide`, which makes the material render on both sides of the mesh. This is useful when
- you want to see the material from both the front and back faces of the mesh. */
         object.traverse(function (child) {
             if (child.isMesh) {
                 child.material.side = THREE.DoubleSide; // Dubbelzijdig maken
