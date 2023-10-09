@@ -57,5 +57,7 @@ export class Scene {
 
             // Check for camera collision
         this.sceneController.checkCameraCollision();
+
+        console.log(this.sceneController.renderer.info.render);
     }
 }
