@@ -18,7 +18,7 @@ export class SceneController {
         this.camera.position.set(100, 2, 50);
         this.previousCameraPosition = new THREE.Vector3();
         this.boundingBoxes = [];
-        this.user = new User(SceneController);
+        this.user = new User();
         this.setRenderer();
         this.setAmbientLight();
     }
