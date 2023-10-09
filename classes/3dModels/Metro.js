@@ -49,8 +49,8 @@ export class Metro extends Model3D {
 
     playAnimation(animations, direction) {
         // console.log(animations);
-        for (var i = 0; i < animations.length; i++) {
-            var action = this.mixer.clipAction(animations[i]);
+        for (let i = 0; i < animations.length; i++) {
+            let action = this.mixer.clipAction(animations[i]);
             action.paused = false; // Hervat de animatie
             // console.log(animations[i])
 
