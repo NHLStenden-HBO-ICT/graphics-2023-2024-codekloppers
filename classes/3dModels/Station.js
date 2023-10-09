@@ -50,7 +50,7 @@ export class Station extends Model3D {
 
         this.#sceneController.boundingBoxes.push(this.setBoundingBox(
             this.#sceneController.scene,
-            new THREE.Vector3(this._position.x + 60, this._position.y + 1, this._position.z + 6),
+            new THREE.Vector3(this._position.x + 60, this._position.y + 2, this._position.z + 6),
             new THREE.Vector3(this._position.x + -50, this._position.y + 0, this._position.z + 0),
             Math.PI / 2, Math.PI / 2)
         ); // right border

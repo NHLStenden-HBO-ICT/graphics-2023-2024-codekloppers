@@ -120,5 +120,4 @@ export default class Model3D {
 
         return box;
     }
-
 }
