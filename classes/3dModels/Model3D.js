@@ -49,7 +49,6 @@ export default class Model3D {
 
         const dracoLoader = new DRACOLoader();
         dracoLoader.setDecoderPath('assets/');
-        // dracoLoader.setDecoderPath('../node_modules/draco3dgltf/draco3dgltf.js');
         dracoLoader.setDecoderConfig({ type: 'js' });
         loader.setDRACOLoader(dracoLoader);
 
