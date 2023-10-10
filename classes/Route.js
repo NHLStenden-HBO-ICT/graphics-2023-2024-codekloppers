@@ -35,8 +35,8 @@ export class Route {
 
     async render() {
         await this.#renderStations();
-        // await this.#renderMetros();
-        // await this.#renderTunnels();
+        await this.#renderMetros();
+        await this.#renderTunnels();
     }
 
     async #renderStations() {

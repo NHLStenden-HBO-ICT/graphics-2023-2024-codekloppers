@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader'
 
 export default class Model3D {
     _filePath;
@@ -45,6 +46,12 @@ export default class Model3D {
      */
     async render(scene) {
         const loader = new GLTFLoader();
+
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('assets/');
+        // dracoLoader.setDecoderPath('../node_modules/draco3dgltf/draco3dgltf.js');
+        dracoLoader.setDecoderConfig({ type: 'js' });
+        loader.setDRACOLoader(dracoLoader);
 
         await loader.loadAsync(this.filePath).then((gltf) => { // Gebruik een arrow-functie om de juiste 'this' context te behouden
             gltf.scene; // THREE.Group
