@@ -16,6 +16,7 @@ export class Metro extends Model3D {
         this._position = position;
         this._rotation = rotation;
         this.mixer = new THREE.AnimationMixer();
+        this.secondCarriage = null;
     }
 
     // function to open doors
@@ -45,7 +46,7 @@ export class Metro extends Model3D {
             // onComplete: state.openDoors
         });
 
-        if (!isSecondCarriage){
+        if (!isSecondCarriage) {
             this.secondCarriage.accelerate(endPosition, true)
         }
 
@@ -60,16 +61,16 @@ export class Metro extends Model3D {
             return endPosition;
         }
 
+        /*Left carriage*/
         endPosition.vector.x = endPosition.vector.x - 5;
         endPosition.vector.y = endPosition.vector.y - 1;
         endPosition.vector.z = endPosition.vector.z - 6.8;
 
         return endPosition
-
     }
 
     /**
-     * Overwrites the render method from Model3D,
+     * Overwrites the render method from Model3D and renders a second carriage,
      */
     async render(scene) {
         let secondCarriageRotation = this._rotation;
@@ -81,6 +82,19 @@ export class Metro extends Model3D {
         /*Return the object so it's easier to use */
         return this;
     }
+
+/*    async clone(scene, newModel) {
+        let model = await super.clone(scene, newModel);
+
+        if (model.secondCarriage === null) {
+            let secondCarriageRotation = this._rotation;
+            secondCarriageRotation[1] += Math.PI;
+
+            // this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
+        }
+
+        return this;
+    }*/
 
     // function to decrease speed of metro
     brake() {
