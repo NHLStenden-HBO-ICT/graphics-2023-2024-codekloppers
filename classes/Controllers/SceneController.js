@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { User } from "../User";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import {User} from "../User";
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
 export class SceneController {
     scene;
@@ -14,20 +14,25 @@ export class SceneController {
 
     constructor() {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
-        this.camera.position.set(100, 2, 50);
-        this.previousCameraPosition = new THREE.Vector3();
         this.boundingBoxes = [];
         this.user = new User();
+
+        this.setCamera()
         this.setRenderer();
         // this.setAmbientLight();
     }
 
     setRenderer() {
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true, premultipliedAlpha: false });
+        this.renderer = new THREE.WebGLRenderer({antialias: true, gammaOutput: true, premultipliedAlpha: false});
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         const canvas = document.getElementById('sceneCanvas');
         canvas.appendChild(this.renderer.domElement);
+    }
+
+    setCamera() {
+        this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
+        this.camera.position.set(100, 2, 50);
+        this.previousCameraPosition = new THREE.Vector3();
     }
 
     setControls() {
@@ -59,7 +64,7 @@ export class SceneController {
 
         const boxSize = new THREE.Vector3(1, 1, 1);
         const boxGeometry = new THREE.BoxGeometry(boxSize.x, boxSize.y, boxSize.z);
-        const boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 });
+        const boxMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0});
         const cameraMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 
         cameraMesh.position.set(this.camera.position.x, this.camera.position.y, this.camera.position.z);

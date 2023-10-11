@@ -10,6 +10,7 @@ export class Route {
     #rightTrainVector;
     leftCarriage;
     rightCarriage;
+    leftCarriage2;
 
     constructor(sceneController, routeName) {
         this.sceneController = sceneController;
@@ -32,9 +33,10 @@ export class Route {
     }
 
     async render() {
-        await this.#renderStations();
+        // await this.#renderStations();
         await this.#renderMetros();
-        await this.#renderTunnels();
+        // await this.#renderTunnels();
+
     }
 
     async #renderStations() {
@@ -59,7 +61,16 @@ export class Route {
         this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'])).render(this.sceneController.scene);
         this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[0]['rotation']));
 
+        // let station = this.stations[1];
+
         this.leftCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
+        this.rightCarriage.accelerate(this.rightCarriage.setDestinationCoordinates(this.stations[1], true), true);
+
+        //console.log(station);
+        // await console.log(this.stations[1]);
+        // await console.log(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
+        // console.log(this.rightCarriage.setDestinationCoordinates(this.stations[1], true ));
+
         // this.rightCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], true));
     }
 
