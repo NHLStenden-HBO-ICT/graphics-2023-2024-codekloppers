@@ -1,0 +1,1 @@
+npx gltfjsx tunnel.glb --transform --simplify

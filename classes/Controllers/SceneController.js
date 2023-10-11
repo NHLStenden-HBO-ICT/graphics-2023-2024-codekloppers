@@ -20,7 +20,7 @@ export class SceneController {
         this.boundingBoxes = [];
         this.user = new User();
         this.setRenderer();
-        this.setAmbientLight();
+        // this.setAmbientLight();
     }
 
     setRenderer() {
