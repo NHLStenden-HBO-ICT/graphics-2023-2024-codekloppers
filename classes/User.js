@@ -41,15 +41,16 @@ export class User {
                     // change state of camera is spawned to true
                     sceneController.cameraSpawned = true;
                     // Beweeg naar links, onafhankelijk van de kijkrichting
-                    this.cameraPosition.x -= Math.cos(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale x-richting
-                    this.cameraPosition.z -= Math.sin(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale z-richting
+                    this.cameraPosition.x += Math.cos(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale x-richting
+                    this.cameraPosition.z += Math.sin(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale z-richting
                     break;
                 case 'KeyD':
                     // change state of camera is spawned to true
                     sceneController.cameraSpawned = true;
                     // Beweeg naar rechts, onafhankelijk van de kijkrichting
-                    this.cameraPosition.x += Math.cos(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale x-richting
-                    this.cameraPosition.z += Math.sin(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale z-richting
+                    this.cameraPosition.x -= Math.cos(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale x-richting
+                    this.cameraPosition.z -= Math.sin(sceneController.camera.rotation.y) * this.speed; // Beweeg in de lokale z-richting
+
                     break;
                 case 'KeyQ':
                     // change state of camera is spawned to true
