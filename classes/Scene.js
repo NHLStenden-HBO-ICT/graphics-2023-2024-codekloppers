@@ -39,11 +39,13 @@ export class Scene {
      * requestAnimationFrame method.
      */
     animate() {
-        const method = this.animate.bind(this);
-        requestAnimationFrame(method);
+        requestAnimationFrame(this.animate.bind(this));
+
+        // Animeer de metros
         // this.routeU5.animateMetros()
         // this.routeU6.animateMetros()
-            // Update de camera matrix wereld
+
+        // Update de camera matrix wereld
         this.sceneController.camera.updateMatrixWorld();
 
         // Beweeg de camera op basis van toetsenbordinvoer

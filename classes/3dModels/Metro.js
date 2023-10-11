@@ -1,4 +1,5 @@
 import Model3D from '/classes/3dModels/Model3D';
+import {gsap} from "gsap";
 import * as THREE from "three";
 import {v4 as uuid} from 'uuid';
 
@@ -7,6 +8,7 @@ export class Metro extends Model3D {
     filePath = "/assets/3d/ubahn.glb";
     animations;
     mixer;
+    secondCarriage;
 
     constructor(position, rotation) {
         super();
@@ -33,8 +35,51 @@ export class Metro extends Model3D {
     }
 
     // function to accelerate metro
-    accelerate() {
+    accelerate(endPosition, isSecondCarriage = false) {
+        gsap.to(this._objectScene.position, {
+            x: endPosition.vector.x,
+            y: endPosition.vector.y,
+            z: endPosition.vector.z,
+            duration: Math.abs(10),
+            ease: "power1.inOut",
+            // onComplete: state.openDoors
+        });
 
+        if (!isSecondCarriage){
+            this.secondCarriage.accelerate(endPosition, true)
+        }
+
+    }
+
+    setDestinationCoordinates(positionNextStation, isRightCarriage) {
+        let endPosition = positionNextStation;
+
+        if (isRightCarriage) {
+            endPosition.vector.x = endPosition.vector.x - 5;
+            endPosition.vector.y = endPosition.vector.y - 1;
+            return endPosition;
+        }
+
+        endPosition.vector.x = endPosition.vector.x - 5;
+        endPosition.vector.y = endPosition.vector.y - 1;
+        endPosition.vector.z = endPosition.vector.z - 6.8;
+
+        return endPosition
+
+    }
+
+    /**
+     * Overwrites the render method from Model3D,
+     */
+    async render(scene) {
+        let secondCarriageRotation = this._rotation;
+        secondCarriageRotation[1] += Math.PI;
+
+        await super.render(scene)
+        this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
+
+        /*Return the object so it's easier to use */
+        return this;
     }
 
     // function to decrease speed of metro
@@ -42,10 +87,6 @@ export class Metro extends Model3D {
 
     }
 
-    // get metro id
-    getID() {
-        return this.#id;
-    }
 
     playAnimation(animations, direction) {
         // console.log(animations);

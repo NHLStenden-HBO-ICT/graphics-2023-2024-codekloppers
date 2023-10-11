@@ -8,10 +8,8 @@ export class Route {
     stations;
     #leftTrainVector;
     #rightTrainVector;
-    metro1;
-    metro12;
-    metro2;
-    metro22;
+    leftCarriage;
+    rightCarriage;
 
     constructor(sceneController, routeName) {
         this.sceneController = sceneController;
@@ -58,34 +56,28 @@ export class Route {
     }
 
     async #renderMetros() {
-        let secondCarriageRotation = this.stations[0]['rotation'];
-        secondCarriageRotation[1] += 3.1415926536;
-        // console.log(secondCarriageRotation);
+        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'])).render(this.sceneController.scene);
+        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[0]['rotation']));
 
-        this.metro1 = new Metro(this.#leftTrainVector, this.stations[0]['rotation']);
-
-        await this.metro1.render(this.sceneController.scene);
-        this.metro12 = await this.metro1.clone(this.sceneController.scene, new Metro(this.#leftTrainVector, secondCarriageRotation));
-
-        this.metro2 = await this.metro1.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[0]['rotation']));
-        this.metro22 = await this.metro1.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, secondCarriageRotation));
+        this.leftCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
+        // this.rightCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], true));
     }
 
     animateMetros() {
-        if (this.metro1.mixer) {
-            this.metro1.mixer.update(0.003);
+        if (this.leftCarriage.mixer) {
+            this.leftCarriage.mixer.update(0.003);
         }
 
-        if (this.metro12.mixer) {
-            this.metro12.mixer.update(0.003);
+        if (this.leftCarriage.secondCarriage.mixer) {
+            this.leftCarriage.secondCarriage.mixer.update(0.003);
         }
 
-        if (this.metro2.mixer) {
-            this.metro2.mixer.update(0.003);
+        if (this.rightCarriage.mixer) {
+            this.rightCarriage.mixer.update(0.003);
         }
 
-        if (this.metro22.mixer) {
-            this.metro22.mixer.update(0.003);
+        if (this.rightCarriage.secondCarriage.mixer) {
+            this.rightCarriage.secondCarriage.mixer.update(0.003);
         }
     }
 
