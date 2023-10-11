@@ -63,8 +63,8 @@ export class Route {
 
         // let station = this.stations[1];
 
-        this.leftCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
-        this.rightCarriage.accelerate(this.rightCarriage.setDestinationCoordinates(this.stations[1], true), true);
+        // this.leftCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
+        // this.rightCarriage.accelerate(this.rightCarriage.setDestinationCoordinates(this.stations[1], true), true);
 
         //console.log(station);
         // await console.log(this.stations[1]);
