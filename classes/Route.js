@@ -10,7 +10,6 @@ export class Route {
     #rightTrainVector;
     leftCarriage;
     rightCarriage;
-    leftCarriage2;
 
     constructor(sceneController, routeName) {
         this.sceneController = sceneController;
@@ -26,9 +25,9 @@ export class Route {
         );
 
         this.#rightTrainVector = new THREE.Vector3(
-            this.stations[0]['vector']['x'] - 5,
-            this.stations[0]['vector']['y'] - 1,
-            this.stations[0]['vector']['z'],
+            this.stations[this.stations.length-1]['vector']['x'] - 5,
+            this.stations[this.stations.length-1]['vector']['y'] - 1,
+            this.stations[this.stations.length-1]['vector']['z'],
         );
     }
 
@@ -36,7 +35,6 @@ export class Route {
         await this.#renderStations();
         await this.#renderMetros();
         await this.#renderTunnels();
-
     }
 
     async #renderStations() {
@@ -59,19 +57,10 @@ export class Route {
 
     async #renderMetros() {
         this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'])).render(this.sceneController.scene);
-        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[0]['rotation']));
+        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation']));
 
-        // let station = this.stations[1];
-
-        this.leftCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
-        this.rightCarriage.accelerate(this.rightCarriage.setDestinationCoordinates(this.stations[1], true), true);
-
-        //console.log(station);
-        // await console.log(this.stations[1]);
-        // await console.log(this.leftCarriage.setDestinationCoordinates(this.stations[1], false));
-        // console.log(this.rightCarriage.setDestinationCoordinates(this.stations[1], true ));
-
-        // this.rightCarriage.accelerate(this.leftCarriage.setDestinationCoordinates(this.stations[1], true));
+        this.leftCarriage.driveRoute(this.stations, false);
+        this.rightCarriage.driveRoute(this.stations.reverse(), true);
     }
 
     animateMetros() {

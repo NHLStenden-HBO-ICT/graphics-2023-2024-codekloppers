@@ -9,6 +9,8 @@ export class Metro extends Model3D {
     animations;
     mixer;
     secondCarriage;
+    animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5});
+
 
     constructor(position, rotation) {
         super();
@@ -35,36 +37,49 @@ export class Metro extends Model3D {
         this.playAnimation(animations, -1);
     }
 
+    driveRoute(stations, isRightCarriage) {
+        for (let i = 1; i < stations.length; i++) {
+            this.accelerate(this.getDestinationCoordinates(stations[i], isRightCarriage));
+        }
+        this.animationTimeline.yoyo(true);
+        this.animationTimeline.play();
+    }
+
     // function to accelerate metro
     accelerate(endPosition, isSecondCarriage = false) {
-        gsap.to(this._objectScene.position, {
-            x: endPosition.vector.x,
-            y: endPosition.vector.y,
-            z: endPosition.vector.z,
+        this.animationTimeline.to(this._objectScene.position, {
+            x: endPosition.x,
+            y: endPosition.y,
+            z: endPosition.z,
+            delay: 5,
             duration: Math.abs(10),
             ease: "power1.inOut",
             // onComplete: state.openDoors
         });
 
         if (!isSecondCarriage) {
-            this.secondCarriage.accelerate(endPosition, true)
+            // this.secondCarriage.accelerate(endPosition, true)
         }
 
     }
 
-    setDestinationCoordinates(positionNextStation, isRightCarriage) {
-        let endPosition = positionNextStation;
-
+    getDestinationCoordinates(positionNextStation, isRightCarriage) {
+        let endPosition;
         if (isRightCarriage) {
-            endPosition.vector.x = endPosition.vector.x - 5;
-            endPosition.vector.y = endPosition.vector.y - 1;
+            endPosition = new THREE.Vector3(
+                positionNextStation.vector.x - 5,
+                positionNextStation.vector.y - 1,
+                positionNextStation.vector.z,
+            );
             return endPosition;
         }
 
         /*Left carriage*/
-        endPosition.vector.x = endPosition.vector.x - 5;
-        endPosition.vector.y = endPosition.vector.y - 1;
-        endPosition.vector.z = endPosition.vector.z - 6.8;
+        endPosition = new THREE.Vector3(
+            positionNextStation.vector.x - 5,
+            positionNextStation.vector.y - 1,
+            positionNextStation.vector.z - 6.8,
+        );
 
         return endPosition
     }
@@ -77,24 +92,24 @@ export class Metro extends Model3D {
         secondCarriageRotation[1] += Math.PI;
 
         await super.render(scene)
-        this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
+        // this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
 
         /*Return the object so it's easier to use */
         return this;
     }
 
-/*    async clone(scene, newModel) {
-        let model = await super.clone(scene, newModel);
+    /*    async clone(scene, newModel) {
+            let model = await super.clone(scene, newModel);
 
-        if (model.secondCarriage === null) {
-            let secondCarriageRotation = this._rotation;
-            secondCarriageRotation[1] += Math.PI;
+            if (model.secondCarriage === null) {
+                let secondCarriageRotation = this._rotation;
+                secondCarriageRotation[1] += Math.PI;
 
-            // this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
-        }
+                // this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
+            }
 
-        return this;
-    }*/
+            return this;
+        }*/
 
     // function to decrease speed of metro
     brake() {
