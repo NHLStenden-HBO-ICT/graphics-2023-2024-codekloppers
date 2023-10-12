@@ -61,6 +61,9 @@ export class Route {
 
         this.leftCarriage.driveRoute(this.stations, false);
         this.rightCarriage.driveRoute(this.stations.reverse(), true);
+
+        this.leftCarriage.renderHeadLights(this.sceneController.scene, 1);
+        this.rightCarriage.renderHeadLights(this.sceneController.scene, 1);
     }
 
     animateMetros() {

@@ -116,6 +116,45 @@ export class Metro extends Model3D {
 
     }
 
+    /**
+     * The function `renderHeadLights` adds two spotlights to a scene to simulate headlights on the metro.
+     * @param scene - The scene parameter is the THREE.Scene object where you want to add the headlight
+     * objects.
+     * @param direction - The direction parameter is a number (either 1 or -1) that determines the direction in which the
+     * headlights are pointing. It is used to calculate the position of the headlight targets.
+     */
+    renderHeadLights(scene, direction) {
+        const headlight1Position = new THREE.Vector3(this._position.x + 24, this._position.y + 1.65, this._position.z - 1.46);
+        const headlight1Target = new THREE.Object3D();
+        headlight1Target.position.set(headlight1Position.x + (10 * direction), headlight1Position.y, headlight1Position.z);
+        scene.add(headlight1Target);
+
+        const headlight2Position = new THREE.Vector3(this._position.x + 24, this._position.y + 1.65, this._position.z + 1.46);
+        const headlight2Target = new THREE.Object3D();
+        headlight2Target.position.set(headlight2Position.x + (10 * direction), headlight2Position.y, headlight2Position.z);
+        scene.add(headlight2Target);
+        
+        const headlight1 = new THREE.SpotLight(0xfcf174);
+        headlight1.position.copy(headlight1Position);
+        headlight1.power = 200;
+        headlight1.target = headlight1Target;
+        scene.add(headlight1);
+
+        const headlight2 = new THREE.SpotLight(0xfcf174);
+        headlight2.position.copy(headlight2Position);
+        headlight2.power = 200;
+        headlight2.target = headlight2Target;
+        scene.add(headlight2);
+
+
+        // const cubeSize = 16;
+		// const cubeGeo = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+		// const cubeMat = new THREE.MeshPhongMaterial( { color: '#8AC' } );
+		// const mesh = new THREE.Mesh( cubeGeo, cubeMat );
+        // mesh.position.set(headlight1Position.x + 10, headlight1Position.y, headlight1Position.z);
+		// scene.add( mesh );
+    }
+
 
     playAnimation(animations, direction) {
         // console.log(animations);
