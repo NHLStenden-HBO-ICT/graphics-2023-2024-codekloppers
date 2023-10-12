@@ -10,6 +10,10 @@ export class Metro extends Model3D {
     mixer;
     secondCarriage;
     animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5});
+    _headLight1;
+    _headLight1Target;
+    _headLight2;
+    _headLight2Target;
 
 
     constructor(position, rotation) {
@@ -47,14 +51,24 @@ export class Metro extends Model3D {
 
     // function to accelerate metro
     accelerate(endPosition, isSecondCarriage = false) {
-        this.animationTimeline.to(this._objectScene.position, {
-            x: endPosition.x,
-            y: endPosition.y,
-            z: endPosition.z,
-            delay: 5,
-            duration: Math.abs(10),
-            ease: "power1.inOut",
-            // onComplete: state.openDoors
+        const objectScenes = [
+            this._objectScene,
+            this._headLight1,
+            this._headLight1Target,
+            this._headLight2,
+            this._headLight2Target
+        ];
+
+        objectScenes.forEach(objectScene => {
+            this.animationTimeline.to(objectScene.position, {
+                x: endPosition.x,
+                y: endPosition.y,
+                z: endPosition.z,
+                delay: 5,
+                duration: Math.abs(10),
+                ease: "power1.inOut",
+                // onComplete: state.openDoors
+            });
         });
 
         if (!isSecondCarriage) {
@@ -125,26 +139,26 @@ export class Metro extends Model3D {
      */
     renderHeadLights(scene, direction) {
         const headlight1Position = new THREE.Vector3(this._position.x + 24, this._position.y + 1.65, this._position.z - 1.46);
-        const headlight1Target = new THREE.Object3D();
-        headlight1Target.position.set(headlight1Position.x + (10 * direction), headlight1Position.y, headlight1Position.z);
-        scene.add(headlight1Target);
+        this._headLight1Target = new THREE.Object3D();
+        this._headLight1Target.position.set(headlight1Position.x + (10 * direction), headlight1Position.y, headlight1Position.z);
+        scene.add(this._headLight1Target);
 
         const headlight2Position = new THREE.Vector3(this._position.x + 24, this._position.y + 1.65, this._position.z + 1.46);
-        const headlight2Target = new THREE.Object3D();
-        headlight2Target.position.set(headlight2Position.x + (10 * direction), headlight2Position.y, headlight2Position.z);
-        scene.add(headlight2Target);
+        this._headLight2Target = new THREE.Object3D();
+        this._headLight2Target.position.set(headlight2Position.x + (10 * direction), headlight2Position.y, headlight2Position.z);
+        scene.add(this._headLight2Target);
         
-        const headlight1 = new THREE.SpotLight(0xfcf174);
-        headlight1.position.copy(headlight1Position);
-        headlight1.power = 200;
-        headlight1.target = headlight1Target;
-        scene.add(headlight1);
+        this._headLight1 = new THREE.SpotLight(0xfcf174);
+        this._headLight1.position.copy(headlight1Position);
+        this._headLight1.power = 200;
+        this._headLight1.target = this._headLight1Target;
+        scene.add(this._headLight1);
 
-        const headlight2 = new THREE.SpotLight(0xfcf174);
-        headlight2.position.copy(headlight2Position);
-        headlight2.power = 200;
-        headlight2.target = headlight2Target;
-        scene.add(headlight2);
+        this._headLight2 = new THREE.SpotLight(0xfcf174);
+        this._headLight2.position.copy(headlight2Position);
+        this._headLight2.power = 200;
+        this._headLight2.target = this._headLight2Target;
+        scene.add(this._headLight2);
 
 
         // const cubeSize = 16;
