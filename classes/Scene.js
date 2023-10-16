@@ -42,7 +42,7 @@ export class Scene {
         requestAnimationFrame(this.animate.bind(this));
 
         // Animeer de metros
-        // this.routeU5.animateMetros()
+        this.routeU5.animateMetros()
         // this.routeU6.animateMetros()
 
         // Update de camera matrix wereld

@@ -26,19 +26,12 @@ export class Metro extends Model3D {
     }
 
     // function to open doors
-    openDoors() {
+    animateDoors() {
         //TODO: heeft nog een body nodig
+        console.log("openDoors");
         const animations = this._objectAnimations;
         this.mixer = new THREE.AnimationMixer(this._objectScene);
-        this.playAnimation(animations, 1);
-    }
-
-    // function to close doors
-    closeDoors() {
-        //TODO: heeft nog een body nodig
-        const animations = this._objectAnimations;
-        this.mixer = new THREE.AnimationMixer(this._objectScene);
-        this.playAnimation(animations, -1);
+        this.playAnimation(animations);
     }
 
     driveRoute(stations, isRightCarriage) {
@@ -49,25 +42,30 @@ export class Metro extends Model3D {
         this.animationTimeline.play();
     }
 
+
+
     // function to accelerate metro
     accelerate(endPosition, isSecondCarriage = false) {
         const objectScenes = [
             this._objectScene,
-            this._headLight1,
-            this._headLight1Target,
-            this._headLight2,
-            this._headLight2Target
+            // this._headLight1,
+            // this._headLight1Target,
+            // this._headLight2,
+            // this._headLight2Target
         ];
 
         objectScenes.forEach(objectScene => {
+
             this.animationTimeline.to(objectScene.position, {
                 x: endPosition.x,
                 y: endPosition.y,
                 z: endPosition.z,
-                delay: 5,
+                delay: 1,
                 duration: Math.abs(10),
                 ease: "power1.inOut",
-                // onComplete: state.openDoors
+                onComplete: () => {
+                    this.animateDoors();
+                },
             });
         });
 
@@ -76,6 +74,8 @@ export class Metro extends Model3D {
         }
 
     }
+
+
 
     getDestinationCoordinates(positionNextStation, isRightCarriage) {
         let endPosition;
@@ -147,7 +147,7 @@ export class Metro extends Model3D {
         this._headLight2Target = new THREE.Object3D();
         this._headLight2Target.position.set(headlight2Position.x + (10 * direction), headlight2Position.y, headlight2Position.z);
         scene.add(this._headLight2Target);
-        
+
         this._headLight1 = new THREE.SpotLight(0xfcf174);
         this._headLight1.position.copy(headlight1Position);
         this._headLight1.power = 200;
@@ -170,15 +170,15 @@ export class Metro extends Model3D {
     }
 
 
-    playAnimation(animations, direction) {
-        // console.log(animations);
+    playAnimation(animations) {
+        console.log(this._objectScene);
         for (let i = 0; i < animations.length; i++) {
             let action = this.mixer.clipAction(animations[i]);
             action.paused = false; // Hervat de animatie
             // console.log(animations[i])
 
             // Zorg ervoor dat de animatie in de juiste richting wordt afgespeeld (voorwaarts)
-            action.timeScale = direction;
+            action.timeScale = 1;
             action.setLoop(THREE.LoopOnce); // Bijvoorbeeld: speel de animatie slechts één keer
             action.clampWhenFinished = true; // Houd de animatie op het laatste frame wanneer deze is voltooid
 

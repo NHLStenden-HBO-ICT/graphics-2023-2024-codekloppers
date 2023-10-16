@@ -23,8 +23,19 @@ export class SceneController {
     }
 
     setRenderer() {
-        this.renderer = new THREE.WebGLRenderer({antialias: true, gammaOutput: true, premultipliedAlpha: false});
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            gammaOutput: true,
+            premultipliedAlpha: false
+        });
+
+        // Verlaag de resolutie voor betere prestaties
+        this.renderer.setPixelRatio(0.5);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.autoClear = false;
+        this.renderer.shadowMap.enabled = false;
+        this.renderer.gammaFactor = 2.2;
+
         const canvas = document.getElementById('sceneCanvas');
         canvas.appendChild(this.renderer.domElement);
     }
