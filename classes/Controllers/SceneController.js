@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import {User} from "../User";
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
 export class SceneController {
     scene;
@@ -16,7 +15,7 @@ export class SceneController {
         this.scene = new THREE.Scene();
         this.boundingBoxes = [];
         this.user = new User();
-
+        this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
         this.setCamera()
         this.setRenderer();
         // this.setAmbientLight();
@@ -41,15 +40,7 @@ export class SceneController {
     }
 
     setCamera() {
-        this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
-        this.camera.position.set(100, 2, 50);
         this.previousCameraPosition = new THREE.Vector3();
-    }
-
-    setControls() {
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.camera.rotation.set(0, Math.PI / +2, 0);
-        this.controls.update();
     }
 
     setAmbientLight() {

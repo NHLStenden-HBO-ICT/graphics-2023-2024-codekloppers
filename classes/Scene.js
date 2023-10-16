@@ -39,6 +39,11 @@ export class Scene {
      * requestAnimationFrame method.
      */
     animate() {
+
+        if(!this.sceneController.cameraSpawned)  {
+            this.sceneController.camera.position.set(0,2,5);
+        }
+
         requestAnimationFrame(this.animate.bind(this));
 
         // Animeer de metros

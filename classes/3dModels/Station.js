@@ -43,6 +43,20 @@ export class Station extends Model3D {
 
         this.#sceneController.boundingBoxes.push(this.setBoundingBox(
             this.#sceneController.scene,
+            new THREE.Vector3(this._position.x + 100, this._position.y + 0.2, this._position.z + 8),
+            new THREE.Vector3(this._position.x - 25, this._position.y + 0, this._position.z  + 2.6),
+            Math.PI / 2, 0
+        )); //railWalllefttSide
+
+        this.#sceneController.boundingBoxes.push(this.setBoundingBox(
+            this.#sceneController.scene,
+            new THREE.Vector3(this._position.x + 100, this._position.y + 0.2, this._position.z + 8),
+            new THREE.Vector3(this._position.x - 25, this._position.y + 0, this._position.z  + -9.3),
+            Math.PI / 2, 0
+        )); // railWallrightSide
+
+        this.#sceneController.boundingBoxes.push(this.setBoundingBox(
+            this.#sceneController.scene,
             new THREE.Vector3(this._position.x + 60, this._position.y + 1, this._position.z + 6),
             new THREE.Vector3(this._position.x + 20, this._position.y + 0, this._position.z + 0),
             Math.PI / 2, Math.PI / 2)
