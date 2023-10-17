@@ -2,19 +2,18 @@ import * as THREE from "three";
 import {User} from "../User";
 
 export class SceneController {
-    scene;
+    scene = new THREE.Scene();
     camera;
     renderer;
     controls;
-    user;
-    boundingBoxes;
+    user  = new User();
+    boundingBoxes = [];
     previousCameraPosition;
     cameraSpawned;
+    listener = new THREE.AudioListener();
+
 
     constructor() {
-        this.scene = new THREE.Scene();
-        this.boundingBoxes = [];
-        this.user = new User();
         this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
         this.setCamera()
         this.setRenderer();

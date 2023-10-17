@@ -36,7 +36,7 @@ export class Metro extends Model3D {
 
     driveRoute(stations, isRightCarriage) {
         for (let i = 1; i < stations.length; i++) {
-            this.accelerate(this.getDestinationCoordinates(stations[i], isRightCarriage));
+            this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
         }
         this.animationTimeline.yoyo(true);
         this.animationTimeline.play();
@@ -44,8 +44,8 @@ export class Metro extends Model3D {
 
 
 
-    // function to accelerate metro
-    accelerate(endPosition, isSecondCarriage = false) {
+    // function to driveToStation metro
+    driveToStation(endPosition, isSecondCarriage = false) {
         const objectScenes = [
             this._objectScene,
             // this._headLight1,
@@ -70,7 +70,7 @@ export class Metro extends Model3D {
         });
 
         if (!isSecondCarriage) {
-            // this.secondCarriage.accelerate(endPosition, true)
+            // this.secondCarriage.driveToStation(endPosition, true)
         }
 
     }
