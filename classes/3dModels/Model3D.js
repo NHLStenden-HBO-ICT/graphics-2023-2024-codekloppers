@@ -64,15 +64,6 @@ export default class Model3D {
         });
     }
 
-
-    // function to check if user is colliding with object
-    isColliding() {
-        //TODO: heeft nog een body nodig
-        throw new Error("Method 'isColliding()' must be implemented.");
-    }
-
-
-
     /**
      * The `clone` function clones a 3D model and adds it to the scene
      * @param scene - The scene parameter is the three.js scene object where you want to add the cloned

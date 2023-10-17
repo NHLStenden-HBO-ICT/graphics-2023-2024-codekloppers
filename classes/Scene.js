@@ -40,6 +40,9 @@ export class Scene {
      */
     animate() {
 
+        /* This code block checks if the camera has been spawned in the scene. If the camera has not been
+        spawned, it sets the position of the camera to (0, 2, 5). This is likely the initial position of the
+        camera before it starts moving or animating. */
         if(!this.sceneController.cameraSpawned)  {
             this.sceneController.camera.position.set(0,2,5);
         }

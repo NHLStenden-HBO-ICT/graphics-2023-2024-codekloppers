@@ -28,7 +28,7 @@ export class Metro extends Model3D {
     // function to open doors
     animateDoors() {
         //TODO: heeft nog een body nodig
-        console.log("openDoors");
+        // console.log("openDoors");
         const animations = this._objectAnimations;
         this.mixer = new THREE.AnimationMixer(this._objectScene);
         this.playAnimation(animations);
@@ -63,7 +63,7 @@ export class Metro extends Model3D {
                 delay: 1,
                 duration: Math.abs(10),
                 ease: "power1.inOut",
-                onComplete: () => {
+                onStart: () => {
                     this.animateDoors();
                 },
             });
@@ -125,11 +125,6 @@ export class Metro extends Model3D {
             return this;
         }*/
 
-    // function to decrease speed of metro
-    brake() {
-
-    }
-
     /**
      * The function `renderHeadLights` adds two spotlights to a scene to simulate headlights on the metro.
      * @param scene - The scene parameter is the THREE.Scene object where you want to add the headlight
@@ -170,10 +165,16 @@ export class Metro extends Model3D {
     }
 
 
+/**
+ * The `playAnimation` function plays a set of animations by creating actions for each animation and
+ * then playing them.
+ * @param animations - The `animations` parameter is an array of animation clips that you want to play.
+ * Each animation clip represents a specific animation that can be applied to an object in a scene.
+ */
     playAnimation(animations) {
         console.log(this._objectScene);
         for (let i = 0; i < animations.length; i++) {
-            let action = this.mixer.clipAction(animations[i]);
+            let action = this.mixer.clipAction(animations[i], this._objectScene);
             action.paused = false; // Hervat de animatie
             // console.log(animations[i])
 

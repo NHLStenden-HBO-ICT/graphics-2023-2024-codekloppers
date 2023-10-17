@@ -2,7 +2,6 @@ import * as THREE from "three";
 
 export class User {
     _cameraPosition;
-    _collision;
     _speed;
     _moveVector;
 
