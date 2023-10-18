@@ -1,13 +1,13 @@
 import * as THREE from "three";
 import {User} from "../User";
-import {SoundController} from "./SoundController";
+import { SoundController } from "./SoundController";
 
 export class SceneController {
     scene = new THREE.Scene();
     camera;
     renderer;
-    controls;
-    user  = new User();
+    // controls;
+    user  = new User(this);
     boundingBoxes = [];
     previousCameraPosition;
     cameraSpawned;
@@ -20,6 +20,7 @@ export class SceneController {
         this.setCamera()
         this.setRenderer();
         // this.setAmbientLight();
+        // this.getPointerControlls();
     }
 
     setRenderer() {
