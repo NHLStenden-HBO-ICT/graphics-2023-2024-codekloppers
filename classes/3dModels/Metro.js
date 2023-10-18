@@ -43,13 +43,11 @@ export class Metro extends Model3D {
 
         for (let i = 1; i < stations.length; i++) {
             this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
-            console.log(this.getDestinationCoordinates(stations[i], isRightCarriage))
         }
 
         stations = stations.reverse()
         for (let i = 1; i < stations.length; i++) {
             this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
-            console.log(this.getDestinationCoordinates(stations[i], isRightCarriage))
         }
         /*Don't remove this! Because Javascript is pass by reference and not pass by value,
          the value being set here actually effects how the trains move*/
