@@ -7,20 +7,27 @@ export class Metro extends Model3D {
     #id;
     filePath = "/assets/3d/ubahn.glb";
     animations;
+    soundController;
     mixer;
     secondCarriage;
-    animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5});
+    soundEffects = {
+        'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
+        'driving': '/assets/sound_effects/ubahnDriving.mp3',
+    }
+
+    animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
     _headLight1;
     _headLight1Target;
     _headLight2;
     _headLight2Target;
 
 
-    constructor(position, rotation) {
+    constructor(position, rotation, soundController) {
         super();
         this.#id = uuid();
         this._position = position;
         this._rotation = rotation;
+        this.soundController = soundController;
         this.mixer = new THREE.AnimationMixer();
         this.secondCarriage = null;
     }
@@ -33,17 +40,27 @@ export class Metro extends Model3D {
     }
 
     driveRoute(stations, isRightCarriage) {
+
         for (let i = 1; i < stations.length; i++) {
             this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
+            console.log(this.getDestinationCoordinates(stations[i], isRightCarriage))
         }
-        this.animationTimeline.yoyo(true);
+
+        stations = stations.reverse()
+        for (let i = 1; i < stations.length; i++) {
+            this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
+            console.log(this.getDestinationCoordinates(stations[i], isRightCarriage))
+        }
+        /*Don't remove this! Because Javascript is pass by reference and not pass by value,
+         the value being set here actually effects how the trains move*/
+        stations = stations.reverse();
         this.animationTimeline.play();
     }
 
 
-
     // function to driveToStation metro
     driveToStation(endPosition, isSecondCarriage = false) {
+
         const objectScenes = [
             this._objectScene,
             // this._headLight1,
@@ -51,6 +68,7 @@ export class Metro extends Model3D {
             // this._headLight2,
             // this._headLight2Target
         ];
+        let duration = Math.abs(10);
 
         objectScenes.forEach(objectScene => {
 
@@ -58,11 +76,15 @@ export class Metro extends Model3D {
                 x: endPosition.x,
                 y: endPosition.y,
                 z: endPosition.z,
-                delay: 1,
-                duration: Math.abs(10),
+                delay: 6,
+                duration: duration,
                 ease: "power1.inOut",
                 onStart: () => {
                     this.animateDoors();
+                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration))
+                },
+                onComplete: () => {
+                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.closeDoors))
                 },
             });
         });
@@ -72,7 +94,6 @@ export class Metro extends Model3D {
         }
 
     }
-
 
 
     getDestinationCoordinates(positionNextStation, isRightCarriage) {
@@ -155,20 +176,20 @@ export class Metro extends Model3D {
 
 
         // const cubeSize = 16;
-		// const cubeGeo = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-		// const cubeMat = new THREE.MeshPhongMaterial( { color: '#8AC' } );
-		// const mesh = new THREE.Mesh( cubeGeo, cubeMat );
+        // const cubeGeo = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+        // const cubeMat = new THREE.MeshPhongMaterial( { color: '#8AC' } );
+        // const mesh = new THREE.Mesh( cubeGeo, cubeMat );
         // mesh.position.set(headlight1Position.x + 10, headlight1Position.y, headlight1Position.z);
-		// scene.add( mesh );
+        // scene.add( mesh );
     }
 
 
-/**
- * The `playAnimation` function plays a set of animations by creating actions for each animation and
- * then playing them.
- * @param animations - The `animations` parameter is an array of animation clips that you want to play.
- * Each animation clip represents a specific animation that can be applied to an object in a scene.
- */
+    /**
+     * The `playAnimation` function plays a set of animations by creating actions for each animation and
+     * then playing them.
+     * @param animations - The `animations` parameter is an array of animation clips that you want to play.
+     * Each animation clip represents a specific animation that can be applied to an object in a scene.
+     */
     playAnimation(animations) {
         for (let i = 0; i < animations.length; i++) {
             let action = this.mixer.clipAction(animations[i], this._objectScene);

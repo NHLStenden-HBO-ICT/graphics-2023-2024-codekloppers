@@ -32,7 +32,7 @@ export class Route {
     }
 
     async render() {
-        await this.#renderStations();
+        // await this.#renderStations();
         await this.#renderMetros();
         // await this.#renderTunnels();
     }
@@ -56,16 +56,17 @@ export class Route {
     }
 
     async #renderMetros() {
-        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'])).render(this.sceneController.scene);
-        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation']));
-
+        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController)).render(this.sceneController.scene);
+        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController));
+        // this.leftCarriage._objectScene.add(this.sceneController.soundController.loadPositionalSound(this.leftCarriage))
         // this.leftCarriage.renderHeadLights(this.sceneController.scene, 1);
         // this.rightCarriage.renderHeadLights(this.sceneController.scene, 1);
 
         this.leftCarriage.driveRoute(this.stations, false);
+        console.log('test');
         this.rightCarriage.driveRoute(this.stations.reverse(), true);
 
-        // this.sceneController.soundController.playSound('/assets/sound_effects/CloseUbahnDoors.mp3')
+        // this.sceneController.soundController.loadSound('/assets/sound_effects/CloseUbahnDoors.mp3')
     }
 
     animateMetros() {
