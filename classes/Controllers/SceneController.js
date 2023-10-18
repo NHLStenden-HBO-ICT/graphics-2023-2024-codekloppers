@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {User} from "../User";
+import {SoundController} from "./SoundController";
 
 export class SceneController {
     scene = new THREE.Scene();
@@ -11,6 +12,7 @@ export class SceneController {
     previousCameraPosition;
     cameraSpawned;
     listener = new THREE.AudioListener();
+    soundController = new SoundController(this.listener)
 
 
     constructor() {

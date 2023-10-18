@@ -64,6 +64,8 @@ export class Route {
 
         this.leftCarriage.driveRoute(this.stations, false);
         this.rightCarriage.driveRoute(this.stations.reverse(), true);
+
+        // this.sceneController.soundController.playSound('/assets/sound_effects/CloseUbahnDoors.mp3')
     }
 
     animateMetros() {

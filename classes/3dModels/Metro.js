@@ -27,8 +27,6 @@ export class Metro extends Model3D {
 
     // function to open doors
     animateDoors() {
-        //TODO: heeft nog een body nodig
-        // console.log("openDoors");
         const animations = this._objectAnimations;
         this.mixer = new THREE.AnimationMixer(this._objectScene);
         this.playAnimation(animations);
@@ -172,7 +170,6 @@ export class Metro extends Model3D {
  * Each animation clip represents a specific animation that can be applied to an object in a scene.
  */
     playAnimation(animations) {
-        console.log(this._objectScene);
         for (let i = 0; i < animations.length; i++) {
             let action = this.mixer.clipAction(animations[i], this._objectScene);
             action.paused = false; // Hervat de animatie
