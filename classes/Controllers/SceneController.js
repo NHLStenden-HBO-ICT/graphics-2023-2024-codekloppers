@@ -95,8 +95,8 @@ export class SceneController {
         }
     }
 
-    hideLoader() {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("sceneCanvas").style.display = "block";
+    showScene() {
+        document.getElementById("indicator").style.display = "none";
+        document.getElementById("button").style.display = "block";
     }
 }

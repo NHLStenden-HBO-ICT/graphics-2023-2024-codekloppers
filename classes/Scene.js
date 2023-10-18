@@ -16,7 +16,7 @@ export class Scene {
     async startScene() {
         await this.render();
         this.animate();
-        this.sceneController.hideLoader();
+        this.sceneController.showScene();
         this.sceneController.user.walk(this.sceneController);
     }
 
