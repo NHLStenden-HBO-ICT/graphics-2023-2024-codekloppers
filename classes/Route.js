@@ -32,7 +32,7 @@ export class Route {
     }
 
     async render() {
-        await this.#renderStations();
+        // await this.#renderStations();
         await this.#renderMetros();
         // await this.#renderTunnels();
     }
@@ -60,9 +60,8 @@ export class Route {
         this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController));
         // this.leftCarriage._objectScene.add(this.sceneController.soundController.loadPositionalSound(this.leftCarriage))
 
-        this.leftCarriage.driveRoute(this.stations, false);
-        console.log('test');
-        this.rightCarriage.driveRoute(this.stations.reverse(), true);
+        // this.leftCarriage.driveRoute(this.stations, false);
+        // this.rightCarriage.driveRoute(this.stations.reverse(), true);
 
         // this.sceneController.soundController.loadSound('/assets/sound_effects/CloseUbahnDoors.mp3')
     }
