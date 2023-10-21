@@ -15,11 +15,9 @@ export class SceneController {
 
 
     constructor() {
-        this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
         this.setCamera()
         /*User needs to be defined after camera because User uses the camera attribute*/
         this.user = new User(this);
-        console.log(this.camera)
         this.setRenderer();
         this.setAmbientLight();
         this.onWindowResize()
@@ -53,6 +51,8 @@ export class SceneController {
     }
 
     setCamera() {
+        this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300)
+        this.camera.position.set(0, 2, 5)
         this.previousCameraPosition = new THREE.Vector3();
     }
 
