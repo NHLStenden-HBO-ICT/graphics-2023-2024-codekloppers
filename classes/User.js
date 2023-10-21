@@ -43,7 +43,7 @@ export class User {
        const time = performance.now();
 
        if ( this.controls.isLocked === true ) {
-           const delta = ( time - this.prevTime ) / 1000;
+           const delta = ( time - this.prevTime ) / 10000;
 
            this.velocity.x -= this.velocity.x * 10.0 * delta;
            this.velocity.z -= this.velocity.z * 10.0 * delta;
