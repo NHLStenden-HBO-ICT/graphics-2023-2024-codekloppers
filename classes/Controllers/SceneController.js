@@ -6,8 +6,7 @@ export class SceneController {
     scene = new THREE.Scene();
     camera;
     renderer;
-    // controls;
-    user  = new User(this);
+    user
     boundingBoxes = [];
     previousCameraPosition;
     cameraSpawned;
@@ -18,9 +17,12 @@ export class SceneController {
     constructor() {
         this.camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 300);
         this.setCamera()
+        /*User needs to be defined after camera because User uses the camera attribute*/
+        this.user = new User(this);
+        console.log(this.camera)
         this.setRenderer();
-        // this.setAmbientLight();
-        // this.getPointerControlls();
+        this.setAmbientLight();
+        this.onWindowResize()
     }
 
     setRenderer() {
@@ -39,6 +41,15 @@ export class SceneController {
 
         const canvas = document.getElementById('sceneCanvas');
         canvas.appendChild(this.renderer.domElement);
+    }
+
+    onWindowResize() {
+        window.addEventListener('resize', () => {
+            this.camera.aspect = window.innerWidth / window.innerHeight;
+            this.camera.updateProjectionMatrix();
+
+            this.renderer.setSize( window.innerWidth, window.innerHeight );
+        })
     }
 
     setCamera() {

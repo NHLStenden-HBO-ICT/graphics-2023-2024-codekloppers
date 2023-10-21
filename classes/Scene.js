@@ -1,4 +1,4 @@
-import { SceneController } from "./Controllers/SceneController";
+import {SceneController} from "./Controllers/SceneController";
 import {Route} from "./Route";
 import {Tunnel} from "./3dModels/Tunnel";
 import * as THREE from "three";
@@ -17,7 +17,6 @@ export class Scene {
         await this.render();
         this.animate();
         this.sceneController.showScene();
-        this.sceneController.user.walk(this.sceneController);
     }
 
     /**
@@ -43,8 +42,8 @@ export class Scene {
         /* This code block checks if the camera has been spawned in the scene. If the camera has not been
         spawned, it sets the position of the camera to (0, 2, 5). This is likely the initial position of the
         camera before it starts moving or animating. */
-        if(!this.sceneController.cameraSpawned)  {
-            this.sceneController.camera.position.set(0,2,5);
+        if (!this.sceneController.cameraSpawned) {
+            this.sceneController.camera.position.set(0, 2, 5);
         }
 
         requestAnimationFrame(this.animate.bind(this));
@@ -57,15 +56,15 @@ export class Scene {
         this.sceneController.camera.updateMatrixWorld();
 
         // Beweeg de camera op basis van toetsenbordinvoer
-        this.sceneController.camera.position.x += (this.sceneController.user.cameraPosition.x - this.sceneController.camera.position.x) * 0.1;
-        this.sceneController.camera.position.z += (this.sceneController.user.cameraPosition.z - this.sceneController.camera.position.z) * 0.1;
+        // this.sceneController.camera.position.x += (this.sceneController.user.cameraPosition.x - this.sceneController.camera.position.x) * 0.1;
+        // this.sceneController.camera.position.z += (this.sceneController.user.cameraPosition.z - this.sceneController.camera.position.z) * 0.1;
 
         // Updates for objects of scene
         this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);
 
         // Check for camera collision
-        this.sceneController.checkCameraCollision();
+        // this.sceneController.checkCameraCollision();
 
-        // console.log(this.sceneController.renderer.info.render);
+        this.sceneController.user.walk();
     }
 }

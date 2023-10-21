@@ -63,7 +63,6 @@ export class Route {
         // this.rightCarriage.renderHeadLights(this.sceneController.scene, 1);
 
         this.leftCarriage.driveRoute(this.stations, false);
-        console.log('test');
         this.rightCarriage.driveRoute(this.stations.reverse(), true);
 
         // this.sceneController.soundController.loadSound('/assets/sound_effects/CloseUbahnDoors.mp3')
