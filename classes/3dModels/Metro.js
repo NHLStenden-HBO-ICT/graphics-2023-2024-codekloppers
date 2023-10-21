@@ -9,17 +9,12 @@ export class Metro extends Model3D {
     animations;
     soundController;
     mixer;
-    secondCarriage;
     soundEffects = {
         'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
     }
 
     animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
-    _headLight1;
-    _headLight1Target;
-    _headLight2;
-    _headLight2Target;
 
 
     constructor(position, rotation, soundController) {
@@ -29,7 +24,6 @@ export class Metro extends Model3D {
         this._rotation = rotation;
         this.soundController = soundController;
         this.mixer = new THREE.AnimationMixer();
-        this.secondCarriage = null;
     }
 
     // function to open doors
@@ -57,7 +51,7 @@ export class Metro extends Model3D {
 
 
     // function to driveToStation metro
-    driveToStation(endPosition, isSecondCarriage = false) {
+    driveToStation(endPosition) {
 
         const objectScenes = [
             this._objectScene,
@@ -87,10 +81,6 @@ export class Metro extends Model3D {
             });
         });
 
-        if (!isSecondCarriage) {
-            // this.secondCarriage.driveToStation(endPosition, true)
-        }
-
     }
 
 
@@ -116,69 +106,13 @@ export class Metro extends Model3D {
     }
 
     /**
-     * Overwrites the render method from Model3D and renders a second carriage,
+     * Overwrites the render method from Model3D,
      */
     async render(scene) {
-        let secondCarriageRotation = this._rotation;
-        secondCarriageRotation[1] += Math.PI;
-
         await super.render(scene)
-        // this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
 
         /*Return the object so it's easier to use */
         return this;
-    }
-
-    /*    async clone(scene, newModel) {
-            let model = await super.clone(scene, newModel);
-
-            if (model.secondCarriage === null) {
-                let secondCarriageRotation = this._rotation;
-                secondCarriageRotation[1] += Math.PI;
-
-                // this.secondCarriage = await this.clone(scene, new Metro(this._position, secondCarriageRotation));
-            }
-
-            return this;
-        }*/
-
-    /**
-     * The function `renderHeadLights` adds two spotlights to a scene to simulate headlights on the metro.
-     * @param scene - The scene parameter is the THREE.Scene object where you want to add the headlight
-     * objects.
-     * @param direction - The direction parameter is a number (either 1 or -1) that determines the direction in which the
-     * headlights are pointing. It is used to calculate the position of the headlight targets.
-     */
-    renderHeadLights(scene, direction) {
-        const headlight1Position = new THREE.Vector3(this._position.x + 24, this._position.y + 1.65, this._position.z - 1.46);
-        this._headLight1Target = new THREE.Object3D();
-        this._headLight1Target.position.set(headlight1Position.x + (10 * direction), headlight1Position.y, headlight1Position.z);
-        scene.add(this._headLight1Target);
-
-        const headlight2Position = new THREE.Vector3(this._position.x + 24, this._position.y + 1.65, this._position.z + 1.46);
-        this._headLight2Target = new THREE.Object3D();
-        this._headLight2Target.position.set(headlight2Position.x + (10 * direction), headlight2Position.y, headlight2Position.z);
-        scene.add(this._headLight2Target);
-
-        this._headLight1 = new THREE.SpotLight(0xfcf174);
-        this._headLight1.position.copy(headlight1Position);
-        this._headLight1.power = 200;
-        this._headLight1.target = this._headLight1Target;
-        scene.add(this._headLight1);
-
-        this._headLight2 = new THREE.SpotLight(0xfcf174);
-        this._headLight2.position.copy(headlight2Position);
-        this._headLight2.power = 200;
-        this._headLight2.target = this._headLight2Target;
-        scene.add(this._headLight2);
-
-
-        // const cubeSize = 16;
-        // const cubeGeo = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-        // const cubeMat = new THREE.MeshPhongMaterial( { color: '#8AC' } );
-        // const mesh = new THREE.Mesh( cubeGeo, cubeMat );
-        // mesh.position.set(headlight1Position.x + 10, headlight1Position.y, headlight1Position.z);
-        // scene.add( mesh );
     }
 
 

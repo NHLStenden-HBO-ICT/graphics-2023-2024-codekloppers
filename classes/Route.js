@@ -59,8 +59,6 @@ export class Route {
         this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController)).render(this.sceneController.scene);
         this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController));
         // this.leftCarriage._objectScene.add(this.sceneController.soundController.loadPositionalSound(this.leftCarriage))
-        // this.leftCarriage.renderHeadLights(this.sceneController.scene, 1);
-        // this.rightCarriage.renderHeadLights(this.sceneController.scene, 1);
 
         // this.leftCarriage.driveRoute(this.stations, false);
         // this.rightCarriage.driveRoute(this.stations.reverse(), true);
@@ -73,19 +71,9 @@ export class Route {
             this.leftCarriage.mixer.update(0.006);
         }
 
-        // console.log(1);
-
-        // if (this.leftCarriage.secondCarriage.mixer != null) {
-        //     this.leftCarriage.secondCarriage.mixer.update(0.003);
-        // }
-
         if (this.rightCarriage.mixer != null) {
             this.rightCarriage.mixer.update(0.006);
         }
-
-        // if (this.rightCarriage.secondCarriage.mixer != null) {
-        //     this.rightCarriage.secondCarriage.mixer.update(0.003);
-        // }
     }
 
     async #renderTunnels() {
