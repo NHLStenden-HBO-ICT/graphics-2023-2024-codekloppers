@@ -115,21 +115,5 @@ export class User {
 
             }
         });
-
-
-  /* The code snippet `document.addEventListener("keyup", (event) => { this._moveVector.set(0, 0, 0);
-  });` is adding an event listener for the "keyup" event. When a key is released, this event
-  listener sets the `_moveVector` to (0, 0, 0), effectively stopping the movement in the direction
-  of the camera. This allows the user to stop moving when they release the corresponding movement
-  key. */
-        // document.addEventListener('keyup', () => {
-        //     // Stop de camera direct bij keyup
-        //     this._moveVector.set(0, 0, 0);
-        
-        //     // Stel de exacte positie van de camera in op cameraPosition
-        //     this.cameraPosition.x = sceneController.camera.position.x;
-        //     this.cameraPosition.y = sceneController.camera.position.y;
-        //     this.cameraPosition.z = sceneController.camera.position.z;
-        // });
     }
 }

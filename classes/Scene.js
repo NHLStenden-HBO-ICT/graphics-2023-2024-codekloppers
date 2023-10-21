@@ -55,10 +55,6 @@ export class Scene {
         // Update de camera matrix wereld
         this.sceneController.camera.updateMatrixWorld();
 
-        // Beweeg de camera op basis van toetsenbordinvoer
-        // this.sceneController.camera.position.x += (this.sceneController.user.cameraPosition.x - this.sceneController.camera.position.x) * 0.1;
-        // this.sceneController.camera.position.z += (this.sceneController.user.cameraPosition.z - this.sceneController.camera.position.z) * 0.1;
-
         this.sceneController.user.walk();
 
         // Updates for objects of scene
