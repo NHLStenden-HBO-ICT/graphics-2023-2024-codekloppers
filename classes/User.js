@@ -65,30 +65,30 @@ export class User {
 
     // function to walk
     setWalkEventListeners() {
-    document.addEventListener('keydown', (event) => {
-        switch ( event.code ) {
-            case 'ArrowUp':
-            case 'KeyW':
-                this.moveForward = true;
-                break;
+        document.addEventListener('keydown', (event) => {
+            switch ( event.code ) {
+                case 'ArrowUp':
+                case 'KeyW':
+                    this.moveForward = true;
+                    break;
 
-            case 'ArrowLeft':
-            case 'KeyA':
-                this.moveLeft = true;
-                break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    this.moveLeft = true;
+                    break;
 
-            case 'ArrowDown':
-            case 'KeyS':
-                this.moveBackward = true;
-                break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    this.moveBackward = true;
+                    break;
 
-            case 'ArrowRight':
-            case 'KeyD':
-                this.moveRight = true;
-                break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    this.moveRight = true;
+                    break;
 
-        }
-    });
+            }
+        });
 
         document.addEventListener('keyup', (event) => {
             switch ( event.code ) {
