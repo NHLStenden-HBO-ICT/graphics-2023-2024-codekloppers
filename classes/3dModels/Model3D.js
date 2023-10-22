@@ -62,6 +62,19 @@ export default class Model3D {
             this._objectScene = gltf.scene;
             this._objectAnimations = gltf.animations;
         });
+
+        // cube.position.set(this._position.x + 3.9, this._position.y, this._position.z)
+        // cube.position.set(this._position.x + 9.4, this._position.y, this._position.z)
+        // cube.position.set(this._position.x + 14.9, this._position.y, this._position.z)
+        // cube.position.set(this._position.x + 20.4, this._position.y, this._position.z)
+
+        
+        // const geometry = new THREE.BoxGeometry( 2, 1, 8 );
+        const geometry = new THREE.BoxGeometry( 0.1, 1, 8 );
+        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        const cube = new THREE.Mesh( geometry, material );
+        cube.position.set(this._position.x + -3.9, this._position.y, this._position.z)
+        scene.add(cube);
     }
 
     /**

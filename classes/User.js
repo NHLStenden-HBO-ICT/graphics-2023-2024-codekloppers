@@ -39,6 +39,10 @@ export class User {
 
    }
 
+   getPosition() {
+    return this.controls.camera.position;
+   }
+
    walk() {
        const time = performance.now();
 

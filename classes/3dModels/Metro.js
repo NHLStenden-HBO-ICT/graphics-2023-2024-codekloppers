@@ -9,6 +9,9 @@ export class Metro extends Model3D {
     animations;
     soundController;
     mixer;
+    user;
+    #sideDoorLocations = [-3.9, -9.4, -14.9, -20.4, 3.9, 9.4, 14.9, 20.4];
+    doorsOpen = false;
     soundEffects = {
         'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
@@ -17,13 +20,14 @@ export class Metro extends Model3D {
     animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
 
 
-    constructor(position, rotation, soundController) {
+    constructor(position, rotation, soundController, user) {
         super();
         this.#id = uuid();
         this._position = position;
         this._rotation = rotation;
         this.soundController = soundController;
         this.mixer = new THREE.AnimationMixer();
+        this.user = user;
     }
 
     // function to open doors
@@ -62,6 +66,7 @@ export class Metro extends Model3D {
         ];
         let duration = Math.abs(10);
 
+        // TODO: Hier zit een grote bug in. Bij het eerste station wordt onStart nooit uitgevoerd, wat alles sloopt
         objectScenes.forEach(objectScene => {
 
             this.animationTimeline.to(objectScene.position, {
@@ -72,11 +77,17 @@ export class Metro extends Model3D {
                 duration: duration,
                 ease: "power1.inOut",
                 onStart: () => {
+                    console.log("Vertrokken");
+                    this.doorsOpen = false;
                     this.animateDoors();
-                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration))
+                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
+                    this.disableDrivingPossibility();
                 },
                 onComplete: () => {
-                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.closeDoors))
+                    console.log("Aangekomen");
+                    this.doorsOpen = true;
+                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.closeDoors));
+                    this.enableDrivingPossibility({x: endPosition.x, y: endPosition.y, z: endPosition.z});
                 },
             });
         });
@@ -140,5 +151,66 @@ export class Metro extends Model3D {
             }
             action.play();
         }
+    }
+
+    async enableDrivingPossibility(metroPosition) {
+        console.log(metroPosition);
+        // console.log(this.user.getPosition());
+        const enterButton = document.getElementById("enterButton");
+        enterButton.addEventListener("click", this.enter);
+        document.getElementById("leaveButton").addEventListener("click", this.leave);
+
+        document.addEventListener('keydown', (event) => {
+            switch ( event.code ) {
+                case 'KeyI':
+                    this.enter();
+                    break;
+                case 'KeyU':
+                    this.leave();
+                    break;
+            }
+        });
+
+        while(this.doorsOpen) {
+            this.#sideDoorLocations.forEach(element => {
+                if( this.user.getPosition().x > metroPosition.x + element - 1
+                    && this.user.getPosition().x < metroPosition.x + element + 1
+                    && this.user.getPosition().z > metroPosition.z - 4
+                    && this.user.getPosition().z < metroPosition.z + 4) {
+
+                    enterButton.style.display = 'flex';
+                } else {
+                    this.disableDrivingPossibility();
+                }
+            });
+
+            await new Promise((resolve) => setTimeout(resolve, 500)); // Wacht 500 ms
+        }
+    }
+
+    disableDrivingPossibility() {
+        const enterButton = document.getElementById("enterButton");
+        enterButton.style.display = 'none';
+        enterButton.removeEventListener("click", this.enter);
+        document.getElementById("leaveButton").removeEventListener("click", this.leave);
+
+        document.removeEventListener('keydown', (event) => {
+            switch ( event.code ) {
+                case 'KeyI':
+                    this.enter();
+                    break;
+                case 'KeyU':
+                    this.leave();
+                    break;
+            }
+        });
+    }
+
+    enter() {
+
+    }
+
+    leave() {
+
     }
 }

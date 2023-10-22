@@ -75,7 +75,7 @@
             border-radius: 20px;
         }
 
-        #button {
+        .button {
             background-color: transparent;
             border: 3px solid #ffbf00;
             padding: 12px 16px 12px 16px;
@@ -83,11 +83,40 @@
             color: #fff;
             transition: ease 0.4s;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .actionSection {
+            width: 200px;
+            position: fixed;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            color: #fff;
+            display: none;
+            background-color: #000;
+        }
+
+        #startButton {
             display: none;
         }
 
-        #button:hover {
+        .button:hover {
             background-color: #ffbf0043;
+        }
+
+        .button > span {
+            margin-right: 10px;
+            border: 1px solid #4f4f4f;
+            font-family: sans-serif;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+            border-radius: 1px;
         }
     </style>
 </head>
@@ -95,9 +124,17 @@
     <div id="loader">
         <img class="logo" src="./assets/img/ue.png">
         <div id="indicator"></div>
-        <div id="button" onclick="document.getElementById('loader').style.display = 'none';document.getElementById('sceneCanvas').style.display = 'block';">STARTEN</div>
+        <div class="button" id="startButton" onclick="document.getElementById('loader').style.display = 'none';document.getElementById('sceneCanvas').style.display = 'block';">STARTEN</div>
     </div>
-    <div id="sceneCanvas"></div>
+    <div id="sceneBox">
+        <div id="sceneCanvas"></div>
+        <div class="actionSection" id="enterButton">
+            <div class="button"><span>I</span>INSTAPPEN</div>
+        </div>
+        <div class="actionSection" id="leaveButton">
+            <div class="button"><span>U</span>UITSTAPPEN</div>
+        </div>
+    </div>
 	<script type="module" src="/main.js"></script>
 </body>
 </html>
