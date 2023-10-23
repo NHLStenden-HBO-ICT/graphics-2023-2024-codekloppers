@@ -88,13 +88,12 @@
         }
 
         .actionSection {
-            width: 200px;
             position: fixed;
             top: 80%;
             left: 50%;
             transform: translate(-50%, 0);
             color: #fff;
-            display: none;
+            display: flex;
             background-color: #000;
         }
 
@@ -118,6 +117,10 @@
             width: 24px;
             border-radius: 1px;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -128,10 +131,10 @@
     </div>
     <div id="sceneBox">
         <div id="sceneCanvas"></div>
-        <div class="actionSection" id="enterButton">
+        <div class="actionSection hidden" id="enterButton">
             <div class="button"><span>I</span>INSTAPPEN</div>
         </div>
-        <div class="actionSection" id="leaveButton">
+        <div class="actionSection hidden" id="leaveButton">
             <div class="button"><span>U</span>UITSTAPPEN</div>
         </div>
     </div>

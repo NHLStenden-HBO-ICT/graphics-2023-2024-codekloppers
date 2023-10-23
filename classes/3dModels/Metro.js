@@ -11,7 +11,8 @@ export class Metro extends Model3D {
     mixer;
     user;
     #sideDoorLocations = [-3.9, -9.4, -14.9, -20.4, 3.9, 9.4, 14.9, 20.4];
-    doorsOpen = false;
+    #doorsOpen = true;
+    #lastStationPosition;
     soundEffects = {
         'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
@@ -28,6 +29,21 @@ export class Metro extends Model3D {
         this.soundController = soundController;
         this.mixer = new THREE.AnimationMixer();
         this.user = user;
+        this.#lastStationPosition = this._position;
+        this.#applyListeners();
+    }
+
+    #applyListeners() {
+        document.addEventListener('keydown', (event) => {
+            switch ( event.code ) {
+                case 'KeyI':
+                    this.enterWhenAllowed();
+                    break;
+                case 'KeyU':
+                    this.leave();
+                    break;
+            }
+        });
     }
 
     // function to open doors
@@ -43,10 +59,10 @@ export class Metro extends Model3D {
             this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
         }
 
-        stations = stations.reverse()
-        for (let i = 1; i < stations.length; i++) {
-            this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
-        }
+        // stations = stations.reverse()
+        // for (let i = 1; i < stations.length; i++) {
+        //     this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
+        // }
         /*Don't remove this! Because Javascript is pass by reference and not pass by value,
          the value being set here actually effects how the trains move*/
         stations = stations.reverse();
@@ -56,40 +72,37 @@ export class Metro extends Model3D {
 
     // function to driveToStation metro
     driveToStation(endPosition) {
-
-        const objectScenes = [
-            this._objectScene,
-            // this._headLight1,
-            // this._headLight1Target,
-            // this._headLight2,
-            // this._headLight2Target
-        ];
         let duration = Math.abs(10);
 
-        // TODO: Hier zit een grote bug in. Bij het eerste station wordt onStart nooit uitgevoerd, wat alles sloopt
-        objectScenes.forEach(objectScene => {
+        // Is executed before the delay
+        this.animationTimeline.to({}, {
+            onStart: () => {
+                this.#doorsOpen = true;
+                console.log("Reached point");
+                this.#enableDrivingPossibility();
+            }
+        });
 
-            this.animationTimeline.to(objectScene.position, {
-                x: endPosition.x,
-                y: endPosition.y,
-                z: endPosition.z,
-                delay: 6,
-                duration: duration,
-                ease: "power1.inOut",
-                onStart: () => {
-                    console.log("Vertrokken");
-                    this.doorsOpen = false;
-                    this.animateDoors();
-                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
-                    this.disableDrivingPossibility();
-                },
-                onComplete: () => {
-                    console.log("Aangekomen");
-                    this.doorsOpen = true;
-                    this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.closeDoors));
-                    this.enableDrivingPossibility({x: endPosition.x, y: endPosition.y, z: endPosition.z});
-                },
-            });
+        // TODO: Hier zit een grote bug in. Bij het eerste station wordt onStart nooit uitgevoerd, wat alles sloopt
+        this.animationTimeline.to(this._objectScene.position, {
+            x: endPosition.x,
+            y: endPosition.y,
+            z: endPosition.z,
+            delay: 30,
+            duration: duration,
+            ease: "power1.inOut",
+            onStart: () => {
+                console.log("Vertrokken");
+                this.#doorsOpen = false;
+                this.animateDoors();
+                this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
+                this.#disableDrivingPossibility();
+            },
+            onComplete: () => {
+                console.log("Aangekomen");
+                this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.closeDoors));
+                this.#lastStationPosition = endPosition;
+            },
         });
 
     }
@@ -153,61 +166,56 @@ export class Metro extends Model3D {
         }
     }
 
-    async enableDrivingPossibility(metroPosition) {
-        console.log(metroPosition);
-        // console.log(this.user.getPosition());
+    async #enableDrivingPossibility() {
+        console.log(this.#lastStationPosition);
+
         const enterButton = document.getElementById("enterButton");
-        enterButton.addEventListener("click", this.enter);
-        document.getElementById("leaveButton").addEventListener("click", this.leave);
+        enterButton.addEventListener("click", this.enter());
 
-        document.addEventListener('keydown', (event) => {
-            switch ( event.code ) {
-                case 'KeyI':
-                    this.enter();
-                    break;
-                case 'KeyU':
-                    this.leave();
-                    break;
-            }
-        });
-
-        while(this.doorsOpen) {
+        while(this.#doorsOpen) {
+            let isNearDoor = false;
             this.#sideDoorLocations.forEach(element => {
-                if( this.user.getPosition().x > metroPosition.x + element - 1
-                    && this.user.getPosition().x < metroPosition.x + element + 1
-                    && this.user.getPosition().z > metroPosition.z - 4
-                    && this.user.getPosition().z < metroPosition.z + 4) {
-
-                    enterButton.style.display = 'flex';
-                } else {
-                    this.disableDrivingPossibility();
+                if( this.user.getPosition().x > this.#lastStationPosition.x + element - 1
+                    && this.user.getPosition().x < this.#lastStationPosition.x + element + 1
+                    && this.user.getPosition().z > this.#lastStationPosition.z - 4
+                    && this.user.getPosition().z < this.#lastStationPosition.z + 4) {
+                    console.log("Looping");
+                    isNearDoor = true;
                 }
             });
+
+            if(isNearDoor) {
+                enterButton.classList.remove("hidden");
+                console.log("Shown");
+            } else {
+                enterButton.classList.add("hidden");
+                console.log("Hidden");
+            }
 
             await new Promise((resolve) => setTimeout(resolve, 500)); // Wacht 500 ms
         }
     }
 
-    disableDrivingPossibility() {
+    #disableDrivingPossibility() {
         const enterButton = document.getElementById("enterButton");
-        enterButton.style.display = 'none';
-        enterButton.removeEventListener("click", this.enter);
-        document.getElementById("leaveButton").removeEventListener("click", this.leave);
+        document.getElementById("enterButton").removeEventListener("click", this.enter());
+        document.getElementById("leaveButton").removeEventListener("click", this.leave());
+    }
 
-        document.removeEventListener('keydown', (event) => {
-            switch ( event.code ) {
-                case 'KeyI':
-                    this.enter();
-                    break;
-                case 'KeyU':
-                    this.leave();
-                    break;
-            }
-        });
+    enterWhenAllowed() {
+        if( this.#doorsOpen
+            && this.user.getPosition().x > this.#lastStationPosition.x + element - 1
+            && this.user.getPosition().x < this.#lastStationPosition.x + element + 1
+            && this.user.getPosition().z > this.#lastStationPosition.z - 4
+            && this.user.getPosition().z < this.#lastStationPosition.z + 4) {
+
+            enterButton.classList.remove("hidden");
+            console.log("Yes");
+        }
     }
 
     enter() {
-
+        document.getElementById("leaveButton").addEventListener("click", this.leave());
     }
 
     leave() {
