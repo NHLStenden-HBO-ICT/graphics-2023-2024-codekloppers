@@ -14,6 +14,7 @@ export class Metro extends Model3D {
     #doorsOpen = true;
     #lastStationPosition;
     #isOccupiedByUser = false;
+    #isRightCarriage;
     soundEffects = {
         'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
@@ -22,7 +23,7 @@ export class Metro extends Model3D {
     animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
 
 
-    constructor(position, rotation, soundController, user) {
+    constructor(position, rotation, soundController, user, isRightCarriage) {
         super();
         this.#id = uuid();
         this._position = position;
@@ -31,6 +32,7 @@ export class Metro extends Model3D {
         this.mixer = new THREE.AnimationMixer();
         this.#user = user;
         this.#lastStationPosition = this._position;
+        this.#isRightCarriage = isRightCarriage;
         this.#applyListeners();
     }
 
@@ -54,15 +56,15 @@ export class Metro extends Model3D {
         this.playAnimation(animations);
     }
 
-    driveRoute(stations, isRightCarriage) {
+    driveRoute(stations) {
 
         for (let i = 1; i < stations.length; i++) {
-            this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
+            this.driveToStation(this.getDestinationCoordinates(stations[i], this.#isRightCarriage));
         }
 
         stations = stations.reverse()
         for (let i = 1; i < stations.length; i++) {
-            this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
+            this.driveToStation(this.getDestinationCoordinates(stations[i], this.#isRightCarriage));
         }
         /*Don't remove this! Because Javascript is pass by reference and not pass by value,
          the value being set here actually effects how the trains move*/
@@ -204,13 +206,15 @@ export class Metro extends Model3D {
                 document.getElementById("leaveButton").classList.remove("hidden");
             }
 
-            await new Promise((resolve) => setTimeout(resolve, 500)); // Wacht 500 ms
+            await new Promise((resolve) => setTimeout(resolve, 100)); // Wacht 100 ms
         }
     }
 
     #disallowUserActions() {
-        document.getElementById("leaveButton").classList.add("hidden");
+        document.getElementById("enterButton").classList.add("hidden");
         document.getElementById("enterButton").removeEventListener("click", () => this.enter());
+        document.getElementById("leaveButton").classList.add("hidden");
+        document.getElementById("leaveButton").removeEventListener("click", () => this.leave());
     }
 
     enterWhenAllowed() {
@@ -245,7 +249,7 @@ export class Metro extends Model3D {
 
     leave() {
         this.#user.enableWalking();
-        this.#user.setPosition(new THREE.Vector3(this.#lastStationPosition.x + 9.4, 2, this.#lastStationPosition.z - 3));
+        this.#user.setPosition(new THREE.Vector3(this.#lastStationPosition.x + 9.4, 2, this.#lastStationPosition.z + (this.#isRightCarriage ? 3 : -3)));
         this.#isOccupiedByUser = false;
         
         document.getElementById("leaveButton").classList.add("hidden");

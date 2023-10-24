@@ -57,11 +57,11 @@ export class Route {
     }
 
     async #renderMetros() {
-        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController, this.sceneController.user)).render(this.sceneController.scene);
-        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController, this.sceneController.user));
+        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController, this.sceneController.user, false)).render(this.sceneController.scene);
+        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController, this.sceneController.user, true));
 
-        this.leftCarriage.driveRoute(this.stations, false);
-        this.rightCarriage.driveRoute(this.stations.reverse(), true);
+        this.leftCarriage.driveRoute(this.stations);
+        this.rightCarriage.driveRoute(this.stations.reverse());
     }
 
     animateMetros() {
