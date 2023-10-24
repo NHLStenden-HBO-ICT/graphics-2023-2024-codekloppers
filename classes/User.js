@@ -70,21 +70,25 @@ export class User {
                 case 'ArrowUp':
                 case 'KeyW':
                     this.moveForward = true;
+                    this.sceneController.cameraSpawned = true;
                     break;
 
                 case 'ArrowLeft':
                 case 'KeyA':
                     this.moveLeft = true;
+                    this.sceneController.cameraSpawned = true;
                     break;
 
                 case 'ArrowDown':
                 case 'KeyS':
                     this.moveBackward = true;
+                    this.sceneController.cameraSpawned = true;
                     break;
 
                 case 'ArrowRight':
                 case 'KeyD':
                     this.moveRight = true;
+                    this.sceneController.cameraSpawned = true;
                     break;
 
             }

@@ -56,11 +56,12 @@ export class Scene {
         this.sceneController.camera.updateMatrixWorld();
 
         this.sceneController.user.walk();
+        // Check for camera collision
+        this.sceneController.checkCameraCollision();
 
         // Updates for objects of scene
         this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);
 
-        // Check for camera collision
-        // this.sceneController.checkCameraCollision();
+
     }
 }
