@@ -6,7 +6,7 @@ export class SceneController {
     scene = new THREE.Scene();
     camera;
     renderer;
-    user
+    user;
     boundingBoxes = [];
     previousCameraPosition;
     cameraSpawned;
@@ -19,7 +19,7 @@ export class SceneController {
         /*User needs to be defined after camera because User uses the camera attribute*/
         this.user = new User(this);
         this.setRenderer();
-        this.setAmbientLight();
+        // this.setAmbientLight();
         this.onWindowResize()
     }
 
@@ -109,6 +109,6 @@ export class SceneController {
 
     showScene() {
         document.getElementById("indicator").style.display = "none";
-        document.getElementById("button").style.display = "block";
+        document.getElementById("startButton").style.display = "flex";
     }
 }
