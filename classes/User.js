@@ -7,6 +7,7 @@ export class User {
     sceneController;
     controls;
 
+    #walkingDisabled = false;
     moveForward = false;
     moveBackward = false;
     moveLeft = false;
@@ -37,35 +38,49 @@ export class User {
             this.controls.lock();
         });
 
-   }
+    }
 
-   getPosition() {
-    return this.controls.camera.position;
-   }
+    getPosition() {
+        return this.controls.camera.position;
+    }
 
-   walk() {
-       const time = performance.now();
+    setPosition(position) {
+        this.controls.camera.position.copy(position);
+    }
 
-       if ( this.controls.isLocked === true ) {
-           const delta = ( time - this.prevTime ) / 10000;
+    disableWalking() {
+        this.#walkingDisabled = true;
+    }
 
-           this.velocity.x -= this.velocity.x * 10.0 * delta;
-           this.velocity.z -= this.velocity.z * 10.0 * delta;
+    enableWalking() {
+        this.#walkingDisabled = false;
+    }
 
-           this.direction.z = Number( this.moveForward ) - Number( this.moveBackward );
-           this.direction.x = Number( this.moveRight ) - Number( this.moveLeft );
-           this.direction.normalize(); // this ensures consistent movements in all directions
+    walk() {
+        if(!this.#walkingDisabled) {
+            const time = performance.now();
 
-           if ( this.moveForward || this.moveBackward ) this.velocity.z -= this.direction.z * 400.0 * delta;
-           if ( this.moveLeft || this.moveRight ) this.velocity.x -= this.direction.x * 400.0 * delta;
-
-
-           this.controls.moveRight( - this.velocity.x * delta );
-           this.controls.moveForward( - this.velocity.z * delta );
-       }
-
-       this.prevTime = time;
-   }
+            if ( this.controls.isLocked === true ) {
+                const delta = ( time - this.prevTime ) / 10000;
+     
+                this.velocity.x -= this.velocity.x * 10.0 * delta;
+                this.velocity.z -= this.velocity.z * 10.0 * delta;
+     
+                this.direction.z = Number( this.moveForward ) - Number( this.moveBackward );
+                this.direction.x = Number( this.moveRight ) - Number( this.moveLeft );
+                this.direction.normalize(); // this ensures consistent movements in all directions
+     
+                if ( this.moveForward || this.moveBackward ) this.velocity.z -= this.direction.z * 400.0 * delta;
+                if ( this.moveLeft || this.moveRight ) this.velocity.x -= this.direction.x * 400.0 * delta;
+     
+     
+                this.controls.moveRight( - this.velocity.x * delta );
+                this.controls.moveForward( - this.velocity.z * delta );
+            }
+     
+            this.prevTime = time;
+        }
+    }
 
     // function to walk
     setWalkEventListeners() {

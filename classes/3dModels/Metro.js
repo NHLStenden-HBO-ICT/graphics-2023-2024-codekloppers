@@ -9,10 +9,11 @@ export class Metro extends Model3D {
     animations;
     soundController;
     mixer;
-    user;
+    #user;
     #sideDoorLocations = [-3.9, -9.4, -14.9, -20.4, 3.9, 9.4, 14.9, 20.4];
     #doorsOpen = true;
     #lastStationPosition;
+    #isOccupiedByUser = false;
     soundEffects = {
         'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
@@ -28,7 +29,7 @@ export class Metro extends Model3D {
         this._rotation = rotation;
         this.soundController = soundController;
         this.mixer = new THREE.AnimationMixer();
-        this.user = user;
+        this.#user = user;
         this.#lastStationPosition = this._position;
         this.#applyListeners();
     }
@@ -40,7 +41,7 @@ export class Metro extends Model3D {
                     this.enterWhenAllowed();
                     break;
                 case 'KeyU':
-                    this.leave();
+                    this.leaveWhenAllowed();
                     break;
             }
         });
@@ -59,10 +60,10 @@ export class Metro extends Model3D {
             this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
         }
 
-        // stations = stations.reverse()
-        // for (let i = 1; i < stations.length; i++) {
-        //     this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
-        // }
+        stations = stations.reverse()
+        for (let i = 1; i < stations.length; i++) {
+            this.driveToStation(this.getDestinationCoordinates(stations[i], isRightCarriage));
+        }
         /*Don't remove this! Because Javascript is pass by reference and not pass by value,
          the value being set here actually effects how the trains move*/
         stations = stations.reverse();
@@ -78,8 +79,9 @@ export class Metro extends Model3D {
         this.animationTimeline.to({}, {
             onStart: () => {
                 this.#doorsOpen = true;
+                this.animateDoors();
                 console.log("Reached point");
-                this.#enableDrivingPossibility();
+                this.#allowUserActions();
             }
         });
 
@@ -88,15 +90,19 @@ export class Metro extends Model3D {
             x: endPosition.x,
             y: endPosition.y,
             z: endPosition.z,
-            delay: 30,
+            delay: 20,
             duration: duration,
             ease: "power1.inOut",
             onStart: () => {
                 console.log("Vertrokken");
                 this.#doorsOpen = false;
-                this.animateDoors();
                 this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
-                this.#disableDrivingPossibility();
+                this.#disallowUserActions();
+            },
+            onUpdate: () => {
+                if(this.#isOccupiedByUser) {
+                    this.#user.setPosition(new THREE.Vector3(this._objectScene.position.x + 8, 2, this._objectScene.position.z));
+                }
             },
             onComplete: () => {
                 console.log("Aangekomen");
@@ -166,59 +172,83 @@ export class Metro extends Model3D {
         }
     }
 
-    async #enableDrivingPossibility() {
-        console.log(this.#lastStationPosition);
-
+    async #allowUserActions() {
         const enterButton = document.getElementById("enterButton");
-        enterButton.addEventListener("click", this.enter());
+
+        let lastRoundNearDoor = false;
 
         while(this.#doorsOpen) {
             let isNearDoor = false;
             this.#sideDoorLocations.forEach(element => {
-                if( this.user.getPosition().x > this.#lastStationPosition.x + element - 1
-                    && this.user.getPosition().x < this.#lastStationPosition.x + element + 1
-                    && this.user.getPosition().z > this.#lastStationPosition.z - 4
-                    && this.user.getPosition().z < this.#lastStationPosition.z + 4) {
-                    console.log("Looping");
+                if( this.#user.getPosition().x > this.#lastStationPosition.x + element - 1
+                    && this.#user.getPosition().x < this.#lastStationPosition.x + element + 1
+                    && this.#user.getPosition().z > this.#lastStationPosition.z - 3
+                    && this.#user.getPosition().z < this.#lastStationPosition.z + 3) {
                     isNearDoor = true;
                 }
             });
 
             if(isNearDoor) {
+                enterButton.addEventListener("click", () => this.enter());
                 enterButton.classList.remove("hidden");
-                console.log("Shown");
+                lastRoundNearDoor = true;
             } else {
-                enterButton.classList.add("hidden");
-                console.log("Hidden");
+                if(!enterButton.classList.contains("hidden") && lastRoundNearDoor == true) {
+                    enterButton.classList.add("hidden");
+                }
+                lastRoundNearDoor = false;
+            }
+
+            if(this.#isOccupiedByUser) {
+                document.getElementById("leaveButton").addEventListener("click", () => this.leave());
+                document.getElementById("leaveButton").classList.remove("hidden");
             }
 
             await new Promise((resolve) => setTimeout(resolve, 500)); // Wacht 500 ms
         }
     }
 
-    #disableDrivingPossibility() {
-        const enterButton = document.getElementById("enterButton");
-        document.getElementById("enterButton").removeEventListener("click", this.enter());
-        document.getElementById("leaveButton").removeEventListener("click", this.leave());
+    #disallowUserActions() {
+        document.getElementById("leaveButton").classList.add("hidden");
+        document.getElementById("enterButton").removeEventListener("click", () => this.enter());
     }
 
     enterWhenAllowed() {
-        if( this.#doorsOpen
-            && this.user.getPosition().x > this.#lastStationPosition.x + element - 1
-            && this.user.getPosition().x < this.#lastStationPosition.x + element + 1
-            && this.user.getPosition().z > this.#lastStationPosition.z - 4
-            && this.user.getPosition().z < this.#lastStationPosition.z + 4) {
+        this.#sideDoorLocations.forEach(element => {
+            if( this.#doorsOpen
+                && this.#user.getPosition().x > this.#lastStationPosition.x + element - 1
+                && this.#user.getPosition().x < this.#lastStationPosition.x + element + 1
+                && this.#user.getPosition().z > this.#lastStationPosition.z - 3
+                && this.#user.getPosition().z < this.#lastStationPosition.z + 3) {
+    
+                this.enter();
+            }
+        });
+    }
 
-            enterButton.classList.remove("hidden");
-            console.log("Yes");
+    leaveWhenAllowed() {
+        if(this.#doorsOpen && this.#isOccupiedByUser) {
+            this.leave();
         }
     }
 
     enter() {
-        document.getElementById("leaveButton").addEventListener("click", this.leave());
+        this.#user.setPosition(new THREE.Vector3(this.#lastStationPosition.x + 8, 2, this.#lastStationPosition.z));
+        this.#user.disableWalking();
+        this.#isOccupiedByUser = true;
+
+        document.getElementById("enterButton").classList.add("hidden");
+        document.getElementById("enterButton").removeEventListener("click", () => this.enter());
+        document.getElementById("leaveButton").addEventListener("click", () => this.leave());
+        document.getElementById("leaveButton").classList.remove("hidden");
     }
 
     leave() {
-
+        this.#user.enableWalking();
+        this.#user.setPosition(new THREE.Vector3(this.#lastStationPosition.x + 9.4, 2, this.#lastStationPosition.z - 3));
+        this.#isOccupiedByUser = false;
+        
+        document.getElementById("leaveButton").classList.add("hidden");
+        document.getElementById("leaveButton").removeEventListener("click", () => this.leave());
     }
 }

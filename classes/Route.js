@@ -33,9 +33,9 @@ export class Route {
     }
 
     async render() {
-        // await this.#renderStations();
+        await this.#renderStations();
         await this.#renderMetros();
-        // await this.#renderTunnels();
+        await this.#renderTunnels();
     }
 
     async #renderStations() {
@@ -58,10 +58,10 @@ export class Route {
 
     async #renderMetros() {
         this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController, this.sceneController.user)).render(this.sceneController.scene);
-        // this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController, this.sceneController.user));
+        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController, this.sceneController.user));
 
         this.leftCarriage.driveRoute(this.stations, false);
-        // this.rightCarriage.driveRoute(this.stations.reverse(), true);
+        this.rightCarriage.driveRoute(this.stations.reverse(), true);
     }
 
     animateMetros() {
@@ -69,9 +69,9 @@ export class Route {
             this.leftCarriage.mixer.update(0.006);
         }
 
-        // if (this.rightCarriage.mixer != null) {
-        //     this.rightCarriage.mixer.update(0.006);
-        // }
+        if (this.rightCarriage.mixer != null) {
+            this.rightCarriage.mixer.update(0.006);
+        }
     }
 
     async #renderTunnels() {

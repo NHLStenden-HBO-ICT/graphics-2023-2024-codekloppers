@@ -19,7 +19,7 @@ export class SceneController {
         /*User needs to be defined after camera because User uses the camera attribute*/
         this.user = new User(this);
         this.setRenderer();
-        this.setAmbientLight();
+        // this.setAmbientLight();
         this.onWindowResize()
     }
 
