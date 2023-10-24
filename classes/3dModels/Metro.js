@@ -184,8 +184,9 @@ export class Metro extends Model3D {
             this.#sideDoorLocations.forEach(element => {
                 if( this.#user.getPosition().x > this.#lastStationPosition.x + element - 1
                     && this.#user.getPosition().x < this.#lastStationPosition.x + element + 1
-                    && this.#user.getPosition().z > this.#lastStationPosition.z - 3
-                    && this.#user.getPosition().z < this.#lastStationPosition.z + 3) {
+                    && this.#user.getPosition().z > this.#lastStationPosition.z - 4
+                    && this.#user.getPosition().z < this.#lastStationPosition.z + 4
+                    && this.#user.getPosition().y < 4) {
                     isNearDoor = true;
                 }
             });
@@ -222,8 +223,9 @@ export class Metro extends Model3D {
             if( this.#doorsOpen
                 && this.#user.getPosition().x > this.#lastStationPosition.x + element - 1
                 && this.#user.getPosition().x < this.#lastStationPosition.x + element + 1
-                && this.#user.getPosition().z > this.#lastStationPosition.z - 3
-                && this.#user.getPosition().z < this.#lastStationPosition.z + 3) {
+                && this.#user.getPosition().z > this.#lastStationPosition.z - 4
+                && this.#user.getPosition().z < this.#lastStationPosition.z + 4
+                && this.#user.getPosition().y < 4) {
     
                 this.enter();
             }
