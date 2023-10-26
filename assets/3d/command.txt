@@ -1,1 +1,1 @@
-npx gltfjsx tunnel.glb --transform --simplify
+npx gltfjsx@6.2.13 ubahn.glb --transform --simplify
