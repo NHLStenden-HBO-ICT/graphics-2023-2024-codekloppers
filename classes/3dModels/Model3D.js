@@ -105,13 +105,15 @@ export default class Model3D {
         return newModel3d;
     }
 
-    setBoundingBox(scene, geometryVector, positionVector, rotationX, rotationZ) {
+    setBoundingBox(scene, geometryVector, positionVector, rotationX = 0, rotationZ = 0, rotationY = 0, name) {
         const geometry = new THREE.BoxGeometry(geometryVector.x, geometryVector.y, geometryVector.z);
-        const material = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0}); //
+        const material = new THREE.MeshBasicMaterial({color: 0x00ff00}); //, transparent: true, opacity: 0.0
         const box = new THREE.Mesh(geometry, material);
         box.position.copy(positionVector);
         box.rotation.x = rotationX;
         box.rotation.z = rotationZ;
+        box.rotation.y = rotationY;
+        box.name = name;
         // Voeg de bounding box toe aan de scene
         scene.add(box);
 

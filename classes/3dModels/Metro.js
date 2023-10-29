@@ -226,7 +226,7 @@ export class Metro extends Model3D {
                 && this.#user.getPosition().z > this.#lastStationPosition.z - 4
                 && this.#user.getPosition().z < this.#lastStationPosition.z + 4
                 && this.#user.getPosition().y < 4) {
-    
+
                 this.enter();
             }
         });
@@ -253,7 +253,7 @@ export class Metro extends Model3D {
         this.#user.enableWalking();
         this.#user.setPosition(new THREE.Vector3(this.#lastStationPosition.x + 9.4, 2, this.#lastStationPosition.z + (this.#isRightCarriage ? 3 : -3)));
         this.#isOccupiedByUser = false;
-        
+
         document.getElementById("leaveButton").classList.add("hidden");
         document.getElementById("leaveButton").removeEventListener("click", () => this.leave());
     }

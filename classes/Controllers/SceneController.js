@@ -86,13 +86,24 @@ export class SceneController {
 
         let isColliding = false;
 
+        console.log(this.camera.position.y)
+
         for (let i = 0; i < this.boundingBoxes.length; i++) {
             const boxBoundingBox = new THREE.Box3().setFromObject(this.boundingBoxes[i]);
             const boxBoundingCamera = new THREE.Box3().setFromObject(cameraMesh);
 
+            // console.log(this.boundingBoxes[i]);
             if (boxBoundingBox.intersectsBox(boxBoundingCamera)) {
-                isColliding = true;
-                break;
+                if(this.boundingBoxes[i]["name"] == "leftStair" || this.boundingBoxes[i]["name"] == "rightStair") {
+                    // console.log("test");
+                    if(this.user.moveForward) {
+                        this.camera.position.y += 0.1;
+                    }
+                    isColliding = false;
+                } else {
+                    isColliding = true;
+                    break;
+                }
             }
         }
 

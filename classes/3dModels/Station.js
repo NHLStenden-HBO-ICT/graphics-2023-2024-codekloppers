@@ -25,49 +25,91 @@ export class Station extends Model3D {
     }
 
     #setBoundaryBoxes() {
-        // console.log(this.#sceneController.boundingBoxes)
-        this.#sceneController.boundingBoxes.push(this.setBoundingBox
-        (
-            this.#sceneController.scene,
-            new THREE.Vector3(this._position.x + 70, this._position.y + 1, this._position.z + 8),
-            new THREE.Vector3(this._position.x + -15, this._position.y - 0.041, this._position.z + 6.5),
-            Math.PI / 2, 0
-        )); // backwall
 
         this.#sceneController.boundingBoxes.push(this.setBoundingBox(
-            this.#sceneController.scene,
-            new THREE.Vector3(this._position.x + 70, this._position.y + 1, this._position.z + 8),
-            new THREE.Vector3(this._position.x + -15, this._position.y - 0.041, this._position.z - 13),
-            Math.PI / 2, 0
-        )); // backwall
-
-        this.#sceneController.boundingBoxes.push(this.setBoundingBox(
-            this.#sceneController.scene,
-            new THREE.Vector3(this._position.x + 100, this._position.y + 0.2, this._position.z + 8),
-            new THREE.Vector3(this._position.x - 25, this._position.y + 0, this._position.z  + 2.6),
-            Math.PI / 2, 0
-        )); //railWalllefttSide
-
-        this.#sceneController.boundingBoxes.push(this.setBoundingBox(
-            this.#sceneController.scene,
-            new THREE.Vector3(this._position.x + 100, this._position.y + 0.2, this._position.z + 8),
-            new THREE.Vector3(this._position.x - 25, this._position.y + 0, this._position.z  + -9.3),
-            Math.PI / 2, 0
-        )); // railWallrightSide
-
-        this.#sceneController.boundingBoxes.push(this.setBoundingBox(
-            this.#sceneController.scene,
-            new THREE.Vector3(this._position.x + 60, this._position.y + 1, this._position.z + 6),
-            new THREE.Vector3(this._position.x + 20, this._position.y + 0, this._position.z + 0),
-            Math.PI / 2, Math.PI / 2)
-        ); // left border
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 60, this._position.y + 1, this._position.z + 6), // geometry
+            new THREE.Vector3(this._position.x + 20, this._position.y + 0, this._position.z + 0), // position
+            Math.PI / 2, Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'leftBorder' //id
+        )); // left border
 
         this.#sceneController.boundingBoxes.push(this.setBoundingBox(
             this.#sceneController.scene,
             new THREE.Vector3(this._position.x + 60, this._position.y + 2, this._position.z + 6),
             new THREE.Vector3(this._position.x + -50, this._position.y + 0, this._position.z + 0),
-            Math.PI / 2, Math.PI / 2)
-        ); // right border
+            Math.PI / 2, Math.PI / 2
+            ,0
+            ,0
+            , 'rightBorder' // id
+        )); // right border
 
+        this.#sceneController.boundingBoxes.push(this.setBoundingBox
+        (
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 68, this._position.y + 1, this._position.z + 8), // geometry
+            new THREE.Vector3(this._position.x + -17, this._position.y - 0.041, this._position.z + 6.5), // position
+            Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'backWallLeft' // id
+        )); // backwall LEFT
+
+        this.#sceneController.boundingBoxes.push(this.setBoundingBox
+        (
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 68, this._position.y + 1, this._position.z + 8), // geometry
+            new THREE.Vector3(this._position.x + -17, this._position.y + 0.041, this._position.z - 13), // position
+            Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'backWallRight' // id
+        )); // backwall RIGHT
+
+    this.#sceneController.boundingBoxes.push(this.setBoundingBox
+        (
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 80, this._position.y + 1, this._position.z + 18), // geometry
+            new THREE.Vector3(this._position.x + -15, this._position.y - 0.041, this._position.z + 9.6), // position
+            Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'outerBackWallLeft' // id
+        )); // outerBackWall Left
+
+    this.#sceneController.boundingBoxes.push(this.setBoundingBox
+        (
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 80, this._position.y + 1, this._position.z + 18), // geometry
+            new THREE.Vector3(this._position.x + -15, this._position.y - 0.048, this._position.z - 16.3), // position
+            Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'outerBackWallRight'// id
+        )); // outerBackWall RIGHT
+
+    this.#sceneController.boundingBoxes.push(this.setBoundingBox
+        (
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 20, this._position.y + 3, this._position.z + 0.5), // geometry
+            new THREE.Vector3(this._position.x + 15, this._position.y - 0.041, this._position.z + 8), // position
+            (Math.PI / 2), // rotation on x axis
+            0, // rotation on z axis
+            - 38.40 // rotation on y axis
+            , 'leftStair'// id
+        )); // LeftStair
+
+    this.#sceneController.boundingBoxes.push(this.setBoundingBox
+        (
+            this.#sceneController.scene, // scene
+            new THREE.Vector3(this._position.x + 20, this._position.y + 3, this._position.z + 0.5), // geometry
+            new THREE.Vector3(this._position.x + 15, this._position.y - 0.041, this._position.z - 14), //  position
+            (Math.PI / 2), // rotation on x axis
+            0, // rotation on z axis
+            - 38.40 // rotation on y axis
+            , 'rightStair' // id
+        )); // RightStair
     }
 }
