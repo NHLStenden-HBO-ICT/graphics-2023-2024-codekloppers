@@ -18,7 +18,7 @@ export class SoundController {
             sound.setLoop( false );
             sound.duration = duration;
             sound.setVolume( 0.5 );
-            // sound.play();
+            sound.play();
         });
         return sound;
     }
@@ -30,7 +30,7 @@ export class SoundController {
             sound.duration = duration;
             sound.setBuffer(buffer);
             sound.setLoop(false);
-            sound.setRefDistance(20)
+            sound.setRefDistance(10)
             sound.setVolume(0.5);
             sound.play()
         });
