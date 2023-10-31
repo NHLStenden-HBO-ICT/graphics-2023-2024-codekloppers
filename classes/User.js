@@ -1,3 +1,7 @@
+import * as THREE from "three";
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import {Vector3} from "three";
+
 /**
  * User class representing the user in the 3D environment.
  * @class
