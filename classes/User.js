@@ -114,29 +114,31 @@ export class User {
         });
 
         document.addEventListener('keyup', (event) => {
-            switch ( event.code ) {
-
+            switch (event.code) {
                 case 'ArrowUp':
                 case 'KeyW':
                     this.moveForward = false;
                     break;
-
+        
                 case 'ArrowLeft':
                 case 'KeyA':
                     this.moveLeft = false;
                     break;
-
+        
                 case 'ArrowDown':
                 case 'KeyS':
                     this.moveBackward = false;
                     break;
-
+        
                 case 'ArrowRight':
                 case 'KeyD':
                     this.moveRight = false;
                     break;
-
             }
+        
+            // Zet de beweging direct op 0 wanneer de toetsen worden losgelaten
+            this.velocity.set(0, 0, 0);
         });
+        
     }
 }
