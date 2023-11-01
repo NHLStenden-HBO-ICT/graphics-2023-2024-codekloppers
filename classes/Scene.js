@@ -13,8 +13,7 @@ export class Scene {
 
     onStartButtonClicked() {
         document.getElementById("indicator").style.display = "block";
-        document.getElementById("startButton").style.display = "none";
-        document.getElementById("qualitySelector").style.display = "none";
+        document.getElementById("controlBox").style.display = "none";
         const quality = document.getElementById('qualityInput').value;
         this.startScene(quality);
     }
