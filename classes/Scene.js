@@ -5,6 +5,7 @@ export class Scene {
     sceneController;
     routeU5;
     routeU6;
+    pixelRatio;
 
     constructor() {
         document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
@@ -13,6 +14,7 @@ export class Scene {
     onStartButtonClicked() {
         document.getElementById("indicator").style.display = "block";
         document.getElementById("startButton").style.display = "none";
+        this.pixelRatio =  document.getElementById("qualityInput").value
         this.startScene();
     }
 
@@ -22,7 +24,7 @@ export class Scene {
     }
 
     async startScene() {
-        this.sceneController = new SceneController(pixelRatio);
+        this.sceneController = new SceneController(this.pixelRatio ?? 1);
         await this.render();
         this.animate();
         this.loadingDone();
