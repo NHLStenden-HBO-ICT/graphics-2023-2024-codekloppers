@@ -97,10 +97,6 @@
             background-color: #000;
         }
 
-        /* #startButton {
-            display: none;
-        } */
-
         .button:hover {
             background-color: #ffbf0043;
         }
@@ -127,6 +123,15 @@
     <div id="loader">
         <img class="logo" src="./assets/img/ue.png">
         <div id="indicator"></div>
+        <div class="qualitySelector">
+            <label for="qualityInput">Grafische kwaliteit</label>
+            <select id="qualityInput">
+                <option value="0.1">Laag</option>
+                <option selected="selected" value="0.5">Normaal</option>
+                <option value="1">Hoog</option>
+                <option value="2">Ultra</option>
+            </select> 
+        </div>
         <div class="button" id="startButton">STARTEN</div>
     </div>
     <div id="sceneBox">
