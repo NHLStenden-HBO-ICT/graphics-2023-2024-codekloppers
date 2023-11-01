@@ -15,16 +15,16 @@ export class SceneController {
     soundController = new SoundController(this.listener)
     collision = new CheckCameraCollision(this);
 
-    constructor() {
+    constructor(pixelRatio) {
         this.setCamera()
         /*User needs to be defined after camera because User uses the camera attribute*/
         this.user = new User(this);
-        this.setRenderer();
+        this.setRenderer(pixelRatio);
         // this.setAmbientLight();
         this.onWindowResize()
     }
 
-    setRenderer() {
+    setRenderer(pixelRatio = 0.5) {
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             gammaOutput: true,
@@ -32,7 +32,7 @@ export class SceneController {
         });
 
         // Verlaag de resolutie voor betere prestaties
-        this.renderer.setPixelRatio(0.5);
+        this.renderer.setPixelRatio(pixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.autoClear = false;
         this.renderer.shadowMap.enabled = false;

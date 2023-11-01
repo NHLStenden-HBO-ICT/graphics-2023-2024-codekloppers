@@ -2,7 +2,7 @@ import {SceneController} from "./Controllers/SceneController";
 import {Route} from "./Route";
 
 export class Scene {
-    sceneController = new SceneController();
+    sceneController;
     routeU5;
     routeU6;
 
@@ -22,6 +22,7 @@ export class Scene {
     }
 
     async startScene() {
+        this.sceneController = new SceneController(pixelRatio);
         await this.render();
         this.animate();
         this.loadingDone();
