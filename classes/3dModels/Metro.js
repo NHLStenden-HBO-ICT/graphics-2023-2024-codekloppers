@@ -16,7 +16,7 @@ export class Metro extends Model3D {
     #isOccupiedByUser = false;
     #isRightCarriage;
     soundEffects = {
-        'closeDoors': '/assets/sound_effects/CloseUbahnDoors.mp3',
+        'stationSound': '/assets/sound_effects/stationSound.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
     }
 
@@ -82,17 +82,18 @@ export class Metro extends Model3D {
             onStart: () => {
                 this.#doorsOpen = true;
                 this.animateDoors();
-                console.log("Reached point");
+                console.log("Stilstaand");
                 this.#allowUserActions();
+                this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.stationSound));
             }
         });
 
-        // TODO: Hier zit een grote bug in. Bij het eerste station wordt onStart nooit uitgevoerd, wat alles sloopt
+        // TODO: Hier zit een grote bug in. Als de trein voor de 2e keer op een station aankomt wordt onStart nooit uitgevoerd.
         this.animationTimeline.to(this._objectScene.position, {
             x: endPosition.x,
             y: endPosition.y,
             z: endPosition.z,
-            delay: 20,
+            delay: 13,
             duration: duration,
             ease: "power1.inOut",
             onStart: () => {
@@ -108,7 +109,6 @@ export class Metro extends Model3D {
             },
             onComplete: () => {
                 console.log("Aangekomen");
-                this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.closeDoors));
                 this.#lastStationPosition = endPosition;
             },
         });

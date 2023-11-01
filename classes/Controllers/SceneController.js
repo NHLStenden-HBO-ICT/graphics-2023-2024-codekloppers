@@ -118,8 +118,14 @@ export class SceneController {
         }
     }
 
-    showScene() {
+    loadingDone() {
         document.getElementById("indicator").style.display = "none";
         document.getElementById("startButton").style.display = "flex";
+        document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
+    }
+
+    onStartButtonClicked() {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('sceneCanvas').style.display = 'block';
     }
 }

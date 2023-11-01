@@ -16,7 +16,7 @@ export class Scene {
     async startScene() {
         await this.render();
         this.animate();
-        this.sceneController.showScene();
+        this.sceneController.loadingDone();
     }
 
     /**
