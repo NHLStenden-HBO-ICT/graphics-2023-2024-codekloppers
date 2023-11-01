@@ -62,7 +62,7 @@ export class SceneController {
         this.scene.add(light);
     }
 
-    showScene() {
+    loadingDone() {
         document.getElementById("indicator").style.display = "none";
         document.getElementById("startButton").style.display = "flex";
         document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
