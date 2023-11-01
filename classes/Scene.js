@@ -13,7 +13,9 @@ export class Scene {
     onStartButtonClicked() {
         document.getElementById("indicator").style.display = "block";
         document.getElementById("startButton").style.display = "none";
-        this.startScene();
+        document.getElementById("qualitySelector").style.display = "none";
+        const quality = document.getElementById('qualityInput').value;
+        this.startScene(quality);
     }
 
     loadingDone() {
@@ -21,7 +23,7 @@ export class Scene {
         document.getElementById('sceneCanvas').style.display = 'block';
     }
 
-    async startScene() {
+    async startScene(pixelRatio) {
         this.sceneController = new SceneController(pixelRatio);
         await this.render();
         this.animate();

@@ -12,9 +12,10 @@
         }
 
         body {
-            font-family: 'Press Start 2P';
+            font-family: "Segoe UI", "Helvetica", sans-serif;
             margin: 0;
             background-color: #000;
+            color: #fff;
         }
 
         #loader {
@@ -80,11 +81,11 @@
             background-color: transparent;
             border: 3px solid #ffbf00;
             padding: 12px 16px 12px 16px;
-            color: #fff;
             transition: ease 0.4s;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            font-family: 'Press Start 2P';
         }
 
         .actionSection {
@@ -117,22 +118,70 @@
         .hidden {
             display: none;
         }
+
+        #qualitySelector {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 12px;
+            width: 300px;
+        }
+
+        #qualityInput {
+            background-color: transparent;
+            border: 1px solid #ffbf00;
+            padding: 12px 16px 12px 16px;
+            transition: ease 0.4s;
+            color: #fff;
+        }
+
+        #qualityInput option {
+            background: #000;
+        }
+
+        #controlBox {
+            background-color: #1c1c1c;
+            border-radius: 20px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #controlBox > hr {
+            width: 100%;
+        }
+
+        #controlBox > div {
+            margin: 10px;
+        }
+
+        #controlBox label {
+            opacity: 80%;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
     <div id="loader">
         <img class="logo" src="./assets/img/ue.png">
         <div id="indicator"></div>
-        <div class="qualitySelector">
-            <label for="qualityInput">Grafische kwaliteit</label>
-            <select id="qualityInput">
-                <option value="0.1">Laag</option>
-                <option selected="selected" value="0.5">Normaal</option>
-                <option value="1">Hoog</option>
-                <option value="2">Ultra</option>
-            </select> 
+        <div id="controlBox">
+            <div class="qualitySelector">
+                <label for="qualityInput">Grafische kwaliteit</label>
+                <select id="qualityInput">
+                    <option value="0.2">Laag</option>
+                    <option selected="selected" value="0.5">Normaal</option>
+                    <option value="1">Hoog</option>
+                    <option value="2">Ultra</option>
+                </select> 
+            </div>
+            <hr>
+            <div>
+                <div class="button" id="startButton">STARTEN</div>
+            </div>
         </div>
-        <div class="button" id="startButton">STARTEN</div>
     </div>
     <div id="sceneBox">
         <div id="sceneCanvas"></div>
