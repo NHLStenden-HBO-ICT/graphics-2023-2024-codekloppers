@@ -161,7 +161,7 @@ export class Metro extends Model3D {
             // console.log(animations[i])
 
             // Zorg ervoor dat de animatie in de juiste richting wordt afgespeeld (voorwaarts)
-            action.timeScale = 1;
+            action.timeScale = 3;
             action.setLoop(THREE.LoopOnce); // Bijvoorbeeld: speel de animatie slechts één keer
             action.clampWhenFinished = true; // Houd de animatie op het laatste frame wanneer deze is voltooid
 
