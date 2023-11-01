@@ -54,7 +54,7 @@ export class CheckCameraCollision {
             const boxBoundingCamera = new THREE.Box3().setFromObject(this.cameraMesh);
 
             if (boxBoundingBox.intersectsBox(boxBoundingCamera)) {
-               if(this.#checkIfWalkingUpStairs()) {
+               if(this.#checkIfWalkingUpStairs(i)) {
                    this.isColliding = false
                    break;
                }
@@ -63,7 +63,7 @@ export class CheckCameraCollision {
         }
     }
 
-    #checkIfWalkingUpStairs() {
+    #checkIfWalkingUpStairs(i) {
         if(this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
             this.sceneController.boundingBoxes[i]["name"] === "rightStair")
         {
