@@ -5,6 +5,7 @@ export class Scene {
     sceneController;
     routeU5;
     routeU6;
+    pixelRatio;
 
     constructor() {
         document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
