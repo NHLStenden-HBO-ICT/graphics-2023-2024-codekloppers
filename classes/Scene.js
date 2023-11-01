@@ -10,13 +10,24 @@ export class Scene {
     routeU6;
 
     constructor() {
+        document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
+    }
+
+    onStartButtonClicked() {
+        document.getElementById("indicator").style.display = "block";
+        document.getElementById("startButton").style.display = "none";
         this.startScene();
+    }
+
+    loadingDone() {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('sceneCanvas').style.display = 'block';
     }
 
     async startScene() {
         await this.render();
         this.animate();
-        this.sceneController.loadingDone();
+        this.loadingDone();
     }
 
     /**

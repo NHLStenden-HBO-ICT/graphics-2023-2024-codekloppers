@@ -61,15 +61,4 @@ export class SceneController {
         const light = new THREE.AmbientLight(0x404040, 100);
         this.scene.add(light);
     }
-
-    loadingDone() {
-        document.getElementById("indicator").style.display = "none";
-        document.getElementById("startButton").style.display = "flex";
-        document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
-    }
-
-    onStartButtonClicked() {
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('sceneCanvas').style.display = 'block';
-    }
 }
