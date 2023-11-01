@@ -80,9 +80,9 @@ export class Metro extends Model3D {
         // Is executed before the delay
         this.animationTimeline.to({}, {
             onStart: () => {
+                console.log("Stilstaand");
                 this.#doorsOpen = true;
                 this.animateDoors();
-                console.log("Stilstaand");
                 this.#allowUserActions();
                 this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.stationSound));
             }

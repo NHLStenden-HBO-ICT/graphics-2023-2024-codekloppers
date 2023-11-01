@@ -30,8 +30,8 @@ export class SoundController {
             sound.duration = duration;
             sound.setBuffer(buffer);
             sound.setLoop(false);
-            sound.setRefDistance(10)
-            sound.setVolume(0.5);
+            sound.setRefDistance(0.5)
+            sound.setVolume(2);
             sound.play()
         });
 
