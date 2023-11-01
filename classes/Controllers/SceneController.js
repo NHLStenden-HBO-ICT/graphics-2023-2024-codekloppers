@@ -16,7 +16,7 @@ export class SceneController {
     collision = new CheckCameraCollision(this);
 
     constructor(pixelRatio) {
-        this.setCamera()
+        this.setCamera();
         /*User needs to be defined after camera because User uses the camera attribute*/
         this.user = new User(this);
         this.setRenderer(pixelRatio);

@@ -105,9 +105,29 @@ export default class Model3D {
         return newModel3d;
     }
 
+/**
+ * The function sets up a bounding box in a 3D scene with the specified geometry, position, rotation,
+ * and name.
+ * @param scene - The scene parameter is the THREE.Scene object to which you want to add the bounding
+ * box.
+ * @param geometryVector - The geometryVector parameter represents the dimensions of the bounding box.
+ * It is a vector that contains the width, height, and depth of the box.
+ * @param positionVector - The positionVector parameter is a vector that represents the position of the
+ * bounding box in 3D space. It contains three values: positionVector.x, positionVector.y, and
+ * positionVector.z, which correspond to the x, y, and z coordinates of the position respectively.
+ * @param [rotationX=0] - The rotationX parameter is the rotation angle around the x-axis in radians.
+ * It determines the rotation of the bounding box along the x-axis.
+ * @param [rotationZ=0] - The rotationZ parameter is the rotation around the z-axis in radians. It
+ * determines the rotation of the bounding box around the z-axis.
+ * @param [rotationY=0] - The rotationY parameter is the rotation angle around the y-axis in radians.
+ * It determines the rotation of the bounding box around the y-axis.
+ * @param name - The name parameter is a string that represents the name of the bounding box. It is
+ * used to identify the bounding box in the scene or to reference it later in the code.
+ * @returns the created bounding box object.
+ */
     setBoundingBox(scene, geometryVector, positionVector, rotationX = 0, rotationZ = 0, rotationY = 0, name) {
         const geometry = new THREE.BoxGeometry(geometryVector.x, geometryVector.y, geometryVector.z);
-        const material = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0}); //
+        const material = new THREE.MeshBasicMaterial({color: 0x00ff00}); //, transparent: true, opacity: 0.0
         const box = new THREE.Mesh(geometry, material);
         box.position.copy(positionVector);
         box.rotation.x = rotationX;
