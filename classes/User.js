@@ -10,6 +10,7 @@ export class User {
     _moveVector; // Private variable for movement vector
     sceneController; // Reference to the scene controller
     controls; // PointerLockControls instance for user movement
+    speed = 400.0;
 
     #walkingDisabled = false; // Private variable to disable walking
     moveForward = false; // Boolean indicating forward movement
@@ -137,6 +138,9 @@ export class User {
                     this.moveRight = true; // Set rightward movement flag to true
                     this.sceneController.cameraSpawned = true; // Notify scene controller that the camera has spawned
                     break;
+                case 'ctrlKey':
+                    this.speed = 600.0;
+                break
             }
         });
 
@@ -163,6 +167,10 @@ export class User {
             case 'KeyD':
                 this.moveRight = false; // Stop rightward movement
                 break;
+
+            case 'ctrlKey':
+                this.speed = 400.0;
+            break
         }
         this.velocity.set(0, 0, 0); // Set velocity vector to zero, stopping movement in all directions
     });

@@ -9,6 +9,7 @@ export class CheckCameraCollision {
     cameraMesh;
     isColliding = false;
     previousCameraPosition;
+    walkingDownStairs = false;
 
     constructor(sceneController) {
         this.sceneController = sceneController;
@@ -33,6 +34,8 @@ export class CheckCameraCollision {
         this.#setCameraMesh(); // Voeg deze regel toe
         this.#checkIsColliding();
         this.#handleIsColliding();
+
+        console.log(this.sceneController.camera.position.y);
     }
 
     #updateMatrixes() {
@@ -76,12 +79,44 @@ export class CheckCameraCollision {
 
 
     #checkIfWalkingUpStairs(i) {
+
+
+
         if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
             this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
+
+                if (this.sceneController.camera.position.y == 8.43499999999999)
+                {
+                    // console.log("test");
+                    this.walkingDownStairs = true;
+                } else if (this.sceneController.camera.position == 2) {
+                    this.walkingDownStairs = false;
+                }
+
             if (this.sceneController.user.moveForward) {
-                this.sceneController.camera.position.y += 0.1;
+                if(this.walkingDownStairs) {
+                    console.log("downstairs");
+                    if(this.sceneController.camera.position.y == 2) {
+                        this.sceneController.camera.position.x += 2;
+                        this.walkingDownStairs = false;
+                    } else {
+                        this.sceneController.camera.position.y -= 0.0508;
+                    }
+                }
+
+                if(this.sceneController.camera.position.y < 8.47999999999999 && !this.walkingDownStairs) {
+                    console.log("upstairs");
+
+                    if(this.sceneController.camera.position.y == 8.47999999999999){
+                        this.sceneController.camera.position.x -= 2;
+                    } else {
+                        this.sceneController.camera.position.y += 0.045;
+                    }
+                }
             }
             return true;
+        } else {
+            this.walkingDownStairs = false;
         }
         return false
     }

@@ -93,23 +93,23 @@ export class Station extends Model3D {
     this.#sceneController.boundingBoxes.push(this.setBoundingBox
         (
             this.#sceneController.scene, // scene
-            new THREE.Vector3(this._position.x + 20, this._position.y + 3, this._position.z + 0.5), // geometry
-            new THREE.Vector3(this._position.x + 15, this._position.y - 0.041, this._position.z + 8), // position
+            new THREE.Vector3(this._position.x + 11, this._position.y + 3, this._position.z + 0.5), // geometry
+            new THREE.Vector3(this._position.x + 11, this._position.y + 4.2, this._position.z + 8), // position
             (Math.PI / 2), // rotation on x axis
             0, // rotation on z axis
             - 38.40 // rotation on y axis
             , 'leftStair'// id
         )); // LeftStair
 
-    this.#sceneController.boundingBoxes.push(this.setBoundingBox
-        (
-            this.#sceneController.scene, // scene
-            new THREE.Vector3(this._position.x + 20, this._position.y + 3, this._position.z + 0.5), // geometry
-            new THREE.Vector3(this._position.x + 15, this._position.y - 0.041, this._position.z - 14), //  position
-            (Math.PI / 2), // rotation on x axis
-            0, // rotation on z axis
-            - 38.40 // rotation on y axis
-            , 'rightStair' // id
-        )); // RightStair
+        this.#sceneController.boundingBoxes.push(this.setBoundingBox
+            (
+                this.#sceneController.scene, // scene
+                new THREE.Vector3(this._position.x + 11, this._position.y + 3, this._position.z + 0.5), // geometry
+                new THREE.Vector3(this._position.x + 11, this._position.y + 4.2, this._position.z - 14), //  position
+                (Math.PI / 2), // rotation on x axis
+                0, // rotation on z axis
+                - 38.40 // rotation on y axis
+                , 'rightStair' // id
+            )); // RightStair
     }
 }
