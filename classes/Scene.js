@@ -53,8 +53,8 @@ export class Scene {
         /* This code block checks if the camera has been spawned in the scene. If the camera has not been
         spawned, it sets the position of the camera to (0, 2, 5). This is likely the initial position of the
         camera before it starts moving or animating. */
-        // if (!this.sceneController.cameraSpawned) {
-        //     this.sceneController.camera.position.set(0, 2, 5);
+        // if (!this.sceneController.getCamera()Spawned) {
+        //     this.sceneController.getCamera().position.set(0, 2, 5);
         // }
 
         requestAnimationFrame(this.animate.bind(this));
@@ -64,14 +64,14 @@ export class Scene {
         // this.routeU6.animateMetros()
 
         // Update de camera matrix wereld
-        this.sceneController.camera.updateMatrixWorld();
+        this.sceneController.getCamera().updateMatrixWorld();
 
-        this.sceneController.user.walk();
+        this.sceneController.getUser().walk();
         // Check for camera collision
         this.sceneController.collision.checkCameraCollision();
 
         // Updates for objects of scene
-        this.sceneController.renderer.render(this.sceneController.scene, this.sceneController.camera);
+        this.sceneController.getRenderer().render(this.sceneController.getScene(), this.sceneController.getCamera());
 
     }
 }

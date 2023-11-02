@@ -43,12 +43,12 @@ export class Route {
 
         for (let i = 0; i < this.stations.length; i++) {
             if (i === 0) {
-                await station.render(this.sceneController.scene);
-                // station.setBoundingBox(this.sceneController.scene);
+                await station.render(this.sceneController.getScene());
+                // station.setBoundingBox(this.sceneController.getScene());
                 continue;
             }
 
-            await station.clone(this.sceneController.scene, new Station(
+            await station.clone(this.sceneController.getScene(), new Station(
                 this.sceneController,
                 this.stations[i]['vector'],
                 // this.stations[i]['rotation']
@@ -57,8 +57,8 @@ export class Route {
     }
 
     async #renderMetros() {
-        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController, this.sceneController.user, false)).render(this.sceneController.scene);
-        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.scene, new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController, this.sceneController.user, true));
+        this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.soundController, this.sceneController.getUser(), false)).render(this.sceneController.getScene());
+        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.getScene(), new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.soundController, this.sceneController.getUser(), true));
 
         this.leftCarriage.driveRoute(this.stations);
         this.rightCarriage.driveRoute(this.stations.reverse());
@@ -109,10 +109,10 @@ export class Route {
 
             for (let y = 0; y < amountOfTunnels; y++) {
                 if (y === 0) {
-                    await tunnel.render(this.sceneController.scene);
+                    await tunnel.render(this.sceneController.getScene());
                     continue;
                 }
-                await tunnel.clone(this.sceneController.scene,
+                await tunnel.clone(this.sceneController.getScene(),
                     new Tunnel(new THREE.Vector3((startingValue + (y * lengthOfTunnel)) * direction, this.stations[i]['vector']['y'], this.stations[i]['vector']['z']-3.4)));
             }
 

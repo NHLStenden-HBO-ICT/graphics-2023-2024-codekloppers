@@ -10,7 +10,7 @@ export default class Model3D {
     _objectAnimations;
 
     constructor(filePath = null) {
-        this.filePath = filePath;
+        this._filePath = filePath;
 
         /*Ja, dit is helaas hoe dat werkt in Javascript*/
         if (this.constructor === Model3D) {
@@ -52,7 +52,7 @@ export default class Model3D {
         dracoLoader.setDecoderConfig({ type: 'js' });
         loader.setDRACOLoader(dracoLoader);
 
-        await loader.loadAsync(this.filePath).then((gltf) => { // Gebruik een arrow-functie om de juiste 'this' context te behouden
+        await loader.loadAsync(this._filePath).then((gltf) => { // Gebruik een arrow-functie om de juiste 'this' context te behouden
             gltf.scene; // THREE.Group
             gltf.scenes; // Array<THREE.Group>
             gltf.cameras; // Array<THREE.Camera>
@@ -105,7 +105,7 @@ export default class Model3D {
         return newModel3d;
     }
 
-    setBoundingBox(scene, geometryVector, positionVector, rotationX = 0, rotationZ = 0, rotationY = 0, name) {
+    _setBoundingBox(scene, geometryVector, positionVector, rotationX = 0, rotationZ = 0, rotationY = 0, name) {
         const geometry = new THREE.BoxGeometry(geometryVector.x, geometryVector.y, geometryVector.z);
         const material = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0}); //
         const box = new THREE.Mesh(geometry, material);

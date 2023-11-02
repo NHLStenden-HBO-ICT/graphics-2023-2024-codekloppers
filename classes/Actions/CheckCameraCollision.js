@@ -27,10 +27,10 @@ export class CheckCameraCollision {
     }
     
     #updateMatrixes() {
-        this.sceneController.camera.updateMatrixWorld();
-        this.sceneController.camera.updateMatrix();
-        this.sceneController.camera.updateProjectionMatrix();
-        this.sceneController.camera.updateWorldMatrix();
+        this.sceneController.getCamera().updateMatrixWorld();
+        this.sceneController.getCamera().updateMatrix();
+        this.sceneController.getCamera().updateProjectionMatrix();
+        this.sceneController.getCamera().updateWorldMatrix();
     }
 
     #setBoxes() {
@@ -42,9 +42,9 @@ export class CheckCameraCollision {
 
     #setCameraMesh() {
         this.cameraMesh.position.set(
-            this.sceneController.camera.position.x,
-            this.sceneController.camera.position.y,
-            this.sceneController.camera.position.z
+            this.sceneController.getCamera().position.x,
+            this.sceneController.getCamera().position.y,
+            this.sceneController.getCamera().position.z
         );
     }
 
@@ -67,8 +67,8 @@ export class CheckCameraCollision {
         if(this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
             this.sceneController.boundingBoxes[i]["name"] === "rightStair")
         {
-            if(this.sceneController.user.moveForward) {
-                this.sceneController.camera.position.y += 0.1;
+            if(this.sceneController.getUser().moveForward) {
+                this.sceneController.getCamera().position.y += 0.1;
             }
             return true;
         }
@@ -78,12 +78,12 @@ export class CheckCameraCollision {
     #handleIsColliding() {
         if (this.isColliding) {
             // Reset de positie van de camera naar de vorige positie
-            this.sceneController.camera.position.copy(this.sceneController.previousCameraPosition);
-            this.sceneController.user.speed = 0; // Stel snelheid in op 0 om te voorkomen dat de camera door de muur gaat
+            this.sceneController.getCamera().position.copy(this.sceneController.previousCameraPosition);
+            this.sceneController.getUser().speed = 0; // Stel snelheid in op 0 om te voorkomen dat de camera door de muur gaat
         } else {
             // Als er geen collision is, update de vorige positie van de camera
-            this.sceneController.previousCameraPosition.copy(this.sceneController.camera.position);
-            this.sceneController.user.speed = 0.8;
+            this.sceneController.previousCameraPosition.copy(this.sceneController.getCamera().position);
+            this.sceneController.getUser().speed = 0.8;
         }
     }
 }

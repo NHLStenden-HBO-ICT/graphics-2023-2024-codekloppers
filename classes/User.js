@@ -42,8 +42,8 @@ export class User {
      * Initializes PointerLockControls for user movement and adds event listener for pointer lock activation on mouse click.
      */
     getPointerControls() {
-        this.controls = new PointerLockControls(this.sceneController.camera, document.body); // Create PointerLockControls instance
-        this.sceneController.scene.add(this.controls.getObject()); // Add controls object to the scene
+        this.controls = new PointerLockControls(this.sceneController.getCamera(), document.body); // Create PointerLockControls instance
+        this.sceneController.getScene().add(this.controls.getObject()); // Add controls object to the scene
         document.addEventListener('click', () => {
             this.controls.lock(); // Add event listener to activate pointer lock on mouse click
         });

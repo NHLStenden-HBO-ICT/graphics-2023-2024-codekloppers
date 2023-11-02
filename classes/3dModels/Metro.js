@@ -5,22 +5,21 @@ import {v4 as uuid} from 'uuid';
 
 export class Metro extends Model3D {
     #id;
-    filePath = "/assets/3d/ubahn.glb";
-    animations;
-    soundController;
-    mixer;
+    _filePath = "/assets/3d/ubahn.glb";
+    #soundController;
+    #mixer;
     #user;
     #sideDoorLocations = [-3.9, -9.4, -14.9, -20.4, 3.9, 9.4, 14.9, 20.4];
     #doorsOpen = true;
     #lastStationPosition;
     #isOccupiedByUser = false;
     #isRightCarriage;
-    soundEffects = {
+    #soundEffects = {
         'stationSound': '/assets/sound_effects/stationSound.mp3',
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
     }
 
-    animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
+    #animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
 
 
     constructor(position, rotation, soundController, user, isRightCarriage) {
@@ -28,8 +27,8 @@ export class Metro extends Model3D {
         this.#id = uuid();
         this._position = position;
         this._rotation = rotation;
-        this.soundController = soundController;
-        this.mixer = new THREE.AnimationMixer();
+        this.#soundController = soundController;
+        this.#mixer = new THREE.AnimationMixer();
         this.#user = user;
         this.#lastStationPosition = this._position;
         this.#isRightCarriage = isRightCarriage;
@@ -50,46 +49,46 @@ export class Metro extends Model3D {
     }
 
     // function to open doors
-    animateDoors() {
+    #animateDoors() {
         const animations = this._objectAnimations;
-        this.mixer = new THREE.AnimationMixer(this._objectScene);
-        this.playAnimation(animations);
+        this.#mixer = new THREE.AnimationMixer(this._objectScene);
+        this.#playAnimation(animations);
     }
 
     driveRoute(stations) {
 
         for (let i = 1; i < stations.length; i++) {
-            this.driveToStation(this.getDestinationCoordinates(stations[i], this.#isRightCarriage));
+            this.#driveToStation(this.#getDestinationCoordinates(stations[i], this.#isRightCarriage));
         }
 
         stations = stations.reverse()
         for (let i = 1; i < stations.length; i++) {
-            this.driveToStation(this.getDestinationCoordinates(stations[i], this.#isRightCarriage));
+            this.#driveToStation(this.#getDestinationCoordinates(stations[i], this.#isRightCarriage));
         }
         /*Don't remove this! Because Javascript is pass by reference and not pass by value,
          the value being set here actually effects how the trains move*/
         stations = stations.reverse();
-        this.animationTimeline.play();
+        this.#animationTimeline.play();
     }
 
 
-    // function to driveToStation metro
-    driveToStation(endPosition) {
+    // function to #driveToStation metro
+    #driveToStation(endPosition) {
         let duration = Math.abs(10);
 
         // Is executed before the delay
-        this.animationTimeline.to({}, {
+        this.#animationTimeline.to({}, {
             onStart: () => {
                 console.log("Stilstaand");
                 this.#doorsOpen = true;
-                this.animateDoors();
+                this.#animateDoors();
                 this.#allowUserActions();
-                this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.stationSound));
+                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.stationSound));
             }
         });
 
         // TODO: Hier zit een grote bug in. Als de trein voor de 2e keer op een station aankomt wordt onStart nooit uitgevoerd.
-        this.animationTimeline.to(this._objectScene.position, {
+        this.#animationTimeline.to(this._objectScene.position, {
             x: endPosition.x,
             y: endPosition.y,
             z: endPosition.z,
@@ -99,7 +98,7 @@ export class Metro extends Model3D {
             onStart: () => {
                 console.log("Vertrokken");
                 this.#doorsOpen = false;
-                this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
+                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.driving, duration));
                 this.#disallowUserActions();
             },
             onUpdate: () => {
@@ -116,7 +115,7 @@ export class Metro extends Model3D {
     }
 
 
-    getDestinationCoordinates(positionNextStation, isRightCarriage) {
+    #getDestinationCoordinates(positionNextStation, isRightCarriage) {
         let endPosition;
         if (isRightCarriage) {
             endPosition = new THREE.Vector3(
@@ -149,14 +148,14 @@ export class Metro extends Model3D {
 
 
     /**
-     * The `playAnimation` function plays a set of animations by creating actions for each animation and
+     * The `#playAnimation` function plays a set of animations by creating actions for each animation and
      * then playing them.
      * @param animations - The `animations` parameter is an array of animation clips that you want to play.
      * Each animation clip represents a specific animation that can be applied to an object in a scene.
      */
-    playAnimation(animations) {
+    #playAnimation(animations) {
         for (let i = 0; i < animations.length; i++) {
-            let action = this.mixer.clipAction(animations[i], this._objectScene);
+            let action = this.#mixer.clipAction(animations[i], this._objectScene);
             action.paused = false; // Hervat de animatie
             // console.log(animations[i])
 
