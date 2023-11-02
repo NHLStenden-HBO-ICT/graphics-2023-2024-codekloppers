@@ -69,7 +69,7 @@ export class Scene {
 
         this.sceneController.getUser().walk();
         // Check for camera collision
-        this.sceneController.collision.checkCameraCollision();
+        this.sceneController.getCollision().checkCameraCollision();
 
         // Updates for objects of scene
         this.sceneController.getRenderer().render(this.sceneController.getScene(), this.sceneController.getCamera());

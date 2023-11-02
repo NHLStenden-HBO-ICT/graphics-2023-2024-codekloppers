@@ -121,22 +121,22 @@ export class User {
                 case 'ArrowUp':
                 case 'KeyW':
                     this.moveForward = true; // Set forward movement flag to true
-                    this.sceneController.cameraSpawned = true; // Notify scene controller that the camera has spawned
+                    this.sceneController.setCameraSpawned(true); // Notify scene controller that the camera has spawned
                     break;
                 case 'ArrowLeft':
                 case 'KeyA':
                     this.moveLeft = true; // Set leftward movement flag to true
-                    this.sceneController.cameraSpawned = true; // Notify scene controller that the camera has spawned
+                    this.sceneController.setCameraSpawned(true); // Notify scene controller that the camera has spawned
                     break;
                 case 'ArrowDown':
                 case 'KeyS':
                     this.moveBackward = true; // Set backward movement flag to true
-                    this.sceneController.cameraSpawned = true; // Notify scene controller that the camera has spawned
+                    this.sceneController.setCameraSpawned(true); // Notify scene controller that the camera has spawned
                     break;
                 case 'ArrowRight':
                 case 'KeyD':
                     this.moveRight = true; // Set rightward movement flag to true
-                    this.sceneController.cameraSpawned = true; // Notify scene controller that the camera has spawned
+                    this.sceneController.setCameraSpawned(true); // Notify scene controller that the camera has spawned
                     break;
                 case 'ctrlKey':
                     this.speed = 600.0;

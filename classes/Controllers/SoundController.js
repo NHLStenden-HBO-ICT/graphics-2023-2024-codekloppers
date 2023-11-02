@@ -9,7 +9,6 @@ export class SoundController {
         this.listener = listener;
     }
 
-
     #loadSound(pathToSoundFile, duration = undefined) {
         const sound = new THREE.Audio(this.listener);
 

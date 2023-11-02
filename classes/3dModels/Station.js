@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import Model3D from '/classes/3dModels/Model3D';
-import {WebGLRenderList as boundingBoxes} from "three/src/renderers/webgl/WebGLRenderLists";
 
 export class Station extends Model3D {
     #name;
@@ -20,7 +19,7 @@ export class Station extends Model3D {
 
     #setBoundaryBoxes() {
 
-        this.#sceneController.boundingBoxes.push(this._setBoundingBox(
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(this._position.x + 60, this._position.y + 1, this._position.z + 6), // geometry
             new THREE.Vector3(this._position.x + 20, this._position.y + 0, this._position.z + 0), // position
@@ -30,7 +29,7 @@ export class Station extends Model3D {
             , 'leftBorder' //id
         )); // left border
 
-        this.#sceneController.boundingBoxes.push(this._setBoundingBox(
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(),
             new THREE.Vector3(this._position.x + 60, this._position.y + 2, this._position.z + 6),
             new THREE.Vector3(this._position.x + -50, this._position.y + 0, this._position.z + 0),
@@ -40,7 +39,7 @@ export class Station extends Model3D {
             , 'rightBorder' // id
         )); // right border
 
-        this.#sceneController.boundingBoxes.push(this._setBoundingBox
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(this._position.x + 68, this._position.y + 1, this._position.z + 8), // geometry
@@ -51,7 +50,7 @@ export class Station extends Model3D {
             , 'backWallLeft' // id
         )); // backwall LEFT
 
-        this.#sceneController.boundingBoxes.push(this._setBoundingBox
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(this._position.x + 68, this._position.y + 1, this._position.z + 8), // geometry
@@ -62,7 +61,7 @@ export class Station extends Model3D {
             , 'backWallRight' // id
         )); // backwall RIGHT
 
-    this.#sceneController.boundingBoxes.push(this._setBoundingBox
+    this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(this._position.x + 80, this._position.y + 1, this._position.z + 18), // geometry
@@ -73,7 +72,7 @@ export class Station extends Model3D {
             , 'outerBackWallLeft' // id
         )); // outerBackWall Left
 
-    this.#sceneController.boundingBoxes.push(this._setBoundingBox
+    this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(this._position.x + 80, this._position.y + 1, this._position.z + 18), // geometry
@@ -84,7 +83,7 @@ export class Station extends Model3D {
             , 'outerBackWallRight'// id
         )); // outerBackWall RIGHT
 
-    this.#sceneController.boundingBoxes.push(this._setBoundingBox
+    this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(this._position.x + 11, this._position.y + 3, this._position.z + 0.5), // geometry
@@ -95,7 +94,7 @@ export class Station extends Model3D {
             , 'leftStair'// id
         )); // LeftStair
 
-        this.#sceneController.boundingBoxes.push(this._setBoundingBox
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
             (
                 this.#sceneController.getScene(), // scene
                 new THREE.Vector3(this._position.x + 11, this._position.y + 3, this._position.z + 0.5), // geometry
