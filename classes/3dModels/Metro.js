@@ -76,18 +76,13 @@ export class Metro extends Model3D {
     #driveToStation(endPosition) {
         let duration = Math.abs(10);
 
-        // Is executed before the delay
+        // Is executed before the delay, so every time the metro is on the station
         this.#animationTimeline.to({}, {
             onStart: () => {
-                console.log('on station');
-                this.#doorsOpen = true;
-                this.#animateDoors();
-                this.#allowUserActions();
-                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.stationSound, 0.5));
+                this.#onInStation();
             }
         });
 
-        // TODO: Hier zit een grote bug in. Als de trein voor de 2e keer op een station aankomt wordt onStart nooit uitgevoerd.
         this.#animationTimeline.to(this._objectScene.position, {
             x: endPosition.x,
             y: endPosition.y,
@@ -102,7 +97,7 @@ export class Metro extends Model3D {
                 this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.driving, 2,1, duration));
                 this.#disallowUserActions();
             },
-            /*Anytime the train moves*/
+            /*Any time the train moves*/
             onUpdate: () => {
                 if(this.#isOccupiedByUser) {
                     this.#user.setPosition(new THREE.Vector3(this._objectScene.position.x + 8, 2, this._objectScene.position.z));
@@ -112,9 +107,23 @@ export class Metro extends Model3D {
             onComplete: () => {
                 console.log('arrival')
                 this.#lastStationPosition = endPosition;
+
+                console.log(this._objectScene.position.x == -5 ? "On first station" : "Not on first station");
+
+                // if(this._objectScene.position.x == -5) {
+                //     this.#onInStation();
+                // }
             },
         });
 
+    }
+
+    #onInStation() {
+        console.log('on station');
+        this.#doorsOpen = true;
+        this.#animateDoors();
+        this.#allowUserActions();
+        this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.stationSound, 0.5));
     }
 
 
@@ -147,6 +156,11 @@ export class Metro extends Model3D {
 
         /*Return the object so it's easier to use */
         return this;
+    }
+
+    
+    getMixer() {
+        return this.#mixer;
     }
 
 

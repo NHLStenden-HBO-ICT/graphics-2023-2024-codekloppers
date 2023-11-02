@@ -25,11 +25,11 @@ export class Route {
             this.stations[0]['vector']['z'] - 6.8,
         );
 
-        this.#rightTrainVector = new THREE.Vector3(
-            this.stations[this.stations.length-1]['vector']['x'] - 5,
-            this.stations[this.stations.length-1]['vector']['y'] - 1,
-            this.stations[this.stations.length-1]['vector']['z'],
-        );
+        // this.#rightTrainVector = new THREE.Vector3(
+        //     this.stations[this.stations.length-1]['vector']['x'] - 5,
+        //     this.stations[this.stations.length-1]['vector']['y'] - 1,
+        //     this.stations[this.stations.length-1]['vector']['z'],
+        // );
     }
 
     async render() {
@@ -46,7 +46,7 @@ export class Route {
                 await station.render(this.sceneController.getScene());
                 // station.setBoundingBox(this.sceneController.getScene());
                 continue;
-            }
+        }
 
             await station.clone(this.sceneController.getScene(), new Station(
                 this.sceneController,
@@ -58,20 +58,20 @@ export class Route {
 
     async #renderMetros() {
         this.leftCarriage = await (new Metro(this.#leftTrainVector, this.stations[0]['rotation'], this.sceneController.getSoundController(), this.sceneController.getUser(), false)).render(this.sceneController.getScene());
-        this.rightCarriage = await this.leftCarriage.clone(this.sceneController.getScene(), new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.getSoundController(), this.sceneController.getUser(), true));
+        // this.rightCarriage = await this.leftCarriage.clone(this.sceneController.getScene(), new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.getSoundController(), this.sceneController.getUser(), true));
 
         this.leftCarriage.driveRoute(this.stations);
-        this.rightCarriage.driveRoute(this.stations.reverse());
+        // this.rightCarriage.driveRoute(this.stations.reverse());
     }
 
     animateMetros() {
-        if (this.leftCarriage.mixer) {
-            this.leftCarriage.mixer.update(0.006);
+        if (this.leftCarriage.getMixer()) {
+            this.leftCarriage.getMixer().update(0.006);
         }
 
-        if (this.rightCarriage.mixer != null) {
-            this.rightCarriage.mixer.update(0.006);
-        }
+        // if (this.rightCarriage.getMixer() != null) {
+        //     this.rightCarriage.getMixer().update(0.006);
+        // }
     }
 
     async #renderTunnels() {
