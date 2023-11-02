@@ -85,76 +85,76 @@ export class CheckCameraCollision {
         }
     }
 
-// Check if the user is walking up or down the stairs
-#checkIfWalkingUpStairs(i) {
-    // Check if it's a stair
-    if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
-        this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
+    // Check if the user is walking up or down the stairs
+    #checkIfWalkingUpStairs(i) {
+        // Check if it's a stair
+        if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
+            this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
 
-        this.handleStairMovement(i);
-        return true;
-    } else {
-        // If it's not a stair, indicate that the user is not walking down
-        this.walkingDownStairs = false;
-    }
-    return false;
-}
-
-// Handle stair movement based on user input
-handleStairMovement(i) {
-    // Check if the camera is downstairs and if the user is going up
-    if (this.sceneController.getCamera().position.y === 8.43499999999999) {
-        this.walkingDownStairs = true;
-    } else if (this.sceneController.getCamera().position.y === 2) {
-        this.walkingDownStairs = false;
+            this.handleStairMovement(i);
+            return true;
+        } else {
+            // If it's not a stair, indicate that the user is not walking down
+            this.walkingDownStairs = false;
+        }
+        return false;
     }
 
-    if (this.sceneController.getUser().moveForward) {
-        // If the user is moving forward
-        this.handleStairDirection(i);
-    }
-}
+    // Handle stair movement based on user input
+    handleStairMovement(i) {
+        // Check if the camera is downstairs and if the user is going up
+        if (this.sceneController.getCamera().position.y === 8.43499999999999) {
+            this.walkingDownStairs = true;
+        } else if (this.sceneController.getCamera().position.y === 2) {
+            this.walkingDownStairs = false;
+        }
 
-// Handle stair direction (up or down) based on user position
-handleStairDirection(i) {
-    if (this.walkingDownStairs) {
-        // If the user is going down
-        this.handleStairDown(i);
-    } else {
-        // If the user is going up
-        this.handleStairUp(i);
+        if (this.sceneController.getUser().moveForward) {
+            // If the user is moving forward
+            this.handleStairDirection(i);
+        }
     }
-}
 
-// Handle user going down the stairs
-handleStairDown(i) {
-    if (this.sceneController.getCamera().position.y === 2) {
-        // If the user is all the way down, adjust the position
-        this.sceneController.getCamera().position.x += 2;
-        this.walkingDownStairs = false;
-    } else {
-        // If the user is not all the way down, gradually go down
-        this.sceneController.getCamera().position.y -= 0.0508;
+    // Handle stair direction (up or down) based on user position
+    handleStairDirection(i) {
+        if (this.walkingDownStairs) {
+            // If the user is going down
+            this.handleStairDown(i);
+        } else {
+            // If the user is going up
+            this.handleStairUp(i);
+        }
     }
-}
 
-// Handle user going up the stairs
-handleStairUp(i) {
-    if (this.sceneController.getCamera().position.y < 8.47999999999999) {
-        // If the user is going up
-        this.handleStairUpwardMovement();
+    // Handle user going down the stairs
+    handleStairDown(i) {
+        if (this.sceneController.getCamera().position.y === 2) {
+            // If the user is all the way down, adjust the position
+            this.sceneController.getCamera().position.x += 2;
+            this.walkingDownStairs = false;
+        } else {
+            // If the user is not all the way down, gradually go down
+            this.sceneController.getCamera().position.y -= 0.0508;
+        }
     }
-}
 
-// Handle user going up the stairs (upward movement)
-handleStairUpwardMovement() {
-    if (this.sceneController.getCamera().position.y === 8.47999999999999) {
-        // If the user is all the way up, adjust the position
-        this.sceneController.getCamera().position.x -= 2;
-    } else {
-        // If the user is not all the way up, gradually go up
-        this.sceneController.getCamera().position.y += 0.045;
+    // Handle user going up the stairs
+    handleStairUp(i) {
+        if (this.sceneController.getCamera().position.y < 8.47999999999999) {
+            // If the user is going up
+            this.handleStairUpwardMovement();
+        }
     }
+
+    // Handle user going up the stairs (upward movement)
+    handleStairUpwardMovement() {
+        if (this.sceneController.getCamera().position.y === 8.47999999999999) {
+            // If the user is all the way up, adjust the position
+            this.sceneController.getCamera().position.x -= 2;
+        } else {
+            // If the user is not all the way up, gradually go up
+            this.sceneController.getCamera().position.y += 0.045;
+        }
 }
 
 
