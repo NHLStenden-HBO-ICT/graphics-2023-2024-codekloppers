@@ -28,6 +28,8 @@ export class CheckCameraCollision {
             return;
         }
 
+        console.log(document.cookie);
+
         // Update matrices for the camera
         this.#updateMatrices();
         // Set the bounding boxes and the camera mesh
@@ -78,7 +80,10 @@ export class CheckCameraCollision {
                 // If there is collision, check if it's a stair and adjust the variable
                 if (this.#checkIfWalkingUpStairs(i)) {
                     // If it's a stair, adjust the camera and keep isColliding to false
-                } else {
+                } else if (document.cookie == "true") {
+                    // user is in train, keep isColliding to false
+                }
+                else {
                     // If it's not a stair, set isColliding to true
                     this.isColliding = true;
                 }
@@ -92,9 +97,7 @@ export class CheckCameraCollision {
         if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
             this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
 
-            // this.handleStairMovement(i);
-            console.log("test");
-            gsap.to(this.sceneController.getCamera().position, {x: 10, y: 8.43, z: 10, duration: 5, ease: "power1.inOut"});
+            gsap.to(this.sceneController.getCamera().position, {x: + 50, y: 8.43, z: 10, duration: 5, ease: "power1.inOut"}).play();
             // return true;
         } else {
             // If it's not a stair, indicate that the user is not walking down
