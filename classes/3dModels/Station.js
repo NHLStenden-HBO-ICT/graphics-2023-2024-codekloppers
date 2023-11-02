@@ -14,7 +14,6 @@ export class Station extends Model3D {
         this._position = position;
         this._rotation = rotation;
         this.#sceneController = sceneController;
-        // console.log(sceneController.boundingBoxes)
         this.#setBoundaryBoxes()
         // this.name = name;
     }

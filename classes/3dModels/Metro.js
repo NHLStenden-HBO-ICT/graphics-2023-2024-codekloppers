@@ -80,7 +80,6 @@ export class Metro extends Model3D {
         // Is executed before the delay
         this.animationTimeline.to({}, {
             onStart: () => {
-                console.log("Stilstaand");
                 this.#doorsOpen = true;
                 this.animateDoors();
                 this.#allowUserActions();
@@ -97,7 +96,6 @@ export class Metro extends Model3D {
             duration: duration,
             ease: "power1.inOut",
             onStart: () => {
-                console.log("Vertrokken");
                 this.#doorsOpen = false;
                 this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
                 this.#disallowUserActions();
@@ -108,7 +106,6 @@ export class Metro extends Model3D {
                 }
             },
             onComplete: () => {
-                console.log("Aangekomen");
                 this.#lastStationPosition = endPosition;
             },
         });
@@ -158,7 +155,6 @@ export class Metro extends Model3D {
         for (let i = 0; i < animations.length; i++) {
             let action = this.mixer.clipAction(animations[i], this._objectScene);
             action.paused = false; // Hervat de animatie
-            // console.log(animations[i])
 
             // Zorg ervoor dat de animatie in de juiste richting wordt afgespeeld (voorwaarts)
             action.timeScale = 3;

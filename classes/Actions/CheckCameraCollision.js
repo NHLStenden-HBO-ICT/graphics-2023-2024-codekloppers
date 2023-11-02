@@ -16,10 +16,7 @@ export class CheckCameraCollision {
         this.previousCameraPosition = new THREE.Vector3();
 
         // Add cameraMesh to the scene
-        this.boxSize = new THREE.Vector3(1, 1, 1);
-        this.boxGeometry = new THREE.BoxGeometry(this.boxSize.x, this.boxSize.y, this.boxSize.z);
-        this.boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 });
-        this.cameraMesh = new THREE.Mesh(this.boxGeometry, this.boxMaterial);
+        this.#setBoxes();
         this.sceneController.scene.add(this.cameraMesh);
     }
 
@@ -39,9 +36,6 @@ export class CheckCameraCollision {
         this.#checkIsColliding();
         // Handle collision
         this.#handleIsColliding();
-
-        // Log the Y-position of the camera
-        console.log(this.sceneController.camera.position.y);
     }
 
     // Update matrices of the camera for accurate collision detection
@@ -111,7 +105,6 @@ export class CheckCameraCollision {
                 // If the user is moving forward
                 if(this.walkingDownStairs) {
                     // If the user is going down
-                    console.log("downstairs");
                     if(this.sceneController.camera.position.y == 2) {
                         // If the user is all the way down, adjust the position
                         this.sceneController.camera.position.x += 2;
@@ -124,7 +117,6 @@ export class CheckCameraCollision {
 
                 if(this.sceneController.camera.position.y < 8.47999999999999 && !this.walkingDownStairs) {
                     // If the user is going up
-                    console.log("upstairs");
 
                     if(this.sceneController.camera.position.y == 8.47999999999999){
                         // If the user is all the way up, adjust the position
