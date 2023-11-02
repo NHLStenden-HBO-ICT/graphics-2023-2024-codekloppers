@@ -82,7 +82,7 @@ export class Metro extends Model3D {
                 this.#doorsOpen = true;
                 this.#animateDoors();
                 this.#allowUserActions();
-                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.stationSound));
+                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.stationSound, 0.5));
             }
         });
 
@@ -98,7 +98,7 @@ export class Metro extends Model3D {
             onStart: () => {
                 console.log('vertrekt')
                 this.#doorsOpen = false;
-                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.driving, duration));
+                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.driving, 2,1, duration));
                 this.#disallowUserActions();
             },
             /*Anytime the train moves*/
