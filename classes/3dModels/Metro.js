@@ -258,6 +258,10 @@ export class Metro extends Model3D {
         this.#user.disableWalking();
         this.#isOccupiedByUser = true;
 
+        document.cookie = "true";
+
+
+
         document.getElementById("enterButton").classList.add("hidden");
         document.getElementById("enterButton").removeEventListener("click", () => this.enter());
         document.getElementById("leaveButton").addEventListener("click", () => this.leave());
@@ -268,6 +272,7 @@ export class Metro extends Model3D {
         this.#user.enableWalking();
         this.#user.setPosition(new THREE.Vector3(this.#lastStationPosition.x + 9.4, 2, this.#lastStationPosition.z + (this.#isRightCarriage ? 3 : -3)));
         this.#isOccupiedByUser = false;
+        document.cookie = "false";
 
         document.getElementById("leaveButton").classList.add("hidden");
         document.getElementById("leaveButton").removeEventListener("click", () => this.leave());
