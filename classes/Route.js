@@ -15,10 +15,10 @@ export class Route {
     constructor(sceneController, routeName) {
         this.sceneController = sceneController;
         this.stations = Routes.routes[routeName];
-        this.setVectors();
+        this.#setVectors();
     }
 
-    setVectors() {
+    #setVectors() {
         this.#leftTrainVector = new THREE.Vector3(
             this.stations[0]['vector']['x'] - 5,
             this.stations[0]['vector']['y'] - 1,
@@ -34,8 +34,8 @@ export class Route {
 
     async render() {
         await this.#renderStations();
-        await this.#renderMetros();
         await this.#renderTunnels();
+        await this.#renderMetros();
     }
 
     async #renderStations() {
