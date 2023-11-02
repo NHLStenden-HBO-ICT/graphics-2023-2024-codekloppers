@@ -117,6 +117,7 @@ handleStairMovement(i) {
 
 // Handle stair direction (up or down) based on user position
 handleStairDirection(i) {
+    console.log(this.walkingDownStairs);
     if (this.walkingDownStairs) {
         // If the user is going down
         this.handleStairDown(i);
@@ -128,19 +129,19 @@ handleStairDirection(i) {
 
 // Handle user going down the stairs
 handleStairDown(i) {
-    if (this.sceneController.getCamera().position.y === 2) {
+        if (this.sceneController.getCamera().position.y <= 1.9) {
         // If the user is all the way down, adjust the position
-        this.sceneController.getCamera().position.x += 2;
+        this.sceneController.getCamera().position.x += 0.5;
         this.walkingDownStairs = false;
     } else {
         // If the user is not all the way down, gradually go down
-        this.sceneController.getCamera().position.y -= 0.0508;
+        this.sceneController.getCamera().position.y -= 0.07;
     }
 }
 
 // Handle user going up the stairs
 handleStairUp(i) {
-    if (this.sceneController.getCamera().position.y < 8.47999999999999) {
+    if (this.sceneController.getCamera().position.y < 8.1) {
         // If the user is going up
         this.handleStairUpwardMovement();
     }
@@ -148,15 +149,15 @@ handleStairUp(i) {
 
 // Handle user going up the stairs (upward movement)
 handleStairUpwardMovement() {
-    if (this.sceneController.getCamera().position.y === 8.47999999999999) {
+    if (this.sceneController.getCamera().position.y > 8.0) {
         // If the user is all the way up, adjust the position
-        this.sceneController.getCamera().position.x -= 2;
+        this.sceneController.getCamera().position.x -= 0.5;
+        this.walkingDownStairs = true;
     } else {
         // If the user is not all the way up, gradually go up
-        this.sceneController.getCamera().position.y += 0.045;
+        this.sceneController.getCamera().position.y += 0.1;
     }
 }
-
 
     // Handle collision
     #handleIsColliding() {

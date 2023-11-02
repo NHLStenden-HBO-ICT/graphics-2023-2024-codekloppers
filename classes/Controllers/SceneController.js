@@ -8,11 +8,11 @@ export class SceneController {
     #camera;
     #renderer;
     #user;
-    #boundingBoxes = [];
-    #cameraSpawned;
-    #listener = new THREE.AudioListener();
-    #soundController = new SoundController(this.#listener)
-    #collision = new CheckCameraCollision(this);
+    boundingBoxes = [];
+    cameraSpawned;
+    listener = new THREE.AudioListener();
+    soundController = new SoundController(this.listener)
+    collision = new CheckCameraCollision(this);
 
     constructor(pixelRatio, antialiasing) {
         this.#setCamera();
@@ -66,23 +66,23 @@ export class SceneController {
     }
 
     getBoundingBoxes() {
-        return this.#boundingBoxes;
+        return this.boundingBoxes;
     }
 
     getCameraSpawned() {
-        return this.#cameraSpawned;
+        return this.cameraSpawned;
     }
 
     setCameraSpawned(cameraSpawned) {
-        this.#cameraSpawned = cameraSpawned;
+        this.cameraSpawned = cameraSpawned;
     }
 
     getSoundController() {
-        return this.#soundController;
+        return this.soundController;
     }
 
     getCollision() {
-        return this.#collision;
+        return this.collision;
     }
 
     #onWindowResize() {
