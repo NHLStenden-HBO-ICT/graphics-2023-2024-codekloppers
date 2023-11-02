@@ -15,7 +15,8 @@ export class Scene {
         document.getElementById("indicator").style.display = "block";
         document.getElementById("controlBox").style.display = "none";
         const quality = document.getElementById('qualityInput').value;
-        this.startScene(quality);
+        const antialiasing = document.getElementById('antialiasingInput').value;
+        this.startScene(quality, antialiasing);
     }
 
     loadingDone() {
@@ -23,8 +24,8 @@ export class Scene {
         document.getElementById('sceneCanvas').style.display = 'block';
     }
 
-    async startScene(pixelRatio) {
-        this.sceneController = new SceneController(pixelRatio);
+    async startScene(pixelRatio, antialiasing) {
+        this.sceneController = new SceneController(pixelRatio, antialiasing);
         await this.render();
         this.animate();
         this.loadingDone();

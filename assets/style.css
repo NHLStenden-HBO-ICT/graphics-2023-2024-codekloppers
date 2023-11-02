@@ -144,12 +144,18 @@ body {
 .qualitySelector {
     justify-content: start;
     flex-direction: column;
-    gap: 6px;
+    gap: 16px;
     font-size: 12px;
     width: 100%;
 }
 
-#qualityInput {
+.qualitySelector div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.qualitySelector select {
     flex: 1;
     background-color: transparent;
     border: 2px solid #333333;
@@ -165,6 +171,6 @@ body {
     background-position-y: 5px;
 }
 
-#qualityInput option {
+.qualitySelector select option {
     background: #1c1c1c;
 }

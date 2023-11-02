@@ -15,18 +15,18 @@ export class SceneController {
     soundController = new SoundController(this.listener)
     collision = new CheckCameraCollision(this);
 
-    constructor(pixelRatio) {
+    constructor(pixelRatio, antialiasing) {
         this.#setCamera();
         /*User needs to be defined after camera because User uses the camera attribute*/
         this.#user = new User(this);
-        this.#setRenderer(pixelRatio);
+        this.#setRenderer(pixelRatio, antialiasing);
         // this.#setAmbientLight();
         this.#onWindowResize()
     }
 
-    #setRenderer(pixelRatio = 0.5) {
+    #setRenderer(pixelRatio = 0.5, antialiasing = true) {
         this.#renderer = new THREE.WebGLRenderer({
-            antialias: true,
+            antialias: antialiasing,
             gammaOutput: true,
             premultipliedAlpha: false
         });
@@ -68,8 +68,8 @@ export class SceneController {
 
     #onWindowResize() {
         window.addEventListener('resize', () => {
-            this.camera.aspect = window.innerWidth / window.innerHeight;
-            this.camera.updateProjectionMatrix();
+            this.#camera.aspect = window.innerWidth / window.innerHeight;
+            this.#camera.updateProjectionMatrix();
 
             this.#renderer.setSize( window.innerWidth, window.innerHeight );
         })
@@ -83,6 +83,6 @@ export class SceneController {
 
     #setAmbientLight() {
         const light = new THREE.AmbientLight(0x404040, 100);
-        this.scene.add(light);
+        this.#scene.add(light);
     }
 }
