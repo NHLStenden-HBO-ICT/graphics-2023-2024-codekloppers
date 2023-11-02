@@ -135,18 +135,21 @@ export class CheckCameraCollision {
     handleStairDown() {
         if (this.hasNotStartedAnimation) {
             gsap.to(this.sceneController.getCamera().position, {
-                x: 17,
+                x: this.sceneController.getCamera().position.x + 11,
                 y: 2,
                 z: this.sceneController.getCamera().position.z,
                 // duration: 2,
                 // delay: 0,
                 // ease: "power1.inOut",
                 onStart: () => {
-                    this.sceneController.getCamera().lookAt(17, 2, this.sceneController.getCamera().position.z);
+                    this.sceneController.getCamera().lookAt(
+                        this.sceneController.getCamera().position.x + 17,
+                        2,
+                        this.sceneController.getCamera().position.z
+                    );
                 },
                 onComplete: () => {
                     this.hasNotStartedAnimation = true;
-                    // this.sceneController.getCamera().lookAt(5.5, 7.43777, this.sceneController.getCamera().position.z);
                 }
             }).play();
 
@@ -158,18 +161,20 @@ export class CheckCameraCollision {
     handleStairUpward() {
         if (this.hasNotStartedAnimation) {
             gsap.to(this.sceneController.getCamera().position, {
-                x: 5.5,
+                x: this.sceneController.getCamera().position.x - 11,
                 y: 8,
                 z: this.sceneController.getCamera().position.z,
                 // duration: 2,
                 // delay: 0,
                 // ease: "power1.inOut",
                 onStart: () => {
-                    this.sceneController.getCamera().lookAt(5.5, 7.43777, 8);
+                    this.sceneController.getCamera().lookAt(
+                        this.sceneController.getCamera().position.x + 5.5,
+                        8,
+                        this.sceneController.getCamera().position.z);
                 },
                 onComplete: () => {
                     this.hasNotStartedAnimation = true;
-                    this.sceneController.getCamera().lookAt(5.5, 7.43777, 0);
                 }
             }).play();
 
