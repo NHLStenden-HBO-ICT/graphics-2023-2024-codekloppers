@@ -17,6 +17,15 @@ export class Station extends Model3D {
         // this.name = name;
     }
 
+    /**
+     * Overwrites the render method from Model3D,
+     */
+    async render(scene) {
+        await super.render(scene)
+
+        /*Melvin kan hier zn dingen toevoegen */
+    }
+
     #setBoundaryBoxes() {
 
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
