@@ -118,7 +118,7 @@ body {
 #controlBox {
     background-color: #1c1c1c;
     border-radius: 20px;
-    width: 380px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
