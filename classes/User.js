@@ -86,6 +86,7 @@ export class User {
      */
     walk() {
         if (!this.#walkingDisabled) {
+            // console.log(this.sceneController.getCamera().position)
             const time = performance.now(); // Get the current time
             if (this.controls.isLocked === true) { // Check if the pointer lock is active
                 const delta = (time - this.prevTime) / 10000; // Calculate the time difference between frames

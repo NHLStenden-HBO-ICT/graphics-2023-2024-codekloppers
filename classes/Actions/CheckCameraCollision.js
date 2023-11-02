@@ -11,6 +11,7 @@ export class CheckCameraCollision {
     isColliding = false;
     previousCameraPosition;
     walkingDownStairs = false;
+    hasNotStartedAnimation = true;
 
     constructor(sceneController) {
         this.sceneController = sceneController;
@@ -27,8 +28,6 @@ export class CheckCameraCollision {
             // If the user is not spawned yet, do nothing
             return;
         }
-
-        console.log(document.cookie);
 
         // Update matrices for the camera
         this.#updateMatrices();
@@ -53,7 +52,7 @@ export class CheckCameraCollision {
     #setBoxes() {
         this.boxSize = new THREE.Vector3(1, 1, 1);
         this.boxGeometry = new THREE.BoxGeometry(this.boxSize.x, this.boxSize.y, this.boxSize.z);
-        this.boxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.0 });
+        this.boxMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0});
         // Create a camera mesh for collision detection
         this.cameraMesh = new THREE.Mesh(this.boxGeometry, this.boxMaterial);
     }
@@ -80,7 +79,7 @@ export class CheckCameraCollision {
                 // If there is collision, check if it's a stair and adjust the variable
                 if (this.#checkIfWalkingUpStairs(i)) {
                     // If it's a stair, adjust the camera and keep isColliding to false
-                } else if (document.cookie == "true") {
+                } else if (document.cookie === "true") {
                     // user is in train, keep isColliding to false
                 }
                 else {
@@ -97,7 +96,7 @@ export class CheckCameraCollision {
         if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
             this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
 
-            gsap.to(this.sceneController.getCamera().position, {x: + 50, y: 8.43, z: 10, duration: 5, ease: "power1.inOut"}).play();
+            this.handleStairMovement(i);
             // return true;
         } else {
             // If it's not a stair, indicate that the user is not walking down
@@ -107,9 +106,9 @@ export class CheckCameraCollision {
     }
 
     // Handle stair movement based on user input
-    handleStairMovement(i) {
+    handleStairMovement() {
         // Check if the camera is downstairs and if the user is going up
-        if (this.sceneController.getCamera().position.y === 8.43499999999999) {
+        if (this.sceneController.getCamera().position.y === 8) {
             this.walkingDownStairs = true;
         } else if (this.sceneController.getCamera().position.y === 2) {
             this.walkingDownStairs = false;
@@ -117,51 +116,64 @@ export class CheckCameraCollision {
 
         if (this.sceneController.getUser().moveForward) {
             // If the user is moving forward
-            this.handleStairDirection(i);
+            this.handleStairDirection();
         }
     }
 
     // Handle stair direction (up or down) based on user position
-    handleStairDirection(i) {
-        console.log(this.walkingDownStairs);
+    handleStairDirection() {
         if (this.walkingDownStairs) {
             // If the user is going down
-            this.handleStairDown(i);
+            this.handleStairDown();
         } else {
             // If the user is going up
-            this.handleStairUp(i);
+            this.handleStairUpward();
         }
     }
 
     // Handle user going down the stairs
-    handleStairDown(i) {
-            if (this.sceneController.getCamera().position.y <= 1.9) {
-            // If the user is all the way down, adjust the position
-            this.sceneController.getCamera().position.x += 0.5;
-            this.walkingDownStairs = false;
-        } else {
-            // If the user is not all the way down, gradually go down
-            this.sceneController.getCamera().position.y -= 0.07;
-        }
-    }
+    handleStairDown() {
+        if (this.hasNotStartedAnimation) {
+            gsap.to(this.sceneController.getCamera().position, {
+                x: 17,
+                y: 2,
+                z: this.sceneController.getCamera().position.z,
+                // duration: 2,
+                // delay: 0,
+                // ease: "power1.inOut",
+                onStart: () => {
+                    this.sceneController.getCamera().lookAt(17, 2, this.sceneController.getCamera().position.z);
+                },
+                onComplete: () => {
+                    this.hasNotStartedAnimation = true;
+                    // this.sceneController.getCamera().lookAt(5.5, 7.43777, this.sceneController.getCamera().position.z);
+                }
+            }).play();
 
-    // Handle user going up the stairs
-    handleStairUp(i) {
-        if (this.sceneController.getCamera().position.y < 8.1) {
-            // If the user is going up
-            this.handleStairUpwardMovement();
+            this.hasNotStartedAnimation = false;
         }
     }
 
     // Handle user going up the stairs (upward movement)
-    handleStairUpwardMovement() {
-        if (this.sceneController.getCamera().position.y > 8.0) {
-            // If the user is all the way up, adjust the position
-            this.sceneController.getCamera().position.x -= 0.5;
-            this.walkingDownStairs = true;
-        } else {
-            // If the user is not all the way up, gradually go up
-            this.sceneController.getCamera().position.y += 0.1;
+    handleStairUpward() {
+        if (this.hasNotStartedAnimation) {
+            gsap.to(this.sceneController.getCamera().position, {
+                x: 5.5,
+                y: 8,
+                z: this.sceneController.getCamera().position.z,
+                // duration: 2,
+                // delay: 0,
+                // ease: "power1.inOut",
+                onStart: () => {
+                    this.sceneController.getCamera().lookAt(5.5, 7.43777, 8);
+                },
+                onComplete: () => {
+                    this.hasNotStartedAnimation = true;
+                    this.sceneController.getCamera().lookAt(5.5, 7.43777, 0);
+                }
+            }).play();
+
+            this.hasNotStartedAnimation = false;
         }
     }
 
