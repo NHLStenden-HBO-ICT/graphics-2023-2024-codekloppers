@@ -79,6 +79,7 @@ export class Metro extends Model3D {
         // Is executed before the delay
         this.#animationTimeline.to({}, {
             onStart: () => {
+                console.log('on station');
                 this.#doorsOpen = true;
                 this.#animateDoors();
                 this.#allowUserActions();
