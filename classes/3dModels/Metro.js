@@ -20,7 +20,7 @@ export class Metro extends Model3D {
         'driving': '/assets/sound_effects/ubahnDriving.mp3',
     }
 
-    animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5, yoyo: true});
+    animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5});
 
 
     constructor(position, rotation, soundController, user, isRightCarriage) {
@@ -95,17 +95,22 @@ export class Metro extends Model3D {
             delay: 13,
             duration: duration,
             ease: "power1.inOut",
+            /*When train leaves station*/
             onStart: () => {
+                console.log('vertrekt')
                 this.#doorsOpen = false;
                 this._objectScene.add(this.soundController.loadPositionalSound(this.soundEffects.driving, duration));
                 this.#disallowUserActions();
             },
+            /*Anytime the train moves*/
             onUpdate: () => {
                 if(this.#isOccupiedByUser) {
                     this.#user.setPosition(new THREE.Vector3(this._objectScene.position.x + 8, 2, this._objectScene.position.z));
                 }
             },
+            /*Triggers when train arrives at station*/
             onComplete: () => {
+                console.log('arrival')
                 this.#lastStationPosition = endPosition;
             },
         });
