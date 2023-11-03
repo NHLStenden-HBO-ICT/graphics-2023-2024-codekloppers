@@ -27,10 +27,9 @@ export class Station extends Model3D {
     }
 
     #setBoundaryBoxes() {
-
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
-            new THREE.Vector3(this._position.x + 60, this._position.y + 1, this._position.z + 6), // geometry
+            new THREE.Vector3(60, 1, 6), // geometry
             new THREE.Vector3(this._position.x + 20, this._position.y + 0, this._position.z + 0), // position
             Math.PI / 2, Math.PI / 2 // rotation on x axis
             ,0
@@ -40,7 +39,7 @@ export class Station extends Model3D {
 
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(),
-            new THREE.Vector3(this._position.x + 60, this._position.y + 2, this._position.z + 6),
+            new THREE.Vector3(60, 2, 6),
             new THREE.Vector3(this._position.x + -50, this._position.y + 0, this._position.z + 0),
             Math.PI / 2, Math.PI / 2
             ,0
@@ -51,19 +50,21 @@ export class Station extends Model3D {
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
-            new THREE.Vector3(this._position.x + 68, this._position.y + 1, this._position.z + 8), // geometry
-            new THREE.Vector3(this._position.x + -17, this._position.y - 0.041, this._position.z + 6.5), // position
+            new THREE.Vector3(68, 1, 8), // geometry
+            new THREE.Vector3(this._position.x -17, this._position.y - 0.041, this._position.z + 6.5), // position
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
             , 'backWallLeft' // id
         )); // backwall LEFT
 
+
+        // console.log(this._position.x);
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
-            new THREE.Vector3(this._position.x + 68, this._position.y + 1, this._position.z + 8), // geometry
-            new THREE.Vector3(this._position.x + -17, this._position.y + 0.041, this._position.z - 13), // position
+            new THREE.Vector3(68, 1,8), // geometry
+            new THREE.Vector3(this._position.x - 17, this._position.y + 0.041, this._position.z - 13), // position -17
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
@@ -73,8 +74,8 @@ export class Station extends Model3D {
     this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
-            new THREE.Vector3(this._position.x + 80, this._position.y + 1, this._position.z + 18), // geometry
-            new THREE.Vector3(this._position.x + -15, this._position.y - 0.041, this._position.z + 9.6), // position
+            new THREE.Vector3(80, 1, 18), // geometry
+            new THREE.Vector3(this._position.x - 15, this._position.y - 0.041, this._position.z + 9.6), // position
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
@@ -84,8 +85,8 @@ export class Station extends Model3D {
     this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
-            new THREE.Vector3(this._position.x + 80, this._position.y + 1, this._position.z + 18), // geometry
-            new THREE.Vector3(this._position.x + -15, this._position.y - 0.048, this._position.z - 16.3), // position
+            new THREE.Vector3(80, 1, 18), // geometry
+            new THREE.Vector3(this._position.x - 15, this._position.y - 0.048, this._position.z - 16.3), // position
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
@@ -95,7 +96,7 @@ export class Station extends Model3D {
     this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
         (
             this.#sceneController.getScene(), // scene
-            new THREE.Vector3(this._position.x + 11, this._position.y + 3, this._position.z + 0.5), // geometry
+            new THREE.Vector3(11, 3, 0.5), // geometry
             new THREE.Vector3(this._position.x + 11, this._position.y + 4.2, this._position.z + 8), // position
             (Math.PI / 2), // rotation on x axis
             0, // rotation on z axis
@@ -106,7 +107,7 @@ export class Station extends Model3D {
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox
             (
                 this.#sceneController.getScene(), // scene
-                new THREE.Vector3(this._position.x + 11, this._position.y + 3, this._position.z + 0.5), // geometry
+                new THREE.Vector3(11, 2, 0.5), // geometry
                 new THREE.Vector3(this._position.x + 11, this._position.y + 4.2, this._position.z - 14), //  position
                 (Math.PI / 2), // rotation on x axis
                 0, // rotation on z axis

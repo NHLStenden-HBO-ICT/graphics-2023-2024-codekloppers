@@ -44,7 +44,6 @@ export class Route {
         for (let i = 0; i < this.stations.length; i++) {
             if (i === 0) {
                 await station.render(this.sceneController.getScene());
-                // station.setBoundingBox(this.sceneController.getScene());
                 continue;
         }
 
