@@ -2,10 +2,10 @@ import {SceneController} from "./Controllers/SceneController";
 import {Route} from "./Route";
 
 export class Scene {
-    sceneController;
-    routeU5;
-    routeU6;
-    pixelRatio;
+    #sceneController;
+    #routeU5;
+    #routeU6;
+    #pixelRatio;
 
     constructor() {
         document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
@@ -25,7 +25,7 @@ export class Scene {
     }
 
     async startScene(pixelRatio, antialiasing) {
-        this.sceneController = new SceneController(pixelRatio, antialiasing);
+        this.#sceneController = new SceneController(pixelRatio, antialiasing);
         await this.render();
         this.animate();
         this.loadingDone();
@@ -36,13 +36,13 @@ export class Scene {
      */
     async render() {
         /*Define routes*/
-        this.routeU5 = new Route(this.sceneController, 'U5');
-        // this.routeU6 = new Route(this.sceneController, 'U6');
+        this.#routeU5 = new Route(this.#sceneController, 'U5');
+        // this.#routeU6 = new Route(this.sceneController, 'U6');
 
 
         /*Render routes*/
-        await this.routeU5.render()
-        // await this.routeU6.render()
+        await this.#routeU5.render()
+        // await this.#routeU6.render()
     }
 
     /**
@@ -54,25 +54,25 @@ export class Scene {
         /* This code block checks if the camera has been spawned in the scene. If the camera has not been
         spawned, it sets the position of the camera to (0, 2, 5). This is likely the initial position of the
         camera before it starts moving or animating. */
-        // if (!this.sceneController.getCamera()Spawned) {
-        //     this.sceneController.getCamera().position.set(0, 2, 5);
+        // if (!this.#sceneController.getCamera()Spawned) {
+        //     this.#sceneController.getCamera().position.set(0, 2, 5);
         // }
 
         requestAnimationFrame(this.animate.bind(this));
 
         // Animeer de metros
-        this.routeU5.animateMetros()
-        // this.routeU6.animateMetros()
+        this.#routeU5.animateMetros()
+        // this.#routeU6.animateMetros()
 
         // Update de camera matrix wereld
-        this.sceneController.getCamera().updateMatrixWorld();
+        this.#sceneController.getCamera().updateMatrixWorld();
 
-        this.sceneController.getUser().walk();
+        this.#sceneController.getUser().walk();
         // Check for camera collision
-        this.sceneController.getCollision().checkCameraCollision();
+        this.#sceneController.getCollision().checkCameraCollision();
 
         // Updates for objects of scene
-        this.sceneController.getRenderer().render(this.sceneController.getScene(), this.sceneController.getCamera());
+        this.#sceneController.getRenderer().render(this.#sceneController.getScene(), this.#sceneController.getCamera());
 
     }
 }
