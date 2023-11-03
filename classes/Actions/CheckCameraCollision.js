@@ -2,7 +2,6 @@ import * as THREE from "three";
 import {gsap} from "gsap";
 
 export class CheckCameraCollision {
-
     #sceneController;
     #boxSize;
     #boxGeometry;
@@ -113,7 +112,7 @@ export class CheckCameraCollision {
             this.#walkingDownStairs = false;
         }
 
-        if (this.#sceneController.getUser().moveForward) {
+        if (this.#sceneController.getUser().getMoveForward()) {
             // If the user is moving forward
             this.handleStairDirection();
         }
@@ -186,11 +185,9 @@ export class CheckCameraCollision {
         if (this.#isColliding) {
             // Reset the camera position to the previous position
             this.#sceneController.getCamera().position.copy(this.#previousCameraPosition.clone());
-            // this.sceneController.user.speed = 0; // Set speed to 0 to prevent the camera from going through the wall
         } else {
             // If there is no collision, update the previous position of the camera
             this.#previousCameraPosition.copy(this.#sceneController.getCamera().position);
-            // this.sceneController.user.speed = 0.8;
         }
     }
 }

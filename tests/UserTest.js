@@ -36,7 +36,7 @@ test('User', () => {
     };
 
     setup();
-    user.moveForward = true;
+    user.getMoveForward() = true;
     user.walk();
     // Voer assertions uit om te controleren of de gebruikerspositie correct is bijgewerkt op basis van de bewegingsvlaggen
     // Mogelijk moet je de controls-objecten en performance.now() namaken om de test te isoleren
@@ -58,9 +58,9 @@ test('User', () => {
 
     setup();
     user.disableWalking();
-    expect(user._walkingDisabled).toBe(true);
+    expect(user.get).toBe(true);
     user.enableWalking();
-    expect(user._walkingDisabled).toBe(false);
+    expect(user.#walkingDisabled).toBe(false);
   });
 
   // Test 4: Test voor de getPosition- en setPosition-methoden
