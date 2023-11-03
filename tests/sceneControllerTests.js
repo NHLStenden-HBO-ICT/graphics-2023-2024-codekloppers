@@ -39,12 +39,12 @@ test('check if boundingbox can be filled with boundingboxdata', () => {
     const mockSceneController = {
       getCamera: () => mockCamera,
       getScene: () => new THREE.Scene(),
-      getBoundingBoxes(): [],
-      getCameraSpawned(): false
+      getBoundingBoxes: () => ([]),
+      getCameraSpawned: () => false
     };
 
     // push value into boundingbox array
-    mockSceneController.boundingBoxes.push(new THREE.Vector3(0,1,2));
+    mockSceneController.getBoundingBoxes().push(new THREE.Vector3(0,1,2));
 
     // check if first index in array equals to given vector
     expect(mockSceneController.getBoundingBoxes()[0]).toEqual(new THREE.Vector3(0,1,2));
@@ -75,8 +75,8 @@ test('check if camera can collide with bounding box', () => {
     const mockSceneController = {
       getCamera: () => mockCamera,
       getScene: () => new THREE.Scene(),
-      getBoundingBoxes(): [],
-      getCameraSpawned(): false
+      getBoundingBoxes: () => [],
+      getCameraSpawned: () => false
     };
 
 
