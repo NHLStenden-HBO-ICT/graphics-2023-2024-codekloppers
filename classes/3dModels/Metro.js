@@ -80,7 +80,7 @@ export class Metro extends Model3D {
             .add(this.#driveToStation(this.#getDestinationCoordinates(stations[2], this.#isRightCarriage)));
 
         this.#animationTimeline.play(); // Start the Metro animation timeline
-        this.#onComplete();
+        this.#onComplete(this.#getDestinationCoordinates(stations[0], this.#isRightCarriage));
     }
 
 
@@ -111,10 +111,10 @@ export class Metro extends Model3D {
                 }
             },
             onComplete: () => {
-                this.#onComplete();
+                this.#onComplete(endPosition);
             },
             onReverseComplete: () => {
-                this.#onComplete();
+                this.#onComplete(endPosition);
             },
         });
 
@@ -133,9 +133,10 @@ export class Metro extends Model3D {
     /**
     * Handle Metro arrival at a station.
     */
-    #onComplete() {
+    #onComplete(endPosition) {
         this.#fixedMetroPosition = this._objectScene.position.x;
         this.#metroHasLeftStation = false;
+        this.#lastStationPosition = endPosition;
 
         this.#doorsOpen = true;
         this.#animateDoors();
