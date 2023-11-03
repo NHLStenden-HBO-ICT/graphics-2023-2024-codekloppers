@@ -95,7 +95,7 @@ export class Station extends Model3D {
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(68, 1, 8), // geometry
-            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z - 9.7), // position
+            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z - 9.2), // position
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
