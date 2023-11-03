@@ -1,47 +1,64 @@
-import {SceneController} from "./Controllers/SceneController";
-import {Route} from "./Route";
+import { SceneController } from "./Controllers/SceneController";
+import { Route } from "./Route";
 
+// Define the Scene class
 export class Scene {
+    // Private variables for the Scene class
     #sceneController;
     #routeU5;
     #routeU6;
     #pixelRatio;
 
+    // Constructor for the Scene class, initializes the scene when the start button is clicked
     constructor() {
+        // Add an event listener to the start button that calls the onStartButtonClicked method
         document.getElementById("startButton").addEventListener("click", () => this.onStartButtonClicked());
     }
 
+    // Method called when the start button is clicked
     onStartButtonClicked() {
+        // Hide the loading indicator and display the 3D scene
         document.getElementById("indicator").style.display = "block";
         document.getElementById("controlBox").style.display = "none";
+        // Get quality and antialiasing values from input fields
         const quality = document.getElementById('qualityInput').value;
         const antialiasing = document.getElementById('antialiasingInput').value;
-        this.#startScene(quality, antialiasing);
+        // Start the scene with the specified quality and antialiasing settings
+        this.startScene(quality, antialiasing);
     }
 
-    #loadingDone() {
+    // Method called when the loading of the scene is completed
+    loadingDone() {
+        // Hide the loading indicator and display the 3D scene
         document.getElementById('loader').style.display = 'none';
         document.getElementById('sceneCanvas').style.display = 'block';
     }
 
-    async #startScene(pixelRatio, antialiasing) {
+    // Method to start the 3D scene with specified pixel ratio and antialiasing settings
+    async startScene(pixelRatio, antialiasing) {
+        // Initialize the SceneController with the specified settings
         this.#sceneController = new SceneController(pixelRatio, antialiasing);
-        await this.#render();
-        this.#animate();
-        this.#loadingDone();
+        // Render the scene and start the animation
+        await this.render();
+        this.animate();
+        // Indicate that the loading of the scene is completed
+        this.loadingDone();
     }
 
     /**
-     * The render function creates the 3d objects in the scene.
+     * The render function creates the 3D objects in the scene.
      */
-    async #render() {
+    async render() {
         /*Define routes*/
+        // Create the route for the U5 metro line
         this.#routeU5 = new Route(this.#sceneController, 'U5');
-        // this.#routeU6 = new Route(this.sceneController, 'U6');
-
+        // Create the route for the U6 metro line
+        // this.#routeU6 = new Route(this.#sceneController, 'U6');
 
         /*Render routes*/
+        // Render the U5 metro line
         await this.#routeU5.render()
+        // Render the U6 metro line
         // await this.#routeU6.render()
     }
 
@@ -49,30 +66,24 @@ export class Scene {
      * The function "animate" is used to continuously update and render a 3D scene using the
      * requestAnimationFrame method.
      */
-    #animate() {
-
-        /* This code block checks if the camera has been spawned in the scene. If the camera has not been
-        spawned, it sets the position of the camera to (0, 2, 5). This is likely the initial position of the
-        camera before it starts moving or animating. */
-        // if (!this.#sceneController.getCamera()Spawned) {
-        //     this.#sceneController.getCamera().position.set(0, 2, 5);
-        // }
-
+    animate() {
+        // Request the next animation frame and call the current method again for continuous animation
         requestAnimationFrame(this.animate.bind(this));
 
-        // Animeer de metros
+        // Animate the metros on the U5 metro line
         this.#routeU5.animateMetros()
+        // Animate the metros on the U6 metro line
         // this.#routeU6.animateMetros()
 
-        // Update de camera matrix wereld
+        // Update the world matrix of the camera
         this.#sceneController.getCamera().updateMatrixWorld();
 
+        // Make the user walk in the scene
         this.#sceneController.getUser().walk();
-        // Check for camera collision
+        // Check for camera collisions
         this.#sceneController.getCollision().checkCameraCollision();
 
-        // Updates for objects of scene
+        // Render the objects in the scene using the renderer
         this.#sceneController.getRenderer().render(this.#sceneController.getScene(), this.#sceneController.getCamera());
-
     }
 }

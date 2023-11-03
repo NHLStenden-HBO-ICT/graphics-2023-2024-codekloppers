@@ -2,16 +2,24 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader'
 
+/**
+ * A base class for 3D models in the scene.
+ */
 export default class Model3D {
-    _filePath;
-    _position;
-    _rotation;
-    _objectScene;
-    _objectAnimations;
+    _filePath; // File path to the 3D model
+    _position; // Position of the 3D model in the scene
+    _rotation; // Rotation of the 3D model in the scene
+    _objectScene; // The THREE.Group representing the 3D model in the scene
+    _objectAnimations; // Array of animations associated with the 3D model
 
+    /**
+     * Constructor for the Model3D class.
+     * @param {string} filePath - File path to the 3D model.
+     */
     constructor(filePath = null) {
         this._filePath = filePath;
 
+        // Prevent instantiation of the abstract class Model3D
         /*Ja, dit is helaas hoe dat werkt in Javascript*/
         if (this.constructor === Model3D) {
             throw new Error("Abstract classes can't be instantiated.");
@@ -20,29 +28,24 @@ export default class Model3D {
 
 
     /**
-     * The function `setObjectScene` sets the object scene for a JavaScript object.
-     * @param scene - The `scene` parameter is an object that represents a scene in a game or a 3D
-     * environment. It could contain information such as the objects, lighting, camera settings, and other
-     * properties related to the scene.
+     * Sets the object scene for the 3D model.
+     * @param {THREE.Group} scene - The THREE.Group representing the 3D model in the scene.
      */
     setObjectScene(scene) {
         this._objectScene = scene;
     }
 
     /**
-     * The function sets the object animations for a JavaScript object.
-     * @param animations - The `animations` parameter is an object that contains the animations for an
-     * object. It could be a collection of different animations, each with its own properties and settings.
+     * Sets the object animations for the 3D model.
+     * @param {Array} animations - Array of animations associated with the 3D model.
      */
     setObjectAnimations(animations) {
         this._objectAnimations = animations;
     }
 
     /**
-     * The function loads a GLTF file using the GLTFLoader and adds the loaded scene to the provided scene
-     * object.
-     * @param scene - The scene parameter is the THREE.Scene object where you want to add the loaded GLTF
-     * model.
+     * Loads a GLTF file using GLTFLoader and adds the loaded scene to the provided scene object.
+     * @param {THREE.Scene} scene - The THREE.Scene where the loaded GLTF model will be added.
      */
     async render(scene) {
         const loader = new GLTFLoader();
@@ -65,12 +68,10 @@ export default class Model3D {
     }
 
     /**
-     * The `clone` function clones a 3D model and adds it to the scene
-     * @param scene - The scene parameter is the three.js scene object where you want to add the cloned
-     * model.
-     * @param newModel3d - The newModel3d parameter is an instance of a 3D model object that you want
-     * to clone and add to the scene.
-     * @returns the newModel3d object.
+     * Clones a 3D model and adds it to the scene.
+     * @param {THREE.Scene} scene - The THREE.Scene where the cloned model will be added.
+     * @param {Model3D} newModel3d - The instance of the 3D model object to be cloned and added.
+     * @returns The cloned 3D model object.
      */
     clone(scene, newModel3d) {
 
@@ -105,26 +106,17 @@ export default class Model3D {
         return newModel3d;
     }
 
-/**
- * The function sets up a bounding box in a 3D scene with the specified geometry, position, rotation,
- * and name.
- * @param scene - The scene parameter is the THREE.Scene object to which you want to add the bounding
- * box.
- * @param geometryVector - The geometryVector parameter represents the dimensions of the bounding box.
- * It is a vector that contains the width, height, and depth of the box.
- * @param positionVector - The positionVector parameter is a vector that represents the position of the
- * bounding box in 3D space. It contains three values: positionVector.x, positionVector.y, and
- * positionVector.z, which correspond to the x, y, and z coordinates of the position respectively.
- * @param [rotationX=0] - The rotationX parameter is the rotation angle around the x-axis in radians.
- * It determines the rotation of the bounding box along the x-axis.
- * @param [rotationZ=0] - The rotationZ parameter is the rotation around the z-axis in radians. It
- * determines the rotation of the bounding box around the z-axis.
- * @param [rotationY=0] - The rotationY parameter is the rotation angle around the y-axis in radians.
- * It determines the rotation of the bounding box around the y-axis.
- * @param name - The name parameter is a string that represents the name of the bounding box. It is
- * used to identify the bounding box in the scene or to reference it later in the code.
- * @returns the created bounding box object.
- */
+    /**
+     * Sets up a bounding box in the 3D scene with the specified geometry, position, rotation, and name.
+     * @param {THREE.Scene} scene - The THREE.Scene where the bounding box will be added.
+     * @param {THREE.Vector3} geometryVector - Dimensions of the bounding box (width, height, depth).
+     * @param {THREE.Vector3} positionVector - Position of the bounding box in 3D space.
+     * @param {number} [rotationX=0] - Rotation angle around the x-axis in radians.
+     * @param {number} [rotationZ=0] - Rotation angle around the z-axis in radians.
+     * @param {number} [rotationY=0] - Rotation angle around the y-axis in radians.
+     * @param {string} name - Name of the bounding box for identification in the scene.
+     * @returns The created bounding box object.
+     */
     _setBoundingBox(scene, geometryVector, positionVector, rotationX = 0, rotationZ = 0, rotationY = 0, name) {
         const geometry = new THREE.BoxGeometry(geometryVector.x, geometryVector.y, geometryVector.z);
         const material = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0}); //, transparent: true, opacity: 0.0
