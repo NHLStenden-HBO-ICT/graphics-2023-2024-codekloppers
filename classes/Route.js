@@ -47,7 +47,7 @@ export class Route {
 
     // Method to render stations along the route
     async #renderStations() {
-        const station = new Station(this.#sceneController, this.#stations[0]['vector']);
+        const station = new Station(this.#sceneController, this.#stations[0]['vector'], 0, 'Alexander Platz');
 
         for (let i = 0; i < this.#stations.length; i++) {
             if (i === 0) {
@@ -57,7 +57,9 @@ export class Route {
 
             await station.clone(this.#sceneController.getScene(), new Station(
                 this.#sceneController,
-                this.#stations[i]['vector']
+                this.#stations[i]['vector'],
+                0,
+                this.#stations[i]['name']
             ));
         }
     }
@@ -89,17 +91,17 @@ export class Route {
         let stationA;
         let stationB;
         let lengthOfTunnel = 10;
-    
+
         for (let i = 0; i < this.#stations.length; i++) {
             if (i === this.#stations.length - 1) {
                 return;
             }
             stationA = this.#stations[i]['vector']['x'];
             stationB = this.#stations[i + 1]['vector']['x'];
-    
+
             // Calculate the number of tunnels required between two stations
             amountOfTunnels = ((Math.abs(stationA - stationB) - 64 - 34) / 10) + 1;
-    
+
             // Determine the direction of the tunnel based on the relative positions of the stations
             if (stationA > stationB) {
                 startingValue = 64 - stationA;
@@ -109,14 +111,14 @@ export class Route {
                 startingValue = 34 + stationA;
                 direction = 1;
             }
-    
+
             // Create a new Tunnel object at each station and clone it to create multiple tunnels
             const tunnel = new Tunnel(new THREE.Vector3(
                 startingValue * direction,
                 this.#stations[i]['vector']['y'],
                 this.#stations[i]['vector']['z'] - 3.4
             ));
-    
+
             // Loop to create and render the specified number of tunnels between two stations
             for (let y = 0; y < amountOfTunnels; y++) {
                 if (y === 0) {

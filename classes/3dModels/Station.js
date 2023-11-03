@@ -1,5 +1,9 @@
 import * as THREE from "three";
 import Model3D from '/classes/3dModels/Model3D';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+
+
 
 /**
  * Class representing a Station in the 3D scene, extending Model3D.
@@ -15,10 +19,11 @@ export class Station extends Model3D {
      * @param {Object} position - Initial position of the station.
      * @param {Object} rotation - Initial rotation of the station.
      */
-    constructor(sceneController, position, rotation) {
+    constructor(sceneController, position, rotation, name) {
         super();
         this._position = position; // Set initial position of the station
         this._rotation = rotation; // Set initial rotation of the station
+        this.#name = name; // set name of station
         this.#sceneController = sceneController; // Set the scene controller for the station
         this.#setBoundaryBoxes(); // Set boundary boxes for collision detection
     }
@@ -27,11 +32,21 @@ export class Station extends Model3D {
      * Overwrites the render method from Model3D,
      */
     async render(scene) {
-        await super.render(scene)
-
-        /*Melvin kan hier zn dingen toevoegen */
+        await super.render(scene);
+        this.renderSign(scene,this);
     }
 
+/**
+ * The `clone` function is an asynchronous method that clones a scene and a new 3D model, and then
+ * renders a sign in the new scene.
+ * @param scene - The `scene` parameter is the 3D scene where the model will be cloned and rendered.
+ * @param newModel3d - The `newModel3d` parameter is the new instance of the 3D model that is being
+ * cloned.
+ */
+    async clone(scene, newModel3d) {
+        await super.clone(scene, newModel3d);
+        this.renderSign(scene,newModel3d);
+    }
     /**
      * Sets boundary boxes for collision detection around the station's objects.
      */
@@ -84,7 +99,7 @@ export class Station extends Model3D {
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(68, 1, 8), // geometry
-            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z + 2.3), // position
+            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z + 1.9), // position
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
@@ -95,7 +110,7 @@ export class Station extends Model3D {
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(68, 1, 8), // geometry
-            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z - 9.2), // position
+            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z - 8.7), // position
             Math.PI / 2 // rotation on x axis
             ,0
             ,0
@@ -166,5 +181,58 @@ export class Station extends Model3D {
             - 38.40 // rotation on y axis
             , 'rightStair' // id
         )); // RightStair
+    }
+
+/**
+ * The function `getName()` returns the value of the private variable `name`.
+ * @returns The value of the private variable `name` is being returned.
+ */
+    getName() {
+        return this.#name;
+    }
+
+    /* The `getPosition()` method is a getter function that returns the position of the station in the 3D
+    scene. It retrieves the `_position` property of the station object and returns it. */
+    getPosition() {
+        return this._position;
+    }
+
+ /**
+  * The function `renderSign` renders a sign with the station name at a specified position in a 3D
+  * scene using a specified font.
+  * @param scene - The "scene" parameter is the Three.js scene object where you want to render the
+  * sign. It represents the virtual environment where all the objects are displayed.
+  * @param station - The "station" parameter is an object that represents a station. It has properties
+  * such as name, position, and possibly others depending on how it is defined in your code.
+  */
+    renderSign(scene, station) {
+
+            const loader = new FontLoader();
+            let stationName = station.getName();
+            let x = station.getPosition().x;
+            let y = station.getPosition().y;
+            let z = station.getPosition().z;
+
+            loader.load( 'assets/fonts/helvetiker_regular.typeface.json', function ( font ) {
+            const geometry = new TextGeometry(stationName, {
+                font: font,
+                size: 0.2,
+                height: 0.010,
+            } );
+
+
+            const textMaterialLeft = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const textMeshLeft = new THREE.Mesh(geometry, textMaterialLeft);
+            textMeshLeft.position.set(x + 0.97, y + 2.17, z + 5.8); // Coördinaten x=-2, y=2, z=7
+            textMeshLeft.rotation.y = 180* Math.PI / 180;
+
+
+            const textMaterialRight = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const textMeshRight = new THREE.Mesh(geometry, textMaterialRight);
+            textMeshRight.position.set(x - 32.6, y + 2.07, z - 12.6); // Coördinaten x=-2, y=2, z=7
+
+            scene.add(textMeshRight);
+            scene.add(textMeshLeft);
+        });
     }
 }
