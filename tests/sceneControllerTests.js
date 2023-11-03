@@ -69,8 +69,6 @@ test('check if camera can collide with bounding box', () => {
             name: 'rightStair' // id
     }
 
-    console.log(boundingBox);
-
     // make mock instance of scene controller and define properties
     const mockSceneController = {
       getCamera: () => mockCamera,
