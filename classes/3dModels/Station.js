@@ -6,7 +6,6 @@ import Model3D from '/classes/3dModels/Model3D';
  */
 export class Station extends Model3D {
     #name; // Name of the station (currently unused)
-    #metroArrivingTimes; // Array of Metro arrival times at the station (currently unused)
     #sceneController; // Scene controller for managing the station's scene
     _filePath = "/assets/3d/station.glb"; // File path to the 3D model file for the station
 
@@ -37,7 +36,7 @@ export class Station extends Model3D {
      * Sets boundary boxes for collision detection around the station's objects.
      */
     #setBoundaryBoxes() {
-        // Left border boundary box to detect collision with Metro's left side
+        // Left border boundary box to detect collision with stations left side
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(60, 1, 6), // geometry
@@ -48,7 +47,7 @@ export class Station extends Model3D {
             , 'leftBorder' //id
         )); // left border
 
-        // Right border boundary box to detect collision with Metro's right side
+        // Right border boundary box to detect collision with stations right side
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(),
             new THREE.Vector3(60, 2, 6),
@@ -59,7 +58,7 @@ export class Station extends Model3D {
             , 'rightBorder' // id
         )); // right border
 
-        // Back wall boundary boxes to detect collision with Metro's back walls (left and right)
+        // Back wall boundary boxes to detect collision with stations back walls (left and right)
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(68, 1, 8), // geometry
@@ -81,7 +80,7 @@ export class Station extends Model3D {
             , 'backWallRight' // id
         )); // backwall RIGHT
 
-        // Outer back wall boundary boxes to detect collision with Metro's outer back walls (left and right)
+        // Outer back wall boundary boxes to detect collision with stations outer back walls (left and right)
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(80, 1, 18), // geometry
@@ -102,7 +101,7 @@ export class Station extends Model3D {
             , 'outerBackWallRight'// id
         )); // outerBackWall RIGHT
 
-        // Left and right stairs boundary boxes to detect collision with Metro's stairs
+        // Left and right stairs boundary boxes to detect collision with stations stairs
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox (
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(11, 3, 0.5), // geometry
