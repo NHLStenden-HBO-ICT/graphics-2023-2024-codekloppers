@@ -60,7 +60,7 @@ test('User', () => {
     user.disableWalking();
     expect(user.get).toBe(true);
     user.enableWalking();
-    expect(user.#walkingDisabled).toBe(false);
+    expect(user.walkingDisabled).toBe(false);
   });
 
   // Test 4: Test voor de getPosition- en setPosition-methoden

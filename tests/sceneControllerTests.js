@@ -44,7 +44,7 @@ test('check if boundingbox can be filled with boundingboxdata', () => {
     };
 
     // push value into boundingbox array
-    mockSceneController.boundingBoxes.push(new THREE.Vector3(0,1,2));
+    mockSceneController.getBoundingBoxes().push(new THREE.Vector3(0,1,2));
 
     // check if first index in array equals to given vector
     expect(mockSceneController.boundingBoxes[0]).toEqual(new THREE.Vector3(0,1,2));
