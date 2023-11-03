@@ -40,7 +40,7 @@ export class Route {
 
     // Method to render stations, tunnels, and metros for the route
     async render() {
-        await this.#renderStations();
+        // await this.#renderStations();
         await this.#renderTunnels();
         await this.#renderMetros();
     }

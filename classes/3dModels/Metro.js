@@ -3,25 +3,27 @@ import {gsap} from "gsap";
 import * as THREE from "three";
 import {v4 as uuid} from 'uuid';
 
-    /**
-     * Class representing a Metro model in the 3D scene, extending Model3D.
-     */
-    export class Metro extends Model3D {
-        #id; // Unique identifier for the Metro instance
-        _filePath = "/assets/3d/ubahn.glb"; // File path to the 3D model file
-        #soundController; // Sound controller for managing audio effects
-        #mixer; // Animation mixer for controlling animations
-        #user; // User object interacting with the Metro
-        #sideDoorLocations = [-3.9, -9.4, -14.9, -20.4, 3.9, 9.4, 14.9, 20.4]; // X-coordinates of side doors
-        #doorsOpen = true; // Boolean flag indicating whether the doors are open
-        #lastStationPosition; // Last station's position where the Metro stopped
-        #isOccupiedByUser = false; // Boolean flag indicating whether the Metro is occupied by the user
-        #isRightCarriage; // Boolean flag indicating whether the Metro is the right carriage
-        #soundEffects = {
-            'stationSound': '/assets/sound_effects/stationSound.mp3', // Sound effect for station arrival
-            'driving': '/assets/sound_effects/ubahnDriving.mp3', // Sound effect for Metro movement
-        }
-        #animationTimeline = gsap.timeline({repeat: Infinity, delay: 0, repeatDelay: 5}); // Animation timeline for Metro movement
+/**
+ * Class representing a Metro model in the 3D scene, extending Model3D.
+ */
+export class Metro extends Model3D {
+    #id; // Unique identifier for the Metro instance
+    _filePath = "/assets/3d/ubahn.glb"; // File path to the 3D model file
+    #soundController; // Sound controller for managing audio effects
+    #mixer; // Animation mixer for controlling animations
+    #user; // User object interacting with the Metro
+    #sideDoorLocations = [-3.9, -9.4, -14.9, -20.4, 3.9, 9.4, 14.9, 20.4]; // X-coordinates of side doors
+    #doorsOpen = true; // Boolean flag indicating whether the doors are open
+    #lastStationPosition; // Last station's position where the Metro stopped
+    #isOccupiedByUser = false; // Boolean flag indicating whether the Metro is occupied by the user
+    #isRightCarriage; // Boolean flag indicating whether the Metro is the right carriage
+    #soundEffects = {
+        'stationSound': '/assets/sound_effects/stationSound.mp3', // Sound effect for station arrival
+        'driving': '/assets/sound_effects/ubahnDriving.mp3', // Sound effect for Metro movement
+    }
+    #animationTimeline = gsap.timeline({repeat: -1, delay: 0, yoyo: true}); // Animation timeline for Metro movement
+    #lastTime = 0;
+    #forward = true;
 
 
     /**
@@ -73,20 +75,53 @@ import {v4 as uuid} from 'uuid';
      * @param {Array} stations - Array of station coordinates defining the route.
      */
     driveRoute(stations) {
+        console.log(stations);
+
+
+
+        let endPosition = this.#getDestinationCoordinates(stations[1], this.#isRightCarriage);
+        let endPosition2 = this.#getDestinationCoordinates(stations[2], this.#isRightCarriage);
+
+        
+        
+        this.#animationTimeline
+            .add(this.#driveToStation(endPosition, stations[1], stations))
+            .add(this.#driveToStation(endPosition2, stations[2], stations));
+
+
+        this.#animationTimeline.play(); // Start the Metro animation timeline
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Drive to each station in the forward direction
-        for (let i = 1; i < stations.length; i++) {
-            this.#driveToStation(this.#getDestinationCoordinates(stations[i], this.#isRightCarriage));
-        }
+        // for (let i = 1; i < stations.length; i++) {
+
+        //     console.log("in first for" + i);
+        // }
+            // this.#driveToStation(this.#getDestinationCoordinates(stations[1], this.#isRightCarriage));
 
         // Reverse the stations array and drive back to each station
-        stations = stations.reverse();
-        for (let i = 1; i < stations.length; i++) {
-            this.#driveToStation(this.#getDestinationCoordinates(stations[i], this.#isRightCarriage));
-        }
-        /* Don't remove this! Because Javascript is pass by reference and not pass by value,
-         the value being set here actually affects how the trains move */
-        stations = stations.reverse();
-        this.#animationTimeline.play(); // Start the Metro animation timeline
+        // stations = stations.reverse();
+        // for (let i = 1; i < stations.length; i++) {
+        //     this.#driveToStation(this.#getDestinationCoordinates(stations[i], this.#isRightCarriage));
+
+        //     console.log("in second for" + i);
+        // }
+
+        // console.log(this.#animationTimeline);
+        // /* Don't remove this! Because Javascript is pass by reference and not pass by value,
+        //  the value being set here actually affects how the trains move */
+        // stations = stations.reverse();
     }
 
 
@@ -94,42 +129,87 @@ import {v4 as uuid} from 'uuid';
      * Drive the Metro to the specified end position.
      * @param {Object} endPosition - End position coordinates.
      */
-    #driveToStation(endPosition) {
+    #driveToStation(endPosition, endStation, stations) {
         let duration = Math.abs(10);
 
-        // Execute onStart callback before the delay, every time the Metro is on the station
-        this.#animationTimeline.to({}, {
-            onStart: () => {
-                this.#onInStation(); // Handle Metro arriving at a station
-            }
-        });
 
-        // Animate Metro movement to the end position
-        this.#animationTimeline.to(this._objectScene.position, {
+
+        let timeline = gsap.timeline();
+        
+        timeline.to(this._objectScene.position, {
             x: endPosition.x,
             y: endPosition.y,
             z: endPosition.z,
-            delay: 13,
+            delay: 6, // 13
             duration: duration,
             ease: "power1.inOut",
-            onStart: () => {
-                console.log('departing');
-                this.#doorsOpen = false;
-                this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.driving, 2, 1, duration));
-                this.#disallowUserActions();
-            },
+            // onStart: () => {
+            //     console.log('departing on ' + this._objectScene.position.x);
+            //     // this.#doorsOpen = false;
+            //     // this._objectScene.add(this.#soundController.loadPositionalSound(this.#soundEffects.driving, 2, 1, duration));
+            //     // this.#disallowUserActions();
+            // },
             onUpdate: () => {
                 // Update user position if inside the Metro during movement
-                if (this.#isOccupiedByUser) {
-                    this.#user.setPosition(new THREE.Vector3(this._objectScene.position.x + 8, 2, this._objectScene.position.z));
-                }
+                // if (this.#isOccupiedByUser) {
+                //     this.#user.setPosition(new THREE.Vector3(this._objectScene.position.x + 8, 2, this._objectScene.position.z));
+                // }
+
+                this.#setDirection();
+
+                stations.forEach(element => {
+                    // if((this.#forward && this._objectScene.position.x < this.#getDestinationCoordinates(element, false).x - 10) && (!this.#forward && this._objectScene.position.x > this.#getDestinationCoordinates(element, false).x + 10)) {
+                    //     this.#onStart();
+                    // }
+
+                    if (this.#getDestinationCoordinates(element, false) == this.#getDestinationCoordinates(endStation, false)) {
+                        if(this._objectScene.position.x == this.#getDestinationCoordinates(element, false).x) {
+                            this.#onStart();
+                        }
+                    }
+                });
             },
             onComplete: () => {
-                console.log('arrival');
-                this.#lastStationPosition = endPosition;
+                console.log('arrival on ' + this._objectScene.position.x);
+                // this.#lastStationPosition = endPosition;
+            },
+            onRepeat: () => {
+                console.log('repeating on ' + this._objectScene.position.x);
+            },
+            onReverseComplete: () => {
+                console.log('reverse arrival on ' + this._objectScene.position.x);
+            },
+            onInterrupt: () => {
+                console.log('interrupted on ' + this._objectScene.position.x);
             },
         });
+
+        return timeline;
+
+
+
+
+        // Execute onStart callback before the delay, every time the Metro is on the station
+        // this.#animationTimeline.to({}, {
+        //     onStart: () => {
+        //         this.#onInStation(); // Handle Metro arriving at a station
+        //     }
+        // });
+
+        // Animate Metro movement to the end position
     }
+
+    #setDirection() {
+        var newTime = this.#animationTimeline.time();
+        if ((this.#forward && newTime < this.#lastTime) || (!this.#forward && newTime > this.#lastTime)) {
+            this.#forward = !this.#forward;
+        }
+        this.#lastTime = newTime;
+    }
+    
+    #onStart() {
+        console.log('departed on ' + this._objectScene.position.x);
+    }    
 
     /**
     * Handle Metro arrival at a station.
