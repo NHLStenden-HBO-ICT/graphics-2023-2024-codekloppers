@@ -24,7 +24,7 @@ export class CheckCameraCollision {
 
     // Check camera collision and handle it
     checkCameraCollision() {
-        if (!this.sceneController.cameraSpawned) {
+        if (!this.sceneController.getCameraSpawned()) {
             // If the user is not spawned yet, do nothing
             return;
         }
@@ -71,8 +71,8 @@ export class CheckCameraCollision {
         this.isColliding = false;
 
         // Loop through all bounding boxes and check for collision
-        for (let i = 0; i < this.sceneController.boundingBoxes.length; i++) {
-            const boxBoundingBox = new THREE.Box3().setFromObject(this.sceneController.boundingBoxes[i]);
+        for (let i = 0; i < this.sceneController.getBoundingBoxes().length; i++) {
+            const boxBoundingBox = new THREE.Box3().setFromObject(this.sceneController.getBoundingBoxes()[i]);
             const boxBoundingCamera = new THREE.Box3().setFromObject(this.cameraMesh);
 
             if (boxBoundingBox.intersectsBox(boxBoundingCamera)) {
@@ -93,8 +93,8 @@ export class CheckCameraCollision {
     // Check if the user is walking up or down the stairs
     #checkIfWalkingUpStairs(i) {
         // Check if it's a stair
-        if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
-            this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
+        if (this.sceneController.getBoundingBoxes()[i]["name"] === "leftStair" ||
+            this.sceneController.getBoundingBoxes()[i]["name"] === "rightStair") {
 
             this.handleStairMovement(i);
             // return true;

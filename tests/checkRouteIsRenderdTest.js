@@ -13,7 +13,7 @@ test('Route render method should be called', async (context) => {
         getScene: () => ({ add: () => {} }),
         getBoundingBoxes: ()=> ([]),
         boundingBoxes: [/* mock bounding boxes here */],
-        cameraSpawned: false
+        getCameraSpawned: () => false
     };
 
     // Create a new Route instance
