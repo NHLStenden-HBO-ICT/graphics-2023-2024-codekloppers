@@ -82,7 +82,7 @@ export class User {
             // console.log(this.sceneController.getCamera().position)
             const time = performance.now(); // Get the current time
             if (this.#controls.isLocked === true) { // Check if the pointer lock is active
-                const delta = (time - this.#prevTime) / 1000; // Calculate the time difference between frames in seconds
+                const delta = (time - this.#prevTime) / 10000; // Calculate the time difference between frames in seconds
 
                 // Apply damping to the velocity (slows down the user's movement)
                 this.#velocity.x -= this.#velocity.x * 10.0 * delta;
@@ -135,7 +135,7 @@ export class User {
                 case 'KeyD':
                     this.#moveRight = true; // Set rightward movement flag to true
                     this.#sceneController.setCameraSpawned(true); // Notify scene controller that the camera has spawned
-                break;
+                break
             }
         });
 
@@ -161,7 +161,7 @@ export class User {
             case 'ArrowRight':
             case 'KeyD':
                 this.#moveRight = false; // Stop rightward movement
-            break;
+            break
         }
         this.#velocity.set(0, 0, 0); // Set velocity vector to zero, stopping movement in all directions
     });

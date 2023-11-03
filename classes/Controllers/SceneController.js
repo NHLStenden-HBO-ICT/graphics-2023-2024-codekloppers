@@ -14,7 +14,7 @@ export class SceneController {
     #boundingBoxes = []; // Array to store bounding boxes for collision detection
     #cameraSpawned; // Flag indicating whether the camera has been spawned in the scene
     #listener = new THREE.AudioListener(); // Audio listener for positional audio
-    #soundController = new SoundController(this.listener); // Sound controller for managing audio
+    #soundController = new SoundController(this.#listener); // Sound controller for managing audio
     #collision = new CheckCameraCollision(this); // Collision detection object for camera collisions
 
     /**
