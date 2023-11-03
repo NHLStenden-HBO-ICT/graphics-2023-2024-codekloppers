@@ -3,28 +3,28 @@ import {gsap} from "gsap";
 
 export class CheckCameraCollision {
 
-    sceneController;
-    boxSize;
-    boxGeometry;
-    boxMaterial;
-    cameraMesh;
-    isColliding = false;
-    previousCameraPosition;
-    walkingDownStairs = false;
-    hasNotStartedAnimation = true;
+    #sceneController;
+    #boxSize;
+    #boxGeometry;
+    #boxMaterial;
+    #cameraMesh;
+    #isColliding = false;
+    #previousCameraPosition;
+    #walkingDownStairs = false;
+    #hasNotStartedAnimation = true;
 
     constructor(sceneController) {
-        this.sceneController = sceneController;
-        this.previousCameraPosition = new THREE.Vector3();
+        this.#sceneController = sceneController;
+        this.#previousCameraPosition = new THREE.Vector3();
 
         // Add cameraMesh to the scene
         this.#setBoxes();
-        this.sceneController.getScene().add(this.cameraMesh);
+        this.#sceneController.getScene().add(this.#cameraMesh);
     }
 
     // Check camera collision and handle it
     checkCameraCollision() {
-        if (!this.sceneController.cameraSpawned) {
+        if (!this.#sceneController.cameraSpawned) {
             // If the user is not spawned yet, do nothing
             return;
         }
@@ -42,38 +42,38 @@ export class CheckCameraCollision {
 
     #updateMatrices() {
         // Update matrices of the camera for accurate collision detection
-        this.sceneController.getCamera().updateMatrixWorld();
-        this.sceneController.getCamera().updateMatrix();
-        this.sceneController.getCamera().updateProjectionMatrix();
-        this.sceneController.getCamera().updateWorldMatrix();
+        this.#sceneController.getCamera().updateMatrixWorld();
+        this.#sceneController.getCamera().updateMatrix();
+        this.#sceneController.getCamera().updateProjectionMatrix();
+        this.#sceneController.getCamera().updateWorldMatrix();
     }
 
     // Initialize the size and material of the bounding boxes
     #setBoxes() {
-        this.boxSize = new THREE.Vector3(1, 1, 1);
-        this.boxGeometry = new THREE.BoxGeometry(this.boxSize.x, this.boxSize.y, this.boxSize.z);
-        this.boxMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0});
+        this.#boxSize = new THREE.Vector3(1, 1, 1);
+        this.#boxGeometry = new THREE.BoxGeometry(this.#boxSize.x, this.#boxSize.y, this.#boxSize.z);
+        this.#boxMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, transparent: true, opacity: 0.0});
         // Create a camera mesh for collision detection
-        this.cameraMesh = new THREE.Mesh(this.boxGeometry, this.boxMaterial);
+        this.#cameraMesh = new THREE.Mesh(this.#boxGeometry, this.#boxMaterial);
     }
 
     // Set the position of the camera mesh to the position of the camera
     #setCameraMesh() {
-        this.cameraMesh.position.set(
-            this.sceneController.getCamera().position.x,
-            this.sceneController.getCamera().position.y,
-            this.sceneController.getCamera().position.z
+        this.#cameraMesh.position.set(
+            this.#sceneController.getCamera().position.x,
+            this.#sceneController.getCamera().position.y,
+            this.#sceneController.getCamera().position.z
         );
     }
 
     // Reset the isColliding variable and check for collision
     #checkIsColliding() {
-        this.isColliding = false;
+        this.#isColliding = false;
 
         // Loop through all bounding boxes and check for collision
-        for (let i = 0; i < this.sceneController.boundingBoxes.length; i++) {
-            const boxBoundingBox = new THREE.Box3().setFromObject(this.sceneController.boundingBoxes[i]);
-            const boxBoundingCamera = new THREE.Box3().setFromObject(this.cameraMesh);
+        for (let i = 0; i < this.#sceneController.boundingBoxes.length; i++) {
+            const boxBoundingBox = new THREE.Box3().setFromObject(this.#sceneController.boundingBoxes[i]);
+            const boxBoundingCamera = new THREE.Box3().setFromObject(this.#cameraMesh);
 
             if (boxBoundingBox.intersectsBox(boxBoundingCamera)) {
                 // If there is collision, check if it's a stair and adjust the variable
@@ -84,7 +84,7 @@ export class CheckCameraCollision {
                 }
                 else {
                     // If it's not a stair, set isColliding to true
-                    this.isColliding = true;
+                    this.#isColliding = true;
                 }
             }
         }
@@ -93,14 +93,13 @@ export class CheckCameraCollision {
     // Check if the user is walking up or down the stairs
     #checkIfWalkingUpStairs(i) {
         // Check if it's a stair
-        if (this.sceneController.boundingBoxes[i]["name"] === "leftStair" ||
-            this.sceneController.boundingBoxes[i]["name"] === "rightStair") {
-
+        if (this.#sceneController.boundingBoxes[i]["name"] === "leftStair" ||
+            this.#sceneController.boundingBoxes[i]["name"] === "rightStair") {
             this.handleStairMovement(i);
             // return true;
         } else {
             // If it's not a stair, indicate that the user is not walking down
-            this.walkingDownStairs = false;
+            this.#walkingDownStairs = false;
         }
         return false;
     }
@@ -108,13 +107,13 @@ export class CheckCameraCollision {
     // Handle stair movement based on user input
     handleStairMovement() {
         // Check if the camera is downstairs and if the user is going up
-        if (this.sceneController.getCamera().position.y === 8) {
-            this.walkingDownStairs = true;
-        } else if (this.sceneController.getCamera().position.y === 2) {
-            this.walkingDownStairs = false;
+        if (this.#sceneController.getCamera().position.y === 8) {
+            this.#walkingDownStairs = true;
+        } else if (this.#sceneController.getCamera().position.y === 2) {
+            this.#walkingDownStairs = false;
         }
 
-        if (this.sceneController.getUser().moveForward) {
+        if (this.#sceneController.getUser().moveForward) {
             // If the user is moving forward
             this.handleStairDirection();
         }
@@ -122,7 +121,7 @@ export class CheckCameraCollision {
 
     // Handle stair direction (up or down) based on user position
     handleStairDirection() {
-        if (this.walkingDownStairs) {
+        if (this.#walkingDownStairs) {
             // If the user is going down
             this.handleStairDown();
         } else {
@@ -133,64 +132,64 @@ export class CheckCameraCollision {
 
     // Handle user going down the stairs
     handleStairDown() {
-        if (this.hasNotStartedAnimation) {
-            gsap.to(this.sceneController.getCamera().position, {
-                x: this.sceneController.getCamera().position.x + 11,
+        if (this.#hasNotStartedAnimation) {
+            gsap.to(this.#sceneController.getCamera().position, {
+                x: this.#sceneController.getCamera().position.x + 11,
                 y: 2,
-                z: this.sceneController.getCamera().position.z,
+                z: this.#sceneController.getCamera().position.z,
                 // duration: 2,
                 // delay: 0,
                 // ease: "power1.inOut",
                 onStart: () => {
-                    this.sceneController.getCamera().lookAt(
-                        this.sceneController.getCamera().position.x + 17,
+                    this.#sceneController.getCamera().lookAt(
+                        this.#sceneController.getCamera().position.x + 17,
                         2,
-                        this.sceneController.getCamera().position.z
+                        this.#sceneController.getCamera().position.z
                     );
                 },
                 onComplete: () => {
-                    this.hasNotStartedAnimation = true;
+                    this.#hasNotStartedAnimation = true;
                 }
             }).play();
 
-            this.hasNotStartedAnimation = false;
+            this.#hasNotStartedAnimation = false;
         }
     }
 
     // Handle user going up the stairs (upward movement)
     handleStairUpward() {
-        if (this.hasNotStartedAnimation) {
-            gsap.to(this.sceneController.getCamera().position, {
-                x: this.sceneController.getCamera().position.x - 11,
+        if (this.#hasNotStartedAnimation) {
+            gsap.to(this.#sceneController.getCamera().position, {
+                x: this.#sceneController.getCamera().position.x - 11,
                 y: 8,
-                z: this.sceneController.getCamera().position.z,
+                z: this.#sceneController.getCamera().position.z,
                 // duration: 2,
                 // delay: 0,
                 // ease: "power1.inOut",
                 onStart: () => {
-                    this.sceneController.getCamera().lookAt(
-                        this.sceneController.getCamera().position.x + 5.5,
+                    this.#sceneController.getCamera().lookAt(
+                        this.#sceneController.getCamera().position.x + 5.5,
                         8,
-                        this.sceneController.getCamera().position.z);
+                        this.#sceneController.getCamera().position.z);
                 },
                 onComplete: () => {
-                    this.hasNotStartedAnimation = true;
+                    this.#hasNotStartedAnimation = true;
                 }
             }).play();
 
-            this.hasNotStartedAnimation = false;
+            this.#hasNotStartedAnimation = false;
         }
     }
 
     // Handle collision
     #handleIsColliding() {
-        if (this.isColliding) {
+        if (this.#isColliding) {
             // Reset the camera position to the previous position
-            this.sceneController.getCamera().position.copy(this.previousCameraPosition.clone());
+            this.#sceneController.getCamera().position.copy(this.#previousCameraPosition.clone());
             // this.sceneController.user.speed = 0; // Set speed to 0 to prevent the camera from going through the wall
         } else {
             // If there is no collision, update the previous position of the camera
-            this.previousCameraPosition.copy(this.sceneController.getCamera().position);
+            this.#previousCameraPosition.copy(this.#sceneController.getCamera().position);
             // this.sceneController.user.speed = 0.8;
         }
     }
