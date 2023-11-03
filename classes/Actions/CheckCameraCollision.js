@@ -162,14 +162,14 @@ export class CheckCameraCollision {
                 x: this.#sceneController.getCamera().position.x - 11,
                 y: 8,
                 z: this.#sceneController.getCamera().position.z,
-                // duration: 2,
+                duration: 1,
                 // delay: 0,
                 // ease: "power1.inOut",
                 onStart: () => {
-                    this.#sceneController.getCamera().lookAt(
-                        this.#sceneController.getCamera().position.x + 5.5,
-                        8,
-                        this.#sceneController.getCamera().position.z);
+                    // this.#sceneController.getCamera().lookAt(
+                    //     this.#sceneController.getCamera().position.x + 5.5,
+                    //     8,
+                    //     this.#sceneController.getCamera().position.z);
                 },
                 onComplete: () => {
                     this.#hasNotStartedAnimation = true;
