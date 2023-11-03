@@ -24,7 +24,7 @@ export class SoundController {
      * @param {number} [duration=undefined] - The duration of the sound in seconds (optional).
      * @returns {THREE.PositionalAudio} - The loaded positional audio object.
      */
-    loadPositionalSound(pathToSoundFile, volume = 1, refDistance = 0.5, duration = undefined) {
+    loadPositionalSound(pathToSoundFile, volume = 2, refDistance = 0.5, duration = undefined) {
         const sound = new THREE.PositionalAudio(this.#listener);
 
         // Load the sound file using the audio loader

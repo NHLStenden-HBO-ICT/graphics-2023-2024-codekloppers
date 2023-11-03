@@ -31,16 +31,16 @@ export class Route {
             this.#stations[0]['vector']['z'] - 6.8,
         );
 
-        // this.#rightTrainVector = new THREE.Vector3(
-            // this.#stations[this.#stations.length-1]['vector']['x'] - 5,
-            // this.#stations[this.#stations.length-1]['vector']['y'] - 1,
-            // this.#stations[this.#stations.length-1]['vector']['z'],
-        // );
+        this.#rightTrainVector = new THREE.Vector3(
+            this.#stations[this.#stations.length-1]['vector']['x'] - 5,
+            this.#stations[this.#stations.length-1]['vector']['y'] - 1,
+            this.#stations[this.#stations.length-1]['vector']['z'],
+        );
     }
 
     // Method to render stations, tunnels, and metros for the route
     async render() {
-        // await this.#renderStations();
+        await this.#renderStations();
         await this.#renderTunnels();
         await this.#renderMetros();
     }
@@ -65,9 +65,9 @@ export class Route {
     // Method to render metros for the route
     async #renderMetros() {
         this.#leftCarriage = await (new Metro(this.#leftTrainVector, this.#stations[0]['rotation'], this.#sceneController.getSoundController(), this.#sceneController.getUser(), false)).render(this.#sceneController.getScene());
-        // this.#rightCarriage = await this.leftCarriage.clone(this.sceneController.getScene(), new Metro(this.#rightTrainVector, this.stations[this.stations.length-1]['rotation'], this.sceneController.getSoundController(), this.sceneController.getUser(), true));
+        this.#rightCarriage = await this.#leftCarriage.clone(this.#sceneController.getScene(), new Metro(this.#rightTrainVector, this.#stations[this.#stations.length-1]['rotation'], this.#sceneController.getSoundController(), this.#sceneController.getUser(), true));
         this.#leftCarriage.driveRoute(this.#stations);
-        // this.#rightCarriage.driveRoute(this.stations.reverse());
+        this.#rightCarriage.driveRoute(this.#stations.reverse());
     }
 
     // Method to animate metros along the route
@@ -76,9 +76,9 @@ export class Route {
             this.#leftCarriage.getMixer().update(0.006);
         }
 
-        // if (this.#rightCarriage.getMixer() != null) {
-        //   this.#rightCarriage.getMixer().update(0.006);
-        // }
+        if (this.#rightCarriage.getMixer() != null) {
+          this.#rightCarriage.getMixer().update(0.006);
+        }
     }
 
     // Method to render tunnels between stations
