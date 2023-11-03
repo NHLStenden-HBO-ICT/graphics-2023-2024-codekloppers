@@ -16,25 +16,25 @@ export class Scene {
         document.getElementById("controlBox").style.display = "none";
         const quality = document.getElementById('qualityInput').value;
         const antialiasing = document.getElementById('antialiasingInput').value;
-        this.startScene(quality, antialiasing);
+        this.#startScene(quality, antialiasing);
     }
 
-    loadingDone() {
+    #loadingDone() {
         document.getElementById('loader').style.display = 'none';
         document.getElementById('sceneCanvas').style.display = 'block';
     }
 
-    async startScene(pixelRatio, antialiasing) {
+    async #startScene(pixelRatio, antialiasing) {
         this.#sceneController = new SceneController(pixelRatio, antialiasing);
-        await this.render();
-        this.animate();
-        this.loadingDone();
+        await this.#render();
+        this.#animate();
+        this.#loadingDone();
     }
 
     /**
      * The render function creates the 3d objects in the scene.
      */
-    async render() {
+    async #render() {
         /*Define routes*/
         this.#routeU5 = new Route(this.#sceneController, 'U5');
         // this.#routeU6 = new Route(this.sceneController, 'U6');
@@ -49,7 +49,7 @@ export class Scene {
      * The function "animate" is used to continuously update and render a 3D scene using the
      * requestAnimationFrame method.
      */
-    animate() {
+    #animate() {
 
         /* This code block checks if the camera has been spawned in the scene. If the camera has not been
         spawned, it sets the position of the camera to (0, 2, 5). This is likely the initial position of the
