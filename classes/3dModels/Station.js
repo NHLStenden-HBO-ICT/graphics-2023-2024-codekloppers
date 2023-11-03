@@ -58,7 +58,7 @@ export class Station extends Model3D {
             , 'rightBorder' // id
         )); // right border
 
-        // Back wall boundary boxes to detect collision with stations back walls (left and right)
+        // Back wall boundary boxes to detect collision with stations back wall left
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(68, 1, 8), // geometry
@@ -69,7 +69,7 @@ export class Station extends Model3D {
             , 'backWallLeft' // id
         )); // backwall LEFT
 
-        // console.log(this._position.x);
+        // Back wall boundary boxes to detect collision with stations back wall right
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(68, 1,8), // geometry
@@ -80,13 +80,58 @@ export class Station extends Model3D {
             , 'backWallRight' // id
         )); // backwall RIGHT
 
+        // // Back wall boundary boxes to detect collision with stations rail wall left
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
+            this.#sceneController.getScene(), // scene
+            new THREE.Vector3(68, 1, 8), // geometry
+            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z + 2.3), // position
+            Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'railWallLeft' // id
+        )); // railWall Left
+
+        // Back wall boundary boxes to detect collision with stations rail wall right
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
+            this.#sceneController.getScene(), // scene
+            new THREE.Vector3(68, 1, 8), // geometry
+            new THREE.Vector3(this._position.x, this._position.y - 0.041, this._position.z - 9.7), // position
+            Math.PI / 2 // rotation on x axis
+            ,0
+            ,0
+            , 'railWallRight' // id
+        )); // railWall Right
+
+
+        // corridorWallLeft boundary boxes to detect collision with corridorwallright
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
+            this.#sceneController.getScene(), // scene
+            new THREE.Vector3(20.5, 1, 8), // geometry
+            new THREE.Vector3(this._position.x + 6.9, this._position.y + 8, this._position.z - 3.2), // position
+            Math.PI / 2 // rotation on x axis
+            ,Math.PI / 2  // rotation on Z axis
+            ,0 // rotation on y axis
+            , 'corridorWallRight' // id
+        )); // corridor Wall Right
+
+        // corridorWallLeft boundary boxes to detect collision with corridorwallleft
+        this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
+            this.#sceneController.getScene(), // scene
+            new THREE.Vector3(50, 1, 8), // geometry
+            new THREE.Vector3(this._position.x + 2.9, this._position.y + 8, this._position.z - 3.2), // position
+            Math.PI / 2 // rotation on x axis
+            ,Math.PI / 2  // rotation on Z axis
+            ,0 // rotation on y axis
+            , 'corridorWallLeft' // id
+        )); // corridor Wall left
+
         // Outer back wall boundary boxes to detect collision with stations outer back walls (left and right)
         this.#sceneController.getBoundingBoxes().push(this._setBoundingBox(
             this.#sceneController.getScene(), // scene
             new THREE.Vector3(80, 1, 18), // geometry
             new THREE.Vector3(this._position.x - 15, this._position.y - 0.041, this._position.z + 9.6), // position
             Math.PI / 2 // rotation on x axis
-            ,0
+            ,0 // rotation on z axis
             ,0
             , 'outerBackWallLeft' // id
         )); // outerBackWall Left
