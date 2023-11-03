@@ -30,7 +30,19 @@ export class Station extends Model3D {
         await super.render(scene)
 
         /*Melvin kan hier zn dingen toevoegen */
-    }
+        // Voeg een bord met tekst "Alexanderplatz" toe met een standaardlettertype
+        const textGeometry = new THREE.TextGeometry('Alexanderplatz', {
+            font: 'helvetiker', // Standaard lettertype in Three.js
+            size: 0.5, // Grootte van de tekst
+            height: 0.05, // Dikte van de tekst
+        });
+
+        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        textMesh.position.set(0, 2, 5); // Coördinaten x=0, y=2, z=5
+        scene.add(textMesh);
+
+}
 
     /**
      * Sets boundary boxes for collision detection around the station's objects.
