@@ -23,7 +23,7 @@ test('check if camera is spawned when is set to false on initial load', () => {
   };
 
   // check if cameraSpawned property equals to false
-  expect(mockSceneController.getCameraSpawned()).toEqual(false);
+  expect(mockSceneController.getCameraSpawned).toEqual(false);
 });
 
 
@@ -78,8 +78,6 @@ test('check if camera can collide with bounding box', () => {
       boundingBoxes: [],
       getCameraSpawned: false
     };
-
-
 
     // push value into boundingbox array
     mockSceneController.boundingBoxes.push(new THREE.Vector3(0,1,2));
