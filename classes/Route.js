@@ -47,7 +47,7 @@ export class Route {
 
     // Method to render stations along the route
     async #renderStations() {
-        const station = new Station(this.#sceneController, this.#stations[0]['vector'], 0, 'Alexander Platz');
+        const station = new Station(this.#sceneController, this.#stations[0]['vector'], 0, 'Alexanderplatz');
 
         for (let i = 0; i < this.#stations.length; i++) {
             if (i === 0) {
